@@ -7,6 +7,8 @@
         mc:Ignorable="d"
         Title="Lagerverwaltung" Height="350" Width="525">
     <Grid>
-        
+        <local:login x:Name="ucLogin" HorizontalAlignment="Left" Height="267" BorderBrush="Black"  BorderThickness="1px" Margin="313,24,0,0" VerticalAlignment="Top" Width="184"></local:login>
+        <local:register x:Name="ucRegister" HorizontalAlignment="Left" Height="285" BorderBrush="Black"  BorderThickness="1px" Margin="313,24,0,0" VerticalAlignment="Top" Width="184"></local:register>
     </Grid>
+
 </Window>

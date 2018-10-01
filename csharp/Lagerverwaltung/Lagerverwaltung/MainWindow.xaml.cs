@@ -23,6 +23,9 @@ namespace Lagerverwaltung
         public MainWindow()
         {
             InitializeComponent();
+            ucRegister.Visibility = Visibility.Collapsed;
+            Database.connect("Data Source=192.168.128.152/ora11g;User Id=d5a07;Password=d5a;");
         }
+
     }
 }
