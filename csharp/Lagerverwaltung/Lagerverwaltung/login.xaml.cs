@@ -31,7 +31,10 @@ namespace Lagerverwaltung
             try
             {
                 Database.login(txtBoxName.Text, txtBoxPwd.Text);
-                MessageBox.Show("Login succesful!");
+                main.ucLogin.Visibility = Visibility.Collapsed;
+                main.ucManageWarehouses.Visibility = Visibility.Visible;
+                txtBoxName.Text = "";
+                txtBoxPwd.Text = "";
             }
             catch(Exception ex)
             {

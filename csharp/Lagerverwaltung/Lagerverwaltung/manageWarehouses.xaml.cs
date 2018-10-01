@@ -16,17 +16,20 @@ using System.Windows.Shapes;
 namespace Lagerverwaltung
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for manageWarehouses.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class manageWarehouses : UserControl
     {
-        public MainWindow()
+        MainWindow main = (MainWindow)Application.Current.MainWindow;
+        public manageWarehouses()
         {
             InitializeComponent();
-            ucRegister.Visibility = Visibility.Collapsed;
-            ucManageWarehouses.Visibility = Visibility.Collapsed;
-            Database.connect("Data Source=192.168.128.152/ora11g;User Id=d5a07;Password=d5a;");
         }
 
+        private void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            main.ucLogin.Visibility = Visibility.Visible;
+            main.ucManageWarehouses.Visibility = Visibility.Collapsed;
+        }
     }
 }

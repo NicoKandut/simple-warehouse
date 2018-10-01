@@ -9,6 +9,7 @@
     <Grid>
         <local:login x:Name="ucLogin" HorizontalAlignment="Left" Height="267" BorderBrush="Black"  BorderThickness="1px" Margin="313,24,0,0" VerticalAlignment="Top" Width="184"></local:login>
         <local:register x:Name="ucRegister" HorizontalAlignment="Left" Height="285" BorderBrush="Black"  BorderThickness="1px" Margin="313,24,0,0" VerticalAlignment="Top" Width="184"></local:register>
+        <local:manageWarehouses x:Name="ucManageWarehouses" HorizontalAlignment="Left" Height="285" BorderBrush="Black"  BorderThickness="1px" Margin="10,10,0,0" VerticalAlignment="Top" Width="497"></local:manageWarehouses>
     </Grid>
 
 </Window>

@@ -23,7 +23,9 @@ namespace Lagerverwaltung
             {
                 string select = "select * from sw_owner where name like '" + username + "' and password like '" + password + "'";
                 OracleCommand cmd = new OracleCommand(select, conn);
-                cmd.ExecuteNonQuery();
+                OracleDataReader reader = cmd.ExecuteReader();
+                if (!reader.HasRows)
+                    throw new Exception("Wrong username or password!");
             }
             catch (Exception ex)
             {
