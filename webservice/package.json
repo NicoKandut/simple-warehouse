@@ -1,0 +1,16 @@
+{
+  "name": "simple-warehouse-api",
+  "version": "1.0.0",
+  "description": "A simple node/express api to access warehouse data.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "NicoKandut",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4",
+    "express": "^4.16.3"
+  }
+}
