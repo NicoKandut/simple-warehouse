@@ -28,5 +28,33 @@ namespace Lagerverwaltung
             Database.connect("Data Source=192.168.128.152/ora11g;User Id=d5a07;Password=d5a;");
         }
 
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.Key == Key.Enter)
+                {
+                    if (ucLogin.Visibility == Visibility.Visible)
+                        ucLogin.btnLogin_Click(sender, e);
+                    else if (ucRegister.Visibility == Visibility.Visible)
+                        ucRegister.btnRegister_Click(sender, e);
+                }
+                else if (e.Key == Key.Escape)
+                        Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Something went wrong...", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (MessageBoxResult.No == MessageBox.Show("Are you sure you want to quit?", "Quit?", MessageBoxButton.YesNo, MessageBoxImage.Question))
+                e.Cancel = true;
+        }
+        ~MainWindow()
+        {
+            Database.closeConnection();
+        }
     }
 }

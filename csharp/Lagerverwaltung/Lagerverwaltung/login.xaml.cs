@@ -26,15 +26,17 @@ namespace Lagerverwaltung
             InitializeComponent();
         }
 
-        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        public void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                Database.login(txtBoxName.Text, txtBoxPwd.Text);
+                if(String.IsNullOrWhiteSpace(txtBoxName.Text) || String.IsNullOrWhiteSpace(txtBoxPwd.Password))
+                Database.login(txtBoxName.Text, txtBoxPwd.Password);
                 main.ucLogin.Visibility = Visibility.Collapsed;
                 main.ucManageWarehouses.Visibility = Visibility.Visible;
+                main.Title = txtBoxName.Text;
                 txtBoxName.Text = "";
-                txtBoxPwd.Text = "";
+                txtBoxPwd.Password = "";
             }
             catch(Exception ex)
             {

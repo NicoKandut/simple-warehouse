@@ -26,12 +26,14 @@ namespace Lagerverwaltung
             InitializeComponent();
         }
 
-        private void btnRegister_Click(object sender, RoutedEventArgs e)
+        public void btnRegister_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 if (txtBoxConfirmPwd.Password != txtBoxPwd.Password)
                     throw new Exception("Passwords don't match!");
+                if (String.IsNullOrWhiteSpace(txtBoxPwd.Password) || String.IsNullOrWhiteSpace(txtBoxConfirmPwd.Password) || String.IsNullOrWhiteSpace(txtBoxName.Text))
+                    throw new Exception("All fields must be filled!");
                 Database.register(txtBoxName.Text, txtBoxConfirmPwd.Password);
                 main.ucLogin.Visibility = Visibility.Visible;
                 main.ucRegister.Visibility = Visibility.Collapsed;
@@ -40,6 +42,12 @@ namespace Lagerverwaltung
             {
                 MessageBox.Show("Register failed!\n" + ex.Message);
             }
+        }
+
+        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        {
+            main.ucLogin.Visibility = Visibility.Visible;
+            main.ucRegister.Visibility = Visibility.Collapsed;
         }
     }
 }

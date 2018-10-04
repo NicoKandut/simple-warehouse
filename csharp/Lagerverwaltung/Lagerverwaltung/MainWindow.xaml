@@ -5,11 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lagerverwaltung"
         mc:Ignorable="d"
-        Title="Lagerverwaltung" Height="350" Width="525">
+        Icon="whatsapp_image_2018_10_04_at_14_39_04_gVh_icon.ico"
+        MinHeight="520"
+        MinWidth="680"
+        Closing="OnWindowClosing"
+        WindowState="Maximized"
+        Title="Werhaus" Height="520" Width="680" KeyDown="Window_KeyDown">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
+                <!-- Accent and AppTheme setting -->
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
-        <local:login x:Name="ucLogin" HorizontalAlignment="Left" Height="267" BorderBrush="Black"  BorderThickness="1px" Margin="313,24,0,0" VerticalAlignment="Top" Width="184"></local:login>
-        <local:register x:Name="ucRegister" HorizontalAlignment="Left" Height="285" BorderBrush="Black"  BorderThickness="1px" Margin="313,24,0,0" VerticalAlignment="Top" Width="184"></local:register>
-        <local:manageWarehouses x:Name="ucManageWarehouses" HorizontalAlignment="Left" Height="285" BorderBrush="Black"  BorderThickness="1px" Margin="10,10,0,0" VerticalAlignment="Top" Width="497"></local:manageWarehouses>
+        <Grid.Background>
+            <ImageBrush ImageSource="C:\Martin\School muull\5AHIFS\BSD\simple-warehouse\csharp\Lagerverwaltung\Lagerverwaltung\werhaus_background.jpg"></ImageBrush>
+        </Grid.Background>
+        <Border BorderBrush="Black" BorderThickness="1px" CornerRadius="8,8,8,8">
+        <local:login x:Name="ucLogin" Background="White" BorderBrush="Black" BorderThickness="1px" Height="267" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,24,20,0" Width="184"/>
+        </Border>
+        <local:register x:Name="ucRegister" Background="White" HorizontalAlignment="Center" VerticalAlignment="Center" Height="267" BorderBrush="Black"  BorderThickness="1px" Margin="0,24,20,0" Width="184"/>
+        <local:manageWarehouses x:Name="ucManageWarehouses" Background="White" BorderBrush="Black"  BorderThickness="1px" Margin="10" Width="Auto"/>
     </Grid>
 
 </Window>

@@ -28,8 +28,12 @@ namespace Lagerverwaltung
 
         private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
-            main.ucLogin.Visibility = Visibility.Visible;
-            main.ucManageWarehouses.Visibility = Visibility.Collapsed;
+            if (MessageBoxResult.Yes == MessageBox.Show("Are you sure you want to logout?", "Logout?", MessageBoxButton.YesNo, MessageBoxImage.Question))
+            {
+                main.ucLogin.Visibility = Visibility.Visible;
+                main.ucManageWarehouses.Visibility = Visibility.Collapsed;
+                main.Title = "Werhaus";
+            }
         }
     }
 }

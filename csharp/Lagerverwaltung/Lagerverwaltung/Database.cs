@@ -45,5 +45,10 @@ namespace Lagerverwaltung
                 throw new Exception(ex.Message);
             }
         }
+        public static void closeConnection()
+        {
+            if (conn.State == System.Data.ConnectionState.Open)
+                conn.Close();
+        }
     }
 }

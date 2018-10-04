@@ -6,12 +6,12 @@
              xmlns:local="clr-namespace:Lagerverwaltung"
              mc:Ignorable="d" Height="276.596" Width="243.617">
     <Grid>
-        <Label x:Name="lblTitle" Content="Login" Height="40" HorizontalContentAlignment="Center" Margin="10,10,10,0" VerticalAlignment="Top" FontSize="20"/>
+        <Label x:Name="lblTitle" Content="Login" Height="40" HorizontalContentAlignment="Center" Margin="10,2,10,0" VerticalAlignment="Top" FontSize="20"/>
         <Button x:Name="btnLogin" Content="Login" Height="27" Margin="10,202,10,0" VerticalAlignment="Top" Click="btnLogin_Click"/>
         <TextBox x:Name="txtBoxName" Height="23" Margin="10,88,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
         <Label x:Name="lblName" Content="Name:" Height="28" Margin="10,55,10,0" VerticalAlignment="Top"/>
         <Label x:Name="lblPwd" Content="Password:" Height="28" Margin="10,116,10,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="txtBoxPwd" Height="20" Margin="10,149,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+        <PasswordBox x:Name="txtBoxPwd" Height="20" Margin="10,149,10,0"  VerticalAlignment="Top"/>
         <Button x:Name="btnRegister" Content="Not registered yet?" Background="Transparent" BorderBrush="Transparent" Height="27" Margin="10,234,10,0" VerticalAlignment="Top" Click="btnRegister_Click"/>
 
     </Grid>
