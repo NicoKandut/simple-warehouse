@@ -14,7 +14,11 @@ var port = process.env.PORT || 8080;
 process.env.HOST = process.env.HOST || 'http://localhost' +  ':' + port;
 
 // routing
-const defaultRouter = require('./routing/default');
+const defaultRouter = require('./routing-layer/default');
+const ownerRouter = require("./routing-layer/owner");
+const warehouseRouter = require("./routing-layer/warehouse");
+defaultRouter.use("/owners", ownerRouter);
+defaultRouter.use("/warehouses", warehouseRouter);
 app.use('/', defaultRouter);
 
 // start
