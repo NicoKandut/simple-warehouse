@@ -26,6 +26,8 @@ namespace Lagerverwaltung
             ucRegister.Visibility = Visibility.Collapsed;
             ucManageWarehouses.Visibility = Visibility.Collapsed;
             Database.connect("Data Source=192.168.128.152/ora11g;User Id=d5a07;Password=d5a;");
+            if(!(Database.conn.State == System.Data.ConnectionState.Open))
+            Database.connect("Data Source=212.152.179.117/ora11g;User Id=d5a07;Password=d5a;");
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -40,6 +42,9 @@ namespace Lagerverwaltung
                         ucRegister.btnRegister_Click(sender, e);
                 }
                 else if (e.Key == Key.Escape)
+                    if (ucManageWarehouses.Visibility == Visibility.Visible)
+                        ucManageWarehouses.btnLogout_Click(sender, e);
+                else
                         Close();
             }
             catch (Exception ex)

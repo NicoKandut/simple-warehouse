@@ -26,7 +26,7 @@ namespace Lagerverwaltung
             InitializeComponent();
         }
 
-        private void btnLogout_Click(object sender, RoutedEventArgs e)
+        public void btnLogout_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBoxResult.Yes == MessageBox.Show("Are you sure you want to logout?", "Logout?", MessageBoxButton.YesNo, MessageBoxImage.Question))
             {
@@ -34,6 +34,16 @@ namespace Lagerverwaltung
                 main.ucManageWarehouses.Visibility = Visibility.Collapsed;
                 main.Title = "Werhaus";
             }
+        }
+
+        private void btnAddWarehouse_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("NOT IMPLEMENTED");
+        }
+
+        private void btnDeleteWarehouse_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("NOT IMPLEMENTED");
         }
     }
 }

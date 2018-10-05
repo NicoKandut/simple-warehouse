@@ -30,10 +30,12 @@ namespace Lagerverwaltung
         {
             try
             {
-                if(String.IsNullOrWhiteSpace(txtBoxName.Text) || String.IsNullOrWhiteSpace(txtBoxPwd.Password))
+                if (String.IsNullOrWhiteSpace(txtBoxName.Text) || String.IsNullOrWhiteSpace(txtBoxPwd.Password))
+                    throw new Exception("All fields must be filled!");
                 Database.login(txtBoxName.Text, txtBoxPwd.Password);
                 main.ucLogin.Visibility = Visibility.Collapsed;
                 main.ucManageWarehouses.Visibility = Visibility.Visible;
+                main.ucManageWarehouses.listBoxWarehouses.Items.Add("Hello this is a warehouse");
                 main.Title = txtBoxName.Text;
                 txtBoxName.Text = "";
                 txtBoxPwd.Password = "";
