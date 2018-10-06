@@ -1,9 +1,9 @@
 // packages
-const express = require('express');
-const oracleConnection = require("../data-layer/oracleDataAccess");
-const classParser = require("../data-layer/classParser");
-const classes = require("../data-layer/classes");
-const router = express.Router();
+const express = require('express'),
+    oracleConnection = require("../data-layer/oracleDataAccess"),
+    classParser = require("../data-layer/classParser"),
+    classes = require("../data-layer/classes"),
+    router = express.Router();
 
 // add routes
 router.route('/')
@@ -18,6 +18,17 @@ router.route('/')
                 details: err
             })
         );
+    })
+    .post((req, res) => {
+        let query = "INSERT INTO SW_Owner VALUES (seq_owner.NEXTVAL, :name, :password)",
+            param = [req.body.name, req.body.password];
+
+        oracleConnection.execute(query, param,
+            (result) => res.status(200).json(result),
+            (err) => res.status(404).json({
+                message: err.message,
+                details: err
+            }));
     });
 
 router.route("/:id")

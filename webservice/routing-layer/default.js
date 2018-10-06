@@ -1,7 +1,7 @@
 // packages
-const express = require('express');
-const router = express.Router();
-const host = process.env.HOST;
+const express = require('express'),
+    router = express.Router(),
+    host = process.env.HOST;
 
 // add routes
 router.get('/', function (req, res) {
