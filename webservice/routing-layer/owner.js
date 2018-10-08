@@ -24,8 +24,8 @@ router.route('/')
             param = [req.body.name, req.body.password];
 
         oracleConnection.execute(query, param,
-            (result) => res.status(200).json(result),
-            (err) => res.status(404).json({
+            (result) => res.status(201).json(result),
+            (err) => res.status(500).json({
                 message: err.message,
                 details: err
             }));
