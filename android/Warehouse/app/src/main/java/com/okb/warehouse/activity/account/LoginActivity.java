@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.okb.warehouse.R;
+import com.okb.warehouse.businesslogic.connection.DatabaseConnection;
 
 import java.util.InputMismatchException;
 
@@ -24,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
 
         initUIReferences();
         initEventHandlers();
+        Toast.makeText(LoginActivity.this, "here", Toast.LENGTH_LONG);
     }
 
     private void initUIReferences() {
@@ -37,10 +39,13 @@ public class LoginActivity extends AppCompatActivity {
     private void initEventHandlers(){
         btn_Login.setOnClickListener(view ->{
             try{
-
+                checkInput(editText_Username.getText().toString(), editText_Password.getText().toString());
+                DatabaseConnection db = new DatabaseConnection();
+                db.login(editText_Username.getText().toString(), editText_Password.getText().toString());
+                Toast.makeText(LoginActivity.this, "succeed", Toast.LENGTH_LONG).show();
 
             }catch (Exception ex){
-                Toast.makeText(LoginActivity.this, ex.getMessage(), Toast.LENGTH_LONG);
+                Toast.makeText(LoginActivity.this, ex.getMessage(), Toast.LENGTH_LONG).show();
                 ex.printStackTrace();
             }
         });

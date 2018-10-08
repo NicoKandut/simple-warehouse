@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.okb.warehouse.R;
+import com.okb.warehouse.businesslogic.connection.DatabaseConnection;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -34,7 +35,15 @@ public class RegisterActivity extends AppCompatActivity {
     private void initEventHandlers(){
         btn_Register.setOnClickListener(view -> {
             try {
-
+                DatabaseConnection db = new DatabaseConnection();
+                if (editText_Password.getText().equals(editText_ConfirmPwd.getText())){
+                    db.register(editText_Username.getText().toString(), editText_Password.getText().toString());
+                }
+                else{
+                    Toast.makeText(RegisterActivity.this, "password and confirm password have to be the same.", Toast.LENGTH_LONG);
+                    editText_Password.setText("");
+                    editText_ConfirmPwd.setText("");
+                }
             }catch (Exception ex){
                 Toast.makeText(RegisterActivity.this, ex.getMessage(), Toast.LENGTH_LONG);
                 ex.printStackTrace();
