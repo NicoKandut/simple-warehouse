@@ -36,6 +36,7 @@ namespace Lagerverwaltung
                 main.ucLogin.Visibility = Visibility.Collapsed;
                 main.ucManageWarehouses.Visibility = Visibility.Visible;
                 main.ucManageWarehouses.listBoxWarehouses.Items.Add("Hello this is a warehouse");
+                main.ucManageWarehouses.listBoxWarehouses.Items.Add("And this is another one");
                 main.Title = txtBoxName.Text;
                 txtBoxName.Text = "";
                 txtBoxPwd.Password = "";

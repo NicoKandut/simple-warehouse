@@ -38,7 +38,8 @@ namespace Lagerverwaltung
 
         private void btnAddWarehouse_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("NOT IMPLEMENTED");
+            main.ucManageWarehouses.Visibility = Visibility.Collapsed;
+            main.ucCreateWarehouse.Visibility = Visibility.Visible;
         }
 
         private void btnDeleteWarehouse_Click(object sender, RoutedEventArgs e)

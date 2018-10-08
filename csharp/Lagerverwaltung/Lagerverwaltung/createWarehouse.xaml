@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="Lagerverwaltung.createWarehouse"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Lagerverwaltung"
+             mc:Ignorable="d" Height="440.894" Width="288.489">
+    <Grid>
+        <Button x:Name="btnOk" Content="Ok" HorizontalAlignment="Left" Height="29" Margin="10,398,0,0" VerticalAlignment="Top" Width="134" Click="btnOk_Click"/>
+        <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Height="29" Margin="149,398,0,0" VerticalAlignment="Top" Width="134" Click="btnCancel_Click"/>
+        <Label x:Name="lblTitle" Content="Create Warehouse" FontSize="25px" HorizontalAlignment="Center" Height="41" Margin="38,6,38,0" VerticalAlignment="Top" Width="215"/>
+        <Label x:Name="lblName" Content="Warehouse name:" HorizontalAlignment="Left" Height="29" Margin="10,56,0,0" VerticalAlignment="Top" Width="134"/>
+        <TextBox x:Name="txtBoxName" HorizontalAlignment="Left" Height="28" Margin="10,89,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="271"/>
+        <RichTextBox HorizontalAlignment="Left" Height="116" Margin="10,152,0,0" VerticalAlignment="Top" Width="271">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text=""/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
+        <Label x:Name="lblDescription" Content="Description:" HorizontalAlignment="Left" Height="27" Margin="11,120,0,0" VerticalAlignment="Top" Width="272"/>
+        <TextBox x:Name="txtBoxCapacity" HorizontalAlignment="Left" Height="29" Margin="10,301,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="271"/>
+        <Label x:Name="lblCapacity" Content="Capacity:" HorizontalAlignment="Left" Height="32" Margin="11,269,0,0" VerticalAlignment="Top" Width="270"/>
+        <Label x:Name="lblLocation" Content="Location:" HorizontalAlignment="Left" Height="25" Margin="10,329,0,0" VerticalAlignment="Top" Width="271"/>
+        <Button x:Name="btnSelectLocation" Content="Select Location" HorizontalAlignment="Left" Background="Transparent" BorderBrush="Transparent" Height="27" Margin="10,358,0,0" VerticalAlignment="Top" Width="271"/>
+        <Label x:Name="lblLine" Content="" BorderThickness="0 0 0 1" BorderBrush="Black" HorizontalAlignment="Left" Height="9" Margin="10,47,0,0" VerticalAlignment="Top" Width="268"/>
+
+    </Grid>
+</UserControl>

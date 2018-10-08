@@ -25,6 +25,7 @@ namespace Lagerverwaltung
             InitializeComponent();
             ucRegister.Visibility = Visibility.Collapsed;
             ucManageWarehouses.Visibility = Visibility.Collapsed;
+            ucCreateWarehouse.Visibility = Visibility.Collapsed;
             Database.connect("Data Source=192.168.128.152/ora11g;User Id=d5a07;Password=d5a;");
             if(!(Database.conn.State == System.Data.ConnectionState.Open))
             Database.connect("Data Source=212.152.179.117/ora11g;User Id=d5a07;Password=d5a;");

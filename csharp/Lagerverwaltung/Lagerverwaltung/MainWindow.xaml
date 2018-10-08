@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lagerverwaltung"
         mc:Ignorable="d"
-        Icon="whatsapp_image_2018_10_04_at_14_39_04_gVh_icon.ico"
+        Icon="werhaus_icon.ico"
         MinHeight="520"
         MinWidth="680"
         Closing="OnWindowClosing"
@@ -29,10 +29,11 @@
             <ImageBrush ImageSource="C:\Martin\School muull\5AHIFS\BSD\simple-warehouse\csharp\Lagerverwaltung\Lagerverwaltung\werhaus_background.jpg"></ImageBrush>
         </Grid.Background>
         <Border BorderBrush="Black" BorderThickness="1px" CornerRadius="8,8,8,8">
-        <local:login x:Name="ucLogin" Background="White" BorderBrush="Black" BorderThickness="1px" Height="267" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,24,20,0" Width="184"/>
+            <local:login x:Name="ucLogin" Background="White" BorderBrush="Black" BorderThickness="1px" Height="267" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,24,20,0" Width="184"/>
         </Border>
-        <local:register x:Name="ucRegister" Background="White" HorizontalAlignment="Center" VerticalAlignment="Center" Height="267" BorderBrush="Black"  BorderThickness="1px" Margin="0,24,20,0" Width="184"/>
+        <local:register x:Name="ucRegister" Background="White" HorizontalAlignment="Center" VerticalAlignment="Center" Height="296" BorderBrush="Black"  BorderThickness="1px" Margin="234,123,254,70" Width="184"/>
         <local:manageWarehouses x:Name="ucManageWarehouses" Background="White" BorderBrush="Black"  BorderThickness="1px" Margin="10" Width="Auto"/>
+        <local:createWarehouse x:Name="ucCreateWarehouse" Background="White" HorizontalAlignment="Center" Height="469" Margin="10,10,0,0" BorderBrush="Black" BorderThickness="1" VerticalAlignment="Center" Width="652"/>
     </Grid>
 
 </Window>

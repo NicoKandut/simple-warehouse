@@ -7,15 +7,21 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" Width="602.069">
     <Grid>
-        <ListBox x:Name="listBoxWarehouses" BorderBrush="Black" BorderThickness="1px"  Margin="10,10,187,10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="listBoxWarehouses" BorderBrush="Black" BorderThickness="2px"  Margin="10,10,190,10">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Height" Value="50" />
                     <Setter Property="FontSize" Value="25"/>
+                    <Setter Property="BorderBrush" Value="Black"/>
+                    <Setter Property="BorderThickness" Value="0 0 0 1"/>
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
-        <Button x:Name="btnLogout" Content="Logout" Margin="0,10,10,0" Click="btnLogout_Click" HorizontalAlignment="Right" Width="172" Height="29" VerticalAlignment="Top"/>
-        <Button Content="Add warehouse" HorizontalAlignment="Left" Height="29" Margin="420,44,0,0" VerticalAlignment="Top" Width="172"/>
+        <Button x:Name="btnLogout" Content="Logout" Margin="0,10,10,0" Click="btnLogout_Click" HorizontalAlignment="Right" Width="81" Height="29" VerticalAlignment="Top"/>
+        <Button x:Name="btnAddWarehouse" Content="Add warehouse" Height="29" Margin="0,74,6,0" VerticalAlignment="Top" Click="btnAddWarehouse_Click" HorizontalAlignment="Right" Width="172"/>
+        <Button x:Name="btnDeleteWarehouse" Content="Delete warehouse" Height="29" Margin="0,108,6,0" VerticalAlignment="Top" Click="btnDeleteWarehouse_Click" HorizontalAlignment="Right" Width="172"/>
     </Grid>
 </UserControl>
