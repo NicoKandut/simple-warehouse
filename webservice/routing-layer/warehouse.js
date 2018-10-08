@@ -6,7 +6,7 @@ const classes = require("../data-layer/classes");
 const router = express.Router();
 
 // add routes
-router.route('/')
+router.route('/') //TODO: display owners
     .get((req, res) => {
         let query = "SELECT * from SW_Warehouse",
             param = [];
@@ -18,6 +18,16 @@ router.route('/')
                 details: err
             })
         );
+    }).post((req, res) => {
+        let query = "INSERT INTO SW_Warehouse VALUES (seq_warehouse.NEXTVAL, :name, :descripion, :capacity, :id_owner)",
+            param = [req.body.name, req.body.description, req.body.capacity, req.body.id_owner || req.body.owner.id];
+
+        oracleConnection.execute(query, param,
+            (result) => res.status(201).json(result),
+            (err) => res.status(500).json({
+                message: err.message,
+                details: err
+            }));
     });
 
 router.route("/:id")

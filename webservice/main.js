@@ -17,6 +17,7 @@ const defaultRouter = require('./routing-layer/default'),
     ownerRouter = require("./routing-layer/owner"),
     warehouseRouter = require("./routing-layer/warehouse");
     
+ownerRouter.use("/:id", warehouseRouter);
 defaultRouter.use("/owners", ownerRouter);
 defaultRouter.use("/warehouses", warehouseRouter);
 app.use('/', defaultRouter);
