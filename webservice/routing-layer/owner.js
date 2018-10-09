@@ -1,14 +1,14 @@
 // packages
 const express = require('express'),
-    oracleConnection = require("../data-layer/oracleDataAccess"),
-    classParser = require("../data-layer/classParser"),
-    classes = require("../data-layer/classes"),
+    oracleConnection = require('../data-layer/oracleDataAccess'),
+    classParser = require('../data-layer/classParser'),
+    classes = require('../data-layer/classes'),
     router = express.Router();
 
 // add routes
 router.route('/')
     .get((req, res) => {
-        let query = "SELECT * from SW_Owner",
+        let query = 'SELECT * from SW_Owner',
             param = [];
 
         oracleConnection.execute(query, param,
@@ -20,7 +20,7 @@ router.route('/')
         );
     })
     .post((req, res) => {
-        let query = "INSERT INTO SW_Owner VALUES (seq_owner.NEXTVAL, :name, :password)",
+        let query = 'INSERT INTO SW_Owner VALUES (seq_owner.NEXTVAL, :name, :password)',
             param = [req.body.name, req.body.password];
 
         oracleConnection.execute(query, param,
@@ -31,11 +31,11 @@ router.route('/')
             }));
     });
 
-router.route("/:id")
+router.route('/:id')
     .get((req, res) => {
-        let query = "SELECT * from SW_Owner WHERE id = :id",
+        let query = 'SELECT * from SW_Owner WHERE id = :id',
             param = [req.params.id],
-            innerQuery = "SELECT * from SW_Warehouse WHERE id_owner = :id";
+            innerQuery = 'SELECT * from SW_Warehouse WHERE id_owner = :id';
 
         oracleConnection.execute(query, param,
             (result) => {

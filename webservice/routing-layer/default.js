@@ -6,9 +6,9 @@ const express = require('express'),
 // add routes
 router.get('/', function (req, res) {
     res.json({
-        message: "Welcome to the Werhaus API.",
-        owners: host + "/owners",
-        warehouses: host + "/warehouses"
+        message: 'Welcome to the Werhaus API.',
+        owners: host + '/owners',
+        warehouses: host + '/warehouses'
     });
 });
 

@@ -15,7 +15,8 @@ __________
 returns **a list of all owners** with some information about them. For now this also returns the passwords of the owners but in the future it will not.
 
 **POST [https://simple-warehouse-api.herokuapp.com/owners](https://simple-warehouse-api.herokuapp.com/owners)**     
-creates **a new owner** with the information provided. Returns 201 for success or 500 for error.
+creates **a new owner** with the information provided. Returns 201 for success or 500 for error.    
+You must provide **"name"** and **"password"**.
 
 **GET [https://simple-warehouse-api.herokuapp.com/owners/:id](https://simple-warehouse-api.herokuapp.com/owners/1)**    
 returns **one owner** with some information about it. Additionally, it includes **a list of this owners warehouses**. If an owner is not found this returns 404.
@@ -28,6 +29,7 @@ returns **a list of all warehouses** with some information about them.
 
 **POST [https://simple-warehouse-api.herokuapp.com/warehouses](https://simple-warehouse-api.herokuapp.com/warehouses)**     
 creates **a new warehouse** with the information provided. Returns 201 for success or 500 for error.
+You must provide
 
 **GET [https://simple-warehouse-api.herokuapp.com/warehouses/:id](https://simple-warehouse-api.herokuapp.com/warehouses/1)**    
 returns **one warehouse** with some information about it. Additionally, it includes **a list of products stored in this warehouse**. If a warehouse is not found this returns 404.
