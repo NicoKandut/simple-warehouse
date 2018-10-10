@@ -8,7 +8,9 @@ router.get('/', function (req, res) {
     res.json({
         message: 'Welcome to the Werhaus API.',
         owners: host + '/owners',
-        warehouses: host + '/warehouses'
+        warehouses: host + '/warehouses',
+        products: host + '/products',
+        manufacturers: host + '/manufacturers'
     });
 });
 

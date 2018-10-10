@@ -49,11 +49,29 @@ class Product extends ProductBase {
     }
 }
 
+class Manufacturer {
+    constructor(id, name, description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
+}
+
+class FatManufacturer extends Manufacturer {
+    constructor(id, name, description, products) {
+        super(id, name, description);
+
+        this.products = products || [];
+    }
+}
+
 module.exports = {
     Owner: Owner,
     FatOwner: FatOwner,
     Warehouse: Warehouse,
     FatWarehouse: FatWarehouse,
     ProductBase: ProductBase,
-    Product: Product
+    Product: Product,
+    Manufacturer: Manufacturer,
+    FatManufacturer: FatManufacturer
 };
