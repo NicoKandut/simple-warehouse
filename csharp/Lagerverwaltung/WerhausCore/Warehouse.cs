@@ -35,10 +35,9 @@ namespace WerhausCore
         {
             Description = description;
         }
-        public void Order()
+        public override string ToString()
         {
-            //TODO: call webservice with order
-            //update information
+            return Name + " with a capacity of " + Capacity + "\n" + Description;
         }
     }
 }

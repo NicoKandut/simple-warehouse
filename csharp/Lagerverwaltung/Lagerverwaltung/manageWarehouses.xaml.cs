@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,13 +33,15 @@ namespace Lagerverwaltung
             {
                 main.ucLogin.Visibility = Visibility.Visible;
                 main.ucManageWarehouses.Visibility = Visibility.Collapsed;
+                main.ucCreateWarehouse.Visibility = Visibility.Collapsed;
+                main.ucRegister.Visibility = Visibility.Collapsed;
+                main.loggedIn = false;
                 main.Title = "Werhaus";
             }
         }
 
         private void btnAddWarehouse_Click(object sender, RoutedEventArgs e)
         {
-            main.ucManageWarehouses.Visibility = Visibility.Collapsed;
             main.ucCreateWarehouse.Visibility = Visibility.Visible;
         }
 

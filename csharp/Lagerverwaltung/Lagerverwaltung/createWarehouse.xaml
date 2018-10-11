@@ -6,24 +6,27 @@
              xmlns:local="clr-namespace:Lagerverwaltung"
              mc:Ignorable="d" Height="440.894" Width="288.489">
     <Grid>
-        <Button x:Name="btnOk" Content="Ok" HorizontalAlignment="Left" Height="29" Margin="10,398,0,0" VerticalAlignment="Top" Width="134" Click="btnOk_Click"/>
-        <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Height="29" Margin="149,398,0,0" VerticalAlignment="Top" Width="134" Click="btnCancel_Click"/>
-        <Label x:Name="lblTitle" Content="Create Warehouse" FontSize="25px" HorizontalAlignment="Center" Height="41" Margin="38,6,38,0" VerticalAlignment="Top" Width="215"/>
-        <Label x:Name="lblName" Content="Warehouse name:" HorizontalAlignment="Left" Height="29" Margin="10,56,0,0" VerticalAlignment="Top" Width="134"/>
-        <TextBox x:Name="txtBoxName" HorizontalAlignment="Left" Height="28" Margin="10,89,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="271"/>
-        <RichTextBox HorizontalAlignment="Left" Height="116" Margin="10,152,0,0" VerticalAlignment="Top" Width="271">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="144*"/>
+            <ColumnDefinition Width="144*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="btnOk" Content="Ok" Height="29" Margin="8,398,6,0" VerticalAlignment="Top" Click="btnOk_Click"/>
+        <Button x:Name="btnCancel" Content="Cancel" Height="29" Margin="8,398,6,0" VerticalAlignment="Top" Click="btnCancel_Click" Grid.Column="1"/>
+        <Label x:Name="lblTitle" Content="Create Warehouse" FontSize="25px" Height="41" Margin="36,6,36,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Label x:Name="lblName" Content="Warehouse name:" Height="29" Margin="16,56,138,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="txtBoxName" Height="28" Margin="14,89,4,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <RichTextBox Height="116" Margin="14,152,4,0" VerticalAlignment="Top" Grid.ColumnSpan="2">
             <FlowDocument>
                 <Paragraph>
                     <Run Text=""/>
                 </Paragraph>
             </FlowDocument>
         </RichTextBox>
-        <Label x:Name="lblDescription" Content="Description:" HorizontalAlignment="Left" Height="27" Margin="11,120,0,0" VerticalAlignment="Top" Width="272"/>
-        <TextBox x:Name="txtBoxCapacity" HorizontalAlignment="Left" Height="29" Margin="10,301,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="271"/>
-        <Label x:Name="lblCapacity" Content="Capacity:" HorizontalAlignment="Left" Height="32" Margin="11,269,0,0" VerticalAlignment="Top" Width="270"/>
-        <Label x:Name="lblLocation" Content="Location:" HorizontalAlignment="Left" Height="25" Margin="10,329,0,0" VerticalAlignment="Top" Width="271"/>
-        <Button x:Name="btnSelectLocation" Content="Select Location" HorizontalAlignment="Left" Background="Transparent" BorderBrush="Transparent" Height="27" Margin="10,358,0,0" VerticalAlignment="Top" Width="271"/>
-        <Label x:Name="lblLine" Content="" BorderThickness="0 0 0 1" BorderBrush="Black" HorizontalAlignment="Left" Height="9" Margin="10,47,0,0" VerticalAlignment="Top" Width="268"/>
-
+        <Label x:Name="lblDescription" Content="Description:" Height="27" Margin="14,120,2,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="txtBoxCapacity" Height="29" Margin="16,297,12,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Label x:Name="lblCapacity" Content="Capacity:" Height="32" Margin="14,269,4,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Label x:Name="lblLocation" Content="Location:" Height="25" Margin="16,325,12,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Button x:Name="btnSelectLocation" Content="Select Location" Background="Transparent" BorderBrush="Transparent" Height="27" Margin="16,348,12,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Label x:Name="lblLine" Content="" BorderThickness="0 0 0 1" BorderBrush="Black" HorizontalAlignment="Center" Height="9" Margin="15,47,5,0" VerticalAlignment="Top" Width="268" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>

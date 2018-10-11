@@ -29,13 +29,13 @@ namespace Lagerverwaltung
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
             //create Warehouse with db
-            main.ucCreateWarehouse.Visibility = Visibility.Collapsed;
             main.ucManageWarehouses.Visibility = Visibility.Visible;
+            main.ucCreateWarehouse.Visibility = Visibility.Collapsed;
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            main.ucCreateWarehouse.Visibility = Visibility.Collapsed;
+            main.ucManageWarehouses.Visibility = Visibility.Visible;
             main.ucCreateWarehouse.Visibility = Visibility.Collapsed;
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,6 +36,7 @@ namespace Lagerverwaltung
                 Database.login(txtBoxName.Text, txtBoxPwd.Password);
                 main.ucLogin.Visibility = Visibility.Collapsed;
                 main.ucManageWarehouses.Visibility = Visibility.Visible;
+                main.loggedIn = true;
                 main.ucManageWarehouses.listBoxWarehouses.Items.Add("Hello this is a warehouse");
                 main.ucManageWarehouses.listBoxWarehouses.Items.Add("And this is another one");
                 main.Title = txtBoxName.Text;

@@ -156,5 +156,17 @@
   <ItemGroup>
     <Resource Include="werhaus_background.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="profile_picture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WerhausCore\WerhausCore.csproj">
+      <Project>{2150bdba-ba94-4726-b420-97dea3f167a6}</Project>
+      <Name>WerhausCore</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="werhaus_icon_transparent.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MahApps.Metro.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,14 +13,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WerhausCore;
 
 namespace Lagerverwaltung
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
+        public bool loggedIn { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -27,10 +30,17 @@ namespace Lagerverwaltung
             ucManageWarehouses.Visibility = Visibility.Collapsed;
             ucCreateWarehouse.Visibility = Visibility.Collapsed;
             Database.connect("Data Source=192.168.128.152/ora11g;User Id=d5a07;Password=d5a;");
-            if(!(Database.conn.State == System.Data.ConnectionState.Open))
-            Database.connect("Data Source=212.152.179.117/ora11g;User Id=d5a07;Password=d5a;");
-        }
+            if (!(Database.conn.State == System.Data.ConnectionState.Open))
+                Database.connect("Data Source=212.152.179.117/ora11g;User Id=d5a07;Password=d5a;");
+            printTest();
 
+        }
+        private async void printTest()
+        {
+            Warehouse warehouse = null;
+            warehouse = await Database.getWarehouseAsync(1);
+            MessageBox.Show(warehouse.ToString());
+        }
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             try
@@ -57,6 +67,13 @@ namespace Lagerverwaltung
         {
             if (MessageBoxResult.No == MessageBox.Show("Are you sure you want to quit?", "Quit?", MessageBoxButton.YesNo, MessageBoxImage.Question))
                 e.Cancel = true;
+        }
+        private void btnSettingsClick(object sender, RoutedEventArgs e)
+        {
+            if (!loggedIn)
+                MessageBox.Show("Not logged in!", "No login", MessageBoxButton.OK, MessageBoxImage.Information);
+            else
+                MessageBox.Show("Logged in user: " + MainMetroWindow.Title, "User", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         ~MainWindow()
         {
