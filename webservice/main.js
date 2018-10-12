@@ -2,7 +2,7 @@
 const express = require('express'),
     cors = require('cors'),
     bodyParser = require('body-parser'),
-    logger = require('./routing-layer/logger');
+    logger = require('./routing-layer/middleware/logger');
     app = express();
 
 // middleware
@@ -22,6 +22,8 @@ const defaultRouter = require('./routing-layer/default'),
     manufacturerRouter = require('./routing-layer/manufacturer');
     
 ownerRouter.use('/:id', warehouseRouter);
+defaultRouter.use('/auth', require('./routing-layer/auth'));
+defaultRouter.use('/user', require('./routing-layer/user'));
 defaultRouter.use('/owners', ownerRouter);
 defaultRouter.use('/warehouses', warehouseRouter);
 defaultRouter.use('/products', productRouter);
