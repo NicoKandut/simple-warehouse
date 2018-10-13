@@ -6,28 +6,12 @@ class Owner {
     }
 }
 
-class FatOwner extends Owner {
-    constructor(id, name, password, warehouses) {
-        super(id, name, password);
-
-        this.warehouses = warehouses || [];
-    }
-}
-
 class Warehouse {
     constructor(id, name, description, capacity) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.capacity = capacity;
-    }
-}
-
-class FatWarehouse extends Warehouse {
-    constructor(id, name, description, capacity, products) {
-        super(id, name, description, capacity);
-
-        this.products = products || [];
     }
 }
 
@@ -65,22 +49,11 @@ class Manufacturer {
     }
 }
 
-class FatManufacturer extends Manufacturer {
-    constructor(id, name, description, products) {
-        super(id, name, description);
-
-        this.products = products || [];
-    }
-}
-
-module.exports = { //TODO: adapt
+module.exports = {
     Owner: Owner,
-    FatOwner: FatOwner,
     Warehouse: Warehouse,
-    FatWarehouse: FatWarehouse,
     ProductBase: ProductBase,
     Product: Product,
     Order: Order,
-    Manufacturer: Manufacturer,
-    FatManufacturer: FatManufacturer
+    Manufacturer: Manufacturer
 };

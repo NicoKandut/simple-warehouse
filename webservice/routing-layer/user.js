@@ -132,7 +132,7 @@ router.route('/warehouses/:id/orders')
             })
         );
     })
-    .post((req, res) => { //TODO: implement correct order proccess
+    .post((req, res) => {
         let query = 'INSERT INTO SW_Order VALUES (:id_product, :id_warehouse, :amount, CURRENT_TIMESTAMP)',
             param = [req.body.id_product, req.params.id, req.body.amount];
 

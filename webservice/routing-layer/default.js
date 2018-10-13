@@ -4,13 +4,13 @@ const express = require('express'),
     host = process.env.HOST;
 
 // add routes
-router.get('/', function (req, res) { //TODO: adapt to new route-layout
+router.get('/', function (req, res) {
     res.json({
-        message: 'Welcome to the Werhaus API.',
-        owners: host + '/owners',
-        warehouses: host + '/warehouses',
-        products: host + '/products',
-        manufacturers: host + '/manufacturers'
+        title: 'The Werhaus API',
+        message: 'This is a simple api to access the werhaus database. For more information see https://drive.google.com/open?id=1Q7M9immTpeOPTIU5YpzBSn9f_k-VgX0Ii9DalNl0xmg',
+        auth: host + '/auth',
+        user: host + '/user',
+        catalog: host + '/catalog'
     });
 });
 

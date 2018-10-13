@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 
-module.exports = { //TODO: make truly random and unique
+module.exports = {
     access(req, res, next) {
         let token = req.headers.token;
 
@@ -19,7 +19,12 @@ module.exports = { //TODO: make truly random and unique
     },
 
     create(user) {
-        let token = crypto.createHash('md5').update(user.id + salt).digest("hex");
+        let token;
+
+        do {
+            token = crypto.createHash('md5').update(crypto.randomBytes(24).join()).digest("hex");
+        } while (token in access);
+
         access[token] = user.id;
         return token;
     },
