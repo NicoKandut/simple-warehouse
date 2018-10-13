@@ -7,7 +7,7 @@ const DB_STRING = process.env.DB_STRING || '212.152.179.117/ora11g',
         autoCommit: true
     };
 
-module.exports = {
+module.exports = { //TODO: promisify everything
     execute: (query, param, onSuccess, onError) => {
         oracledb.getConnection({
             user: DB_USER,

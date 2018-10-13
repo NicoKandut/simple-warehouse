@@ -1,4 +1,4 @@
-// packages
+// packages //TODO: integrate into user.js and remove
 const express = require('express');
 const oracleConnection = require('../data-layer/oracleDataAccess');
 const classParser = require('../data-layer/classParser');
@@ -6,7 +6,7 @@ const classes = require('../data-layer/classes');
 const router = express.Router();
 
 // add routes
-router.route('/') //TODO: display owners
+router.route('/')
     .get((req, res) => {
         let query = 'SELECT * from SW_Warehouse',
             param = [];

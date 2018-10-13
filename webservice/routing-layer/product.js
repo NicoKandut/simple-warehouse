@@ -5,7 +5,7 @@ const classParser = require('../data-layer/classParser');
 const classes = require('../data-layer/classes');
 const router = express.Router();
 
-// add routes
+// add routes //TODO: integrate into user.js
 router.route('/')
     .get((req, res) => {
         let query = 'SELECT * from SW_Product',

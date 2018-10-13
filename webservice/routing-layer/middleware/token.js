@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 
-module.exports = {
+module.exports = { //TODO: make truly random and unique
     access(req, res, next) {
         let token = req.headers.token;
 

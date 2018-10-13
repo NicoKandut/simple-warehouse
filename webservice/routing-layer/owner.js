@@ -1,4 +1,4 @@
-// packages
+// packages //TODO: remove
 const express = require('express'),
     oracleConnection = require('../data-layer/oracleDataAccess'),
     classParser = require('../data-layer/classParser'),

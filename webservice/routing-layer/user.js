@@ -10,7 +10,7 @@ const express = require('express'),
 router.use(tokenAccess);
 
 // add routes
-router.route('/')
+router.route('/') //TODO: get full user
     .get((req, res) => {
         let query = 'SELECT * from SW_Owner WHERE id = :id',
             param = [req.uid];
@@ -87,7 +87,7 @@ router.route('/warehouses/:id')
                     res.sendStatus(404);
                 else
                     oracleConnection.execute(innerQuery, [param[0]],
-                        (result) =>{
+                        (result) => {
                             warehouse.products = classParser(result.rows, classes.Product);
 
                             res.status(200).json(warehouse);
@@ -104,5 +104,45 @@ router.route('/warehouses/:id')
             })
         );
     });
+
+router.route('/warehouses/:id/products')
+    .get((req, res) => {
+        let query = 'SELECT  id_product, SW_Product.name, SW_Product.description, price, space, amount from SW_Product INNER JOIN SW_Stored_In ON SW_Product.id = id_product INNER JOIN SW_Warehouse ON SW_Warehouse.id = id_warehouse WHERE id_warehouse = :id AND id_owner = :id_owner',
+            param = [req.params.id, req.uid];
+
+        oracleConnection.execute(query, param,
+            (result) => res.status(200).json(classParser(result.rows, classes.Product)),
+            (err) => res.status(404).json({
+                message: err.message,
+                details: err
+            })
+        );
+    });
+
+router.route('/warehouses/:id/orders')
+    .get((req, res) => {
+        let query = 'SELECT  id_product, SW_Product.name, SW_Product.description, price, space, amount, timestamp from SW_Product INNER JOIN SW_Order ON SW_Product.id = id_product INNER JOIN SW_Warehouse ON SW_Warehouse.id = id_warehouse WHERE id_warehouse = :id AND id_owner = :id_owner',
+            param = [req.params.id, req.uid];
+
+        oracleConnection.execute(query, param,
+            (result) => res.status(200).json(classParser(result.rows, classes.Order)),
+            (err) => res.status(404).json({
+                message: err.message,
+                details: err
+            })
+        );
+    })
+    .post((req, res) => { //TODO: implement correct order proccess
+        let query = 'INSERT INTO SW_Order VALUES (:id_product, :id_warehouse, :amount, CURRENT_TIMESTAMP)',
+            param = [req.body.id_product, req.params.id, req.body.amount];
+
+            oracleConnection.execute(query, param,
+                (result) => res.sendStatus(201),
+                (err) => res.status(404).json({
+                    message: err.message,
+                    details: err
+                })
+            );
+    });;
 
 module.exports = router;

@@ -49,6 +49,14 @@ class Product extends ProductBase {
     }
 }
 
+class Order {
+    constructor(id, name, description, price, space, amount, timestamp) {
+        this.product = new ProductBase(id, name, description, price, space);
+        this.amount = amount;
+        this.timestamp = timestamp;
+    }
+}
+
 class Manufacturer {
     constructor(id, name, description) {
         this.id = id;
@@ -65,13 +73,14 @@ class FatManufacturer extends Manufacturer {
     }
 }
 
-module.exports = {
+module.exports = { //TODO: adapt
     Owner: Owner,
     FatOwner: FatOwner,
     Warehouse: Warehouse,
     FatWarehouse: FatWarehouse,
     ProductBase: ProductBase,
     Product: Product,
+    Order: Order,
     Manufacturer: Manufacturer,
     FatManufacturer: FatManufacturer
 };

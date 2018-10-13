@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use(logger);
 
 // environment
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8080; //TODO: modules with .mjs
 process.env.HOST = process.env.HOST || 'http://localhost' + ':' + port;
 
 // routing

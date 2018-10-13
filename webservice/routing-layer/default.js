@@ -4,7 +4,7 @@ const express = require('express'),
     host = process.env.HOST;
 
 // add routes
-router.get('/', function (req, res) {
+router.get('/', function (req, res) { //TODO: adapt to new route-layout
     res.json({
         message: 'Welcome to the Werhaus API.',
         owners: host + '/owners',
