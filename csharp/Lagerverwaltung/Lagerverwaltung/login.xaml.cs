@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WerhausCore;
 
 namespace Lagerverwaltung
 {
@@ -27,21 +28,30 @@ namespace Lagerverwaltung
             InitializeComponent();
         }
 
-        public void btnLogin_Click(object sender, RoutedEventArgs e)
+        public async void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             try
             {
                 if (String.IsNullOrWhiteSpace(txtBoxName.Text) || String.IsNullOrWhiteSpace(txtBoxPwd.Password))
                     throw new Exception("All fields must be filled!");
-                Database.login(txtBoxName.Text, txtBoxPwd.Password);
-                main.ucLogin.Visibility = Visibility.Collapsed;
-                main.ucManageWarehouses.Visibility = Visibility.Visible;
-                main.loggedIn = true;
-                main.ucManageWarehouses.listBoxWarehouses.Items.Add("Hello this is a warehouse");
-                main.ucManageWarehouses.listBoxWarehouses.Items.Add("And this is another one");
-                main.Title = txtBoxName.Text;
-                txtBoxName.Text = "";
-                txtBoxPwd.Password = "";
+                bool result = await Database.loginAsync(txtBoxName.Text, txtBoxPwd.Password);
+                if (result)
+                {
+                    main.currentOwner = await Database.getOwnerAsync();
+                    main.currentOwner.Name = txtBoxName.Text;
+                    main.currentOwner.Password = txtBoxPwd.Password;
+                    main.ucLogin.Visibility = Visibility.Collapsed;
+                    main.ucManageWarehouses.Visibility = Visibility.Visible;
+                    main.loggedIn = true;
+                    main.ucManageWarehouses.listBoxWarehouses.ItemsSource = main.currentOwner.Warehouses;
+                    main.Title = txtBoxName.Text;
+                    txtBoxName.Text = "";
+                    txtBoxPwd.Password = "";
+                }
+                else
+                {
+                    MessageBox.Show("Login failed");
+            }
             }
             catch(Exception ex)
             {

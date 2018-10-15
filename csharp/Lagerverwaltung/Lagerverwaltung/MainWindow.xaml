@@ -66,13 +66,25 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.Background>
-            <ImageBrush ImageSource="C:\Martin\School muull\5AHIFS\BSD\simple-warehouse\csharp\Lagerverwaltung\Lagerverwaltung\werhaus_background.jpg"></ImageBrush>
+            <ImageBrush ImageSource="werhaus_background.jpg"></ImageBrush>
         </Grid.Background>
         <local:login x:Name="ucLogin" Background="White" BorderBrush="Black" BorderThickness="1px" Height="267" HorizontalAlignment="Right" Margin="0,84,114,0" Width="200" VerticalAlignment="Top"/>
-        <local:register x:Name="ucRegister" Background="White" HorizontalAlignment="Center" VerticalAlignment="Center" Height="296" BorderBrush="Black"  BorderThickness="1px" Margin="349,190,369,137" Width="184"/>
+        <local:register x:Name="ucRegister" VerticalAlignment="Top" HorizontalAlignment="Right" Background="White" Height="296" BorderBrush="Black"  BorderThickness="1px" Margin="0,84,114,0" Width="200"/>
         <local:manageWarehouses x:Name="ucManageWarehouses" Background="White" BorderBrush="Transparent" Margin="-2,0,-1,24" Width="Auto"/>
         <local:createWarehouse x:Name="ucCreateWarehouse" Background="White" Height="436" Margin="0,56,4,0" BorderBrush="Black" BorderThickness="1" Width="310" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         <StatusBar x:Name="statusBar" Height="24" VerticalAlignment="Bottom" Background="#0D74DB"/>
+        <Controls:Flyout x:Name="flyoutProfile" Header="Profile Settings"  Width="400" Position="Right" Theme="Inverse">
+            <DockPanel>
+                <StackPanel Margin="20,0,0,0">
+                    <Label BorderBrush="Transparent" FontSize="20">Username:</Label>
+                    <TextBox x:Name="txtBoxUsername"></TextBox>
+                    <Label BorderBrush="Transparent" FontSize="20">Confirm Password:</Label>
+                    <TextBox x:Name="txtBoxPassword"></TextBox>
+                    <Label BorderBrush="Transparent" FontSize="20">New Password:</Label>
+                    <TextBox x:Name="txtBoxNewPassword"></TextBox>
+                    <Button x:Name="btnSaveSettings" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Click="btnSaveSettings_Click">Save settings</Button>
+                </StackPanel>
+            </DockPanel>
+        </Controls:Flyout>
     </Grid>
-
 </Controls:MetroWindow>

@@ -148,13 +148,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="werhaus_icon.ico" />
+    <Resource Include="werhaus_icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="My_Post.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="werhaus_background.jpg" />
+    <Resource Include="werhaus_background.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="profile_picture.png" />
@@ -166,7 +170,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="werhaus_icon_transparent.ico" />
+    <Resource Include="werhaus_icon_transparent.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

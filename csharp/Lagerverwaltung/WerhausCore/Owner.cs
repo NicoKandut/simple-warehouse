@@ -8,13 +8,18 @@ namespace WerhausCore
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string Password { get; set; }
         public List<Warehouse> Warehouses { get; set; }
 
-        public Owner(int id, string name)
+        public Owner(int id, string name, string password, List<Warehouse> warehouses)
         {
             Id = id;
             Name = name;
-            Warehouses = new List<Warehouse>();
+            Password = password;
+            if (warehouses == null)
+                Warehouses = new List<Warehouse>();
+            else
+                Warehouses = warehouses;
         }
         public void AddWarehouse(Warehouse warehouse)
         {

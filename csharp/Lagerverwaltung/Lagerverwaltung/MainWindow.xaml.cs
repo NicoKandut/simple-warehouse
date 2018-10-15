@@ -23,23 +23,14 @@ namespace Lagerverwaltung
     public partial class MainWindow
     {
         public bool loggedIn { get; set; }
+        public Owner currentOwner { get; set; }
         public MainWindow()
         {
             InitializeComponent();
+            Database.init();
             ucRegister.Visibility = Visibility.Collapsed;
             ucManageWarehouses.Visibility = Visibility.Collapsed;
             ucCreateWarehouse.Visibility = Visibility.Collapsed;
-            Database.connect("Data Source=192.168.128.152/ora11g;User Id=d5a07;Password=d5a;");
-            if (!(Database.conn.State == System.Data.ConnectionState.Open))
-                Database.connect("Data Source=212.152.179.117/ora11g;User Id=d5a07;Password=d5a;");
-            printTest();
-
-        }
-        private async void printTest()
-        {
-            Warehouse warehouse = null;
-            warehouse = await Database.getWarehouseAsync(1);
-            MessageBox.Show(warehouse.ToString());
         }
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
@@ -55,7 +46,7 @@ namespace Lagerverwaltung
                 else if (e.Key == Key.Escape)
                     if (ucManageWarehouses.Visibility == Visibility.Visible)
                         ucManageWarehouses.btnLogout_Click(sender, e);
-                else
+                    else
                         Close();
             }
             catch (Exception ex)
@@ -70,14 +61,55 @@ namespace Lagerverwaltung
         }
         private void btnSettingsClick(object sender, RoutedEventArgs e)
         {
-            if (!loggedIn)
-                MessageBox.Show("Not logged in!", "No login", MessageBoxButton.OK, MessageBoxImage.Information);
+            if (currentOwner != null)
+            {
+                txtBoxUsername.Text = currentOwner.Name;
+                if (flyoutProfile.IsOpen)
+                    flyoutProfile.IsOpen = false;
+                else
+                    flyoutProfile.IsOpen = true;
+            }
             else
-                MessageBox.Show("Logged in user: " + MainMetroWindow.Title, "User", MessageBoxButton.OK, MessageBoxImage.Information);
+            {
+                MessageBox.Show("Login first!", "Login required", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
         ~MainWindow()
         {
-            Database.closeConnection();
+            //TODO:logout to delete token
+        }
+
+        private async void btnSaveSettings_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (!String.IsNullOrWhiteSpace(txtBoxNewPassword.Text))
+                {
+                    if (txtBoxPassword.Text == currentOwner.Password)
+                    {
+                        if (!String.IsNullOrWhiteSpace(txtBoxUsername.Text))
+                            await Database.updateOwnerAsync(txtBoxUsername.Text, txtBoxNewPassword.Text);
+                        else
+                            MessageBox.Show("Username cannot be empty!","ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    else
+                        MessageBox.Show("Wrong confirmation password", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+                else
+                {
+                    if (txtBoxUsername.Text != currentOwner.Name)
+                        if (!String.IsNullOrWhiteSpace(txtBoxUsername.Text))
+                            await Database.updateOwnerAsync(txtBoxUsername.Text, currentOwner.Password);
+                        else
+                            MessageBox.Show("Username can't be empty!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                    else
+                        MessageBox.Show("No changes detetced", "Alert", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
