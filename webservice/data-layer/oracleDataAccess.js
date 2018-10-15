@@ -14,15 +14,19 @@ module.exports = { //TODO: promisify everything
             password: DB_PASS,
             connectString: DB_STRING
         }, (err, connection) => {
-            if (err)
-                closeAfter(connection, onError, [err]);
-            else
-                connection.execute(query, param, options, (err, result) => {
-                    if (err)
-                        closeAfter(connection, onError, [err]);
-                    else
-                        closeAfter(connection, onSuccess, [result]);
-                });
+            try {
+                if (err)
+                    closeAfter(connection, onError, [err]);
+                else
+                    connection.execute(query, param, options, (err, result) => {
+                        if (err)
+                            closeAfter(connection, onError, [err]);
+                        else
+                            closeAfter(connection, onSuccess, [result]);
+                    });
+            } catch (ex) {
+                closeAfter(connection, onError(), [ex]);
+            }
         });
     }
 };

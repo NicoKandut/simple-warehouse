@@ -2,9 +2,13 @@
 const express = require('express'),
     oracleConnection = require('../data-layer/oracleDataAccess'),
     token = require('./middleware/token'),
+    error = require('./misc/error'),
     classParser = require('../data-layer/classParser'),
     classes = require('../data-layer/classes'),
     router = express.Router();
+
+// limit access to logout and delete to logged in users
+router.use('/logout|/delete', token.access);
 
 // add routes
 router.post('/login', (req, res) => {
@@ -13,23 +17,23 @@ router.post('/login', (req, res) => {
 
     oracleConnection.execute(query, param,
         (result) => {
-            // get user
             let user = classParser(result.rows, classes.Owner)[0];
-
-            // generate & send token
-            res.status(200).json({
-                token: token.create(user)
-            });
+            if (user)
+                res.status(200).json({
+                    token: token.create(user)
+                });
+            else
+                error.respondWith(res, 403.1);
         },
-        (err) => res.status(403).json({
-            error: "Authentification Error",
-            message: "Wrong combination of username and password"
-        }));
+        (err) => error.respondWith(res, 403.1));
 });
 
+//TODO: error code when not logged in
 router.get('/logout', (req, res) => {
-    token.remove(req.headers.token);
-    res.sendStatus(200);
+    if (token.remove(req.headers.token))
+        res.sendStatus(200);
+    else
+        res.sendStatus(404);
 });
 
 router.post('/register', (req, res) => {
@@ -44,12 +48,18 @@ router.post('/register', (req, res) => {
         }));
 });
 
+//TODO: better error codes
 router.delete('/delete', (req, res) => {
     let query = 'DELETE FROM SW_Owner WHERE id = :id',
         param = [token.get(req.headers.token)];
 
     oracleConnection.execute(query, param,
-        (result) => res.sendStatus(200),
+        (result) => {
+            if (result && result.rowsAffected === 1)
+                res.sendStatus(200);
+            else
+                res.sendStatus(404);
+        },
         (err) => res.status(500).json({
             message: err.message,
             details: err

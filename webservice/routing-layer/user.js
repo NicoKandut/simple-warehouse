@@ -17,7 +17,7 @@ router.route('/') //TODO: get full user
 
         oracleConnection.execute(query, param,
             (result) => {
-                let owner = classParser(result.rows, classes.FatOwner);
+                let owner = classParser(result.rows, classes.Owner)[0];
 
                 let query = 'SELECT * from SW_Warehouse WHERE id_owner = :id',
                     param = [req.uid];
@@ -81,7 +81,7 @@ router.route('/warehouses/:id')
 
         oracleConnection.execute(query, param,
             (result) => {
-                let warehouse = classParser(result.rows, classes.FatWarehouse)[0];
+                let warehouse = classParser(result.rows, classes.Warehouse)[0];
 
                 if (!warehouse)
                     res.sendStatus(404);
@@ -143,6 +143,6 @@ router.route('/warehouses/:id/orders')
                     details: err
                 })
             );
-    });;
+    });
 
 module.exports = router;

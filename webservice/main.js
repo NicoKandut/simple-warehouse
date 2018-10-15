@@ -2,7 +2,7 @@
 const express = require('express'),
     cors = require('cors'),
     bodyParser = require('body-parser'),
-    logger = require('./routing-layer/middleware/logger');
+    logger = require('./routing-layer/middleware/logger'),
     app = express();
 
 // middleware

@@ -30,7 +30,10 @@ module.exports = {
     },
 
     remove(token) {
-        delete access[token];
+        if (token in access) {
+            delete access[token];
+            return true;
+        }
     }
 };
 
