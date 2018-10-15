@@ -15,7 +15,7 @@ router.get('/', (req, res) => res.json({
 router.get('/products', (req, res) => {
     let query = 'SELECT * from SW_Product';
 
-    oracleConnection.execute(query, [])
+    oracleConnection.execute(query)
         .then((result) => res.json(classParser(result.rows, classes.ProductBase)))
         .catch((err) => res.status(404).json({
             message: err.message,
@@ -24,9 +24,7 @@ router.get('/products', (req, res) => {
 });
 
 router.get('/manufacturers', (req, res) => {
-    let query = 'SELECT * from SW_Manufacturer';
-
-    oracleConnection.execute(query, []) //TODO eliminate param array
+    oracleConnection.execute('SELECT * from SW_Manufacturer')
         .then((result) => res.json(classParser(result.rows, classes.Manufacturer)))
         .catch((err) => res.status(404).json({
             message: err.message,

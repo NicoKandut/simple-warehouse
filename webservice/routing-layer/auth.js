@@ -28,7 +28,6 @@ router.post('/login', (req, res) => {
         .catch((err) => error.respondWith(res, 403.1));
 });
 
-//TODO: error code when not logged in
 router.get('/logout', (req, res) => {
     if (token.remove(req.headers.token))
         res.sendStatus(200);
@@ -48,7 +47,6 @@ router.post('/register', (req, res) => {
         }));
 });
 
-//TODO: better error codes
 router.delete('/delete', (req, res) => {
     let query = 'DELETE FROM SW_Owner WHERE id = :id',
         param = [token.get(req.headers.token)];

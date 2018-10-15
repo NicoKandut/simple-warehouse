@@ -10,7 +10,7 @@ const express = require('express'),
 router.use(tokenAccess);
 
 // add routes
-router.route('/') //TODO: get full user
+router.route('/')
     .get((req, res) => {
         let query = 'SELECT * from SW_Owner WHERE id = :id',
             param = [req.uid],
@@ -73,7 +73,8 @@ router.route('/warehouses')
 router.route('/warehouses/:id')
     .get((req, res) => {
         let query = 'SELECT * from SW_Warehouse WHERE id = :id AND id_owner = :id_owner',
-            innerQuery = 'SELECT id_product, name, description, price, space, amount from SW_Stored_In INNER JOIN SW_Product ON id_product = SW_Product.id WHERE id_warehouse = :id',
+            productQuery = 'SELECT id_product, name, description, price, space, amount from SW_Stored_In INNER JOIN SW_Product ON id_product = SW_Product.id WHERE id_warehouse = :id',
+            orderQuery = 'SELECT id_product, name, description, price, space, amount, timestamp from SW_Order INNER JOIN SW_Product ON id_product = SW_Product.id WHERE id_warehouse = :id',
             param = [req.params.id, req.uid],
             warehouse;
 
@@ -84,14 +85,29 @@ router.route('/warehouses/:id')
                 if (!warehouse)
                     res.sendStatus(404);
                 else
-                    return oracleConnection.execute(innerQuery, [param[0]]);
+                    return oracleConnection.execute(productQuery, [param[0]]);
 
             })
             .then((result) => {
                 warehouse.products = classParser(result.rows, classes.Product);
+                return oracleConnection.execute(orderQuery, [param[0]]);
+            })
+            .then((result) => {
+                warehouse.orders = classParser(result.rows, classes.Product);
                 res.status(200).json(warehouse);
             })
             .catch((err) => res.status(404).json({
+                message: err.message,
+                details: err
+            }));
+    })
+    .delete((req, res) => {
+        let query = 'DELETE FROM SW_Warehouse WHERE id = :id AND id_owner = :id_owner',
+            param = [req.param.id, req.uid];
+
+        oracleConnection.execute(query, param)
+            .then((result) => res.sendStatus(200))
+            .catch((err) => res.status(500).json({
                 message: err.message,
                 details: err
             }));
