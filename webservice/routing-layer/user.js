@@ -13,26 +13,23 @@ router.use(tokenAccess);
 router.route('/') //TODO: get full user
     .get((req, res) => {
         let query = 'SELECT * from SW_Owner WHERE id = :id',
-            param = [req.uid];
+            param = [req.uid],
+            owner;
 
-        oracleConnection.execute(query, param,
-            (result) => {
-                let owner = classParser(result.rows, classes.Owner)[0];
+        oracleConnection.execute(query, param)
+            .then((result) => {
+                owner = classParser(result.rows, classes.Owner)[0];
 
                 let query = 'SELECT * from SW_Warehouse WHERE id_owner = :id',
                     param = [req.uid];
 
-                oracleConnection.execute(query, param,
-                    (result) => {
-                        owner.warehouses = classParser(result.rows, classes.Warehouse);
-                        res.status(200).json(owner);
-                    },
-                    (err) => res.status(404).json({
-                        message: err.message,
-                        details: err
-                    }));
-            },
-            (err) => res.status(404).json({
+                return oracleConnection.execute(query, param);
+            })
+            .then((result) => {
+                owner.warehouses = classParser(result.rows, classes.Warehouse);
+                res.status(200).json(owner);
+            })
+            .catch((err) => res.status(404).json({
                 message: err.message,
                 details: err
             }));
@@ -41,9 +38,9 @@ router.route('/') //TODO: get full user
         let query = 'UPDATE from SW_Owner SET name = :name, password = :password WHERE id = :id',
             param = [req.body.name, req.body.password, req.uid];
 
-        oracleConnection.execute(query, param,
-            (result) => res.sendStatus(200),
-            (err) => res.status(404).json({
+        oracleConnection.execute(query, param)
+            .then((result) => res.sendStatus(200))
+            .catch((err) => res.status(404).json({
                 message: err.message,
                 details: err
             }));
@@ -54,9 +51,9 @@ router.route('/warehouses')
         let query = 'SELECT * from SW_Warehouse WHERE id_owner = :id',
             param = [req.uid];
 
-        oracleConnection.execute(query, param,
-            (result) => res.status(200).json(classParser(result.rows, classes.Warehouse)),
-            (err) => res.status(404).json({
+        oracleConnection.execute(query, param)
+            .then((result) => res.status(200).json(classParser(result.rows, classes.Warehouse)))
+            .catch((err) => res.status(404).json({
                 message: err.message,
                 details: err
             }));
@@ -65,9 +62,9 @@ router.route('/warehouses')
         let query = 'INSERT INTO SW_Warehouse VALUES (seq_warehouse.NEXTVAL, :name, :descripion, :capacity, :id_owner)',
             param = [req.body.name, req.body.description, req.body.capacity, req.uid];
 
-        oracleConnection.execute(query, param,
-            (result) => res.sendStatus(201),
-            (err) => res.status(500).json({
+        oracleConnection.execute(query, param)
+            .then((result) => res.sendStatus(201))
+            .catch((err) => res.status(500).json({
                 message: err.message,
                 details: err
             }));
@@ -76,33 +73,28 @@ router.route('/warehouses')
 router.route('/warehouses/:id')
     .get((req, res) => {
         let query = 'SELECT * from SW_Warehouse WHERE id = :id AND id_owner = :id_owner',
+            innerQuery = 'SELECT id_product, name, description, price, space, amount from SW_Stored_In INNER JOIN SW_Product ON id_product = SW_Product.id WHERE id_warehouse = :id',
             param = [req.params.id, req.uid],
-            innerQuery = 'SELECT id_product, name, description, price, space, amount from SW_Stored_In INNER JOIN SW_Product ON id_product = SW_Product.id WHERE id_warehouse = :id';
+            warehouse;
 
-        oracleConnection.execute(query, param,
-            (result) => {
-                let warehouse = classParser(result.rows, classes.Warehouse)[0];
+        oracleConnection.execute(query, param)
+            .then((result) => {
+                warehouse = classParser(result.rows, classes.Warehouse)[0];
 
                 if (!warehouse)
                     res.sendStatus(404);
                 else
-                    oracleConnection.execute(innerQuery, [param[0]],
-                        (result) => {
-                            warehouse.products = classParser(result.rows, classes.Product);
+                    return oracleConnection.execute(innerQuery, [param[0]]);
 
-                            res.status(200).json(warehouse);
-                        },
-                        (err) => res.status(404).json({
-                            message: err.message,
-                            details: err
-                        })
-                    );
-            },
-            (err) => res.status(404).json({
+            })
+            .then((result) => {
+                warehouse.products = classParser(result.rows, classes.Product);
+                res.status(200).json(warehouse);
+            })
+            .catch((err) => res.status(404).json({
                 message: err.message,
                 details: err
-            })
-        );
+            }));
     });
 
 router.route('/warehouses/:id/products')
@@ -110,13 +102,12 @@ router.route('/warehouses/:id/products')
         let query = 'SELECT  id_product, SW_Product.name, SW_Product.description, price, space, amount from SW_Product INNER JOIN SW_Stored_In ON SW_Product.id = id_product INNER JOIN SW_Warehouse ON SW_Warehouse.id = id_warehouse WHERE id_warehouse = :id AND id_owner = :id_owner',
             param = [req.params.id, req.uid];
 
-        oracleConnection.execute(query, param,
-            (result) => res.status(200).json(classParser(result.rows, classes.Product)),
-            (err) => res.status(404).json({
+        oracleConnection.execute(query, param)
+            .then((result) => res.status(200).json(classParser(result.rows, classes.Product)))
+            .catch((err) => res.status(404).json({
                 message: err.message,
                 details: err
-            })
-        );
+            }));
     });
 
 router.route('/warehouses/:id/orders')
@@ -124,25 +115,23 @@ router.route('/warehouses/:id/orders')
         let query = 'SELECT  id_product, SW_Product.name, SW_Product.description, price, space, amount, timestamp from SW_Product INNER JOIN SW_Order ON SW_Product.id = id_product INNER JOIN SW_Warehouse ON SW_Warehouse.id = id_warehouse WHERE id_warehouse = :id AND id_owner = :id_owner',
             param = [req.params.id, req.uid];
 
-        oracleConnection.execute(query, param,
-            (result) => res.status(200).json(classParser(result.rows, classes.Order)),
-            (err) => res.status(404).json({
+        oracleConnection.execute(query, param)
+            .then((result) => res.status(200).json(classParser(result.rows, classes.Order)))
+            .catch((err) => res.status(404).json({
                 message: err.message,
                 details: err
-            })
-        );
+            }));
     })
     .post((req, res) => {
         let query = 'INSERT INTO SW_Order VALUES (:id_product, :id_warehouse, :amount, CURRENT_TIMESTAMP)',
             param = [req.body.id_product, req.params.id, req.body.amount];
 
-            oracleConnection.execute(query, param,
-                (result) => res.sendStatus(201),
-                (err) => res.status(404).json({
-                    message: err.message,
-                    details: err
-                })
-            );
+        oracleConnection.execute(query, param)
+            .then((result) => res.sendStatus(201))
+            .catch((err) => res.status(404).json({
+                message: err.message,
+                details: err
+            }));
     });
 
 module.exports = router;

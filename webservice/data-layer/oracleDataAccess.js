@@ -8,25 +8,27 @@ const DB_STRING = process.env.DB_STRING || '212.152.179.117/ora11g',
     };
 
 module.exports = { //TODO: promisify everything
-    execute: (query, param, onSuccess, onError) => {
-        oracledb.getConnection({
-            user: DB_USER,
-            password: DB_PASS,
-            connectString: DB_STRING
-        }, (err, connection) => {
-            try {
-                if (err)
-                    closeAfter(connection, onError, [err]);
-                else
-                    connection.execute(query, param, options, (err, result) => {
-                        if (err)
-                            closeAfter(connection, onError, [err]);
-                        else
-                            closeAfter(connection, onSuccess, [result]);
-                    });
-            } catch (ex) {
-                closeAfter(connection, onError(), [ex]);
-            }
+    execute: (query, param) => {
+        return new Promise((resolve, reject) => {
+            oracledb.getConnection({
+                user: DB_USER,
+                password: DB_PASS,
+                connectString: DB_STRING
+            }, (err, connection) => {
+                try {
+                    if (err)
+                        closeAfter(connection, reject, [err]);
+                    else
+                        connection.execute(query, param, options, (err, result) => {
+                            if (err)
+                                closeAfter(connection, reject, [err]);
+                            else
+                                closeAfter(connection, resolve, [result]);
+                        });
+                } catch (ex) {
+                    closeAfter(connection, reject, [ex]);
+                }
+            });
         });
     }
 };

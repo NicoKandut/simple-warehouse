@@ -15,8 +15,8 @@ router.post('/login', (req, res) => {
     let query = 'SELECT * FROM SW_Owner WHERE name = :name AND password = :password',
         param = [req.body.name, req.body.password];
 
-    oracleConnection.execute(query, param,
-        (result) => {
+    oracleConnection.execute(query, param)
+        .then((result) => {
             let user = classParser(result.rows, classes.Owner)[0];
             if (user)
                 res.status(200).json({
@@ -24,8 +24,8 @@ router.post('/login', (req, res) => {
                 });
             else
                 error.respondWith(res, 403.1);
-        },
-        (err) => error.respondWith(res, 403.1));
+        })
+        .catch((err) => error.respondWith(res, 403.1));
 });
 
 //TODO: error code when not logged in
@@ -40,9 +40,9 @@ router.post('/register', (req, res) => {
     let query = 'INSERT INTO SW_Owner VALUES (seq_owner.NEXTVAL, :name, :password)',
         param = [req.body.name, req.body.password];
 
-    oracleConnection.execute(query, param,
-        (result) => res.sendStatus(201),
-        (err) => res.status(500).json({
+    oracleConnection.execute(query, param)
+        .then((result) => res.sendStatus(201))
+        .catch((err) => res.status(500).json({
             message: err.message,
             details: err
         }));
@@ -53,14 +53,14 @@ router.delete('/delete', (req, res) => {
     let query = 'DELETE FROM SW_Owner WHERE id = :id',
         param = [token.get(req.headers.token)];
 
-    oracleConnection.execute(query, param,
-        (result) => {
+    oracleConnection.execute(query, param)
+        .then((result) => {
             if (result && result.rowsAffected === 1)
                 res.sendStatus(200);
             else
                 res.sendStatus(404);
-        },
-        (err) => res.status(500).json({
+        })
+        .catch((err) => res.status(500).json({
             message: err.message,
             details: err
         }));
