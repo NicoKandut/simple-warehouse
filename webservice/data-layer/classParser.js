@@ -1,3 +1,1 @@
-module.exports = (data, targetClass) => {
-    return data.map(e => new targetClass(...e));
-};
+module.exports = (data, targetClass) => data.map(e => new targetClass(...e));

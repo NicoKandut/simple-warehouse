@@ -4,7 +4,7 @@ const express = require('express'),
     host = process.env.HOST;
 
 // add routes
-router.get('/', function (req, res) {
+router.get('/', (req, res) => {
     res.json({
         title: 'The Werhaus API',
         documentation: 'https://drive.google.com/open?id=1Q7M9immTpeOPTIU5YpzBSn9f_k-VgX0Ii9DalNl0xmg',

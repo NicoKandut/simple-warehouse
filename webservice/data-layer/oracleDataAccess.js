@@ -1,6 +1,5 @@
-const oracledb = require('oracledb');
-
-const DB_STRING = process.env.DB_STRING || '212.152.179.117/ora11g',
+const oracledb = require('oracledb'),
+    DB_STRING = process.env.DB_STRING || '212.152.179.117/ora11g',
     DB_USER = process.env.DB_USER || 'd5a07',
     DB_PASS = process.env.DB_PASS || 'd5a',
     options = {
@@ -36,7 +35,7 @@ module.exports = {
 function closeAfter(connection, callback, params) {
     callback(...params);
     if (connection)
-        connection.close((err) => {
+        connection.close(err => {
             if (err)
                 console.error(err.message);
         });

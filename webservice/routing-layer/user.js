@@ -13,34 +13,31 @@ router.use(tokenAccess);
 router.route('/')
     .get((req, res) => {
         let query = 'SELECT * from SW_Owner WHERE id = :id',
+            warehouseQuery = 'SELECT * from SW_Warehouse WHERE id_owner = :id',
             param = [req.uid],
             owner;
 
         oracleConnection.execute(query, param)
-            .then((result) => {
+            .then(result => {
                 owner = classParser(result.rows, classes.Owner)[0];
-
-                let query = 'SELECT * from SW_Warehouse WHERE id_owner = :id',
-                    param = [req.uid];
-
-                return oracleConnection.execute(query, param);
+                return oracleConnection.execute(warehouseQuery, param);
             })
-            .then((result) => {
+            .then(result => {
                 owner.warehouses = classParser(result.rows, classes.Warehouse);
                 res.status(200).json(owner);
             })
-            .catch((err) => res.status(404).json({
+            .catch(err => res.status(404).json({
                 message: err.message,
                 details: err
             }));
     })
     .put((req, res) => {
-        let query = 'UPDATE from SW_Owner SET name = :name, password = :password WHERE id = :id',
+        let query = 'UPDATE SW_Owner SET name = :name, password = :password WHERE id = :id',
             param = [req.body.name, req.body.password, req.uid];
 
         oracleConnection.execute(query, param)
-            .then((result) => res.sendStatus(200))
-            .catch((err) => res.status(404).json({
+            .then(result => res.sendStatus(200))
+            .catch(err => res.status(404).json({
                 message: err.message,
                 details: err
             }));
@@ -52,8 +49,8 @@ router.route('/warehouses')
             param = [req.uid];
 
         oracleConnection.execute(query, param)
-            .then((result) => res.status(200).json(classParser(result.rows, classes.Warehouse)))
-            .catch((err) => res.status(404).json({
+            .then(result => res.status(200).json(classParser(result.rows, classes.Warehouse)))
+            .catch(err => res.status(404).json({
                 message: err.message,
                 details: err
             }));
@@ -63,8 +60,8 @@ router.route('/warehouses')
             param = [req.body.name, req.body.description, req.body.capacity, req.uid];
 
         oracleConnection.execute(query, param)
-            .then((result) => res.sendStatus(201))
-            .catch((err) => res.status(500).json({
+            .then(result => res.sendStatus(201))
+            .catch(err => res.status(500).json({
                 message: err.message,
                 details: err
             }));
@@ -78,8 +75,8 @@ router.route('/warehouses/:id')
             param = [req.params.id, req.uid],
             warehouse;
 
-        oracleConnection.execute(query, param)
-            .then((result) => {
+        oracleConnection.execute(query, param) //TODO: single db call
+            .then(result => {
                 warehouse = classParser(result.rows, classes.Warehouse)[0];
 
                 if (!warehouse)
@@ -88,26 +85,26 @@ router.route('/warehouses/:id')
                     return oracleConnection.execute(productQuery, [param[0]]);
 
             })
-            .then((result) => {
+            .then(result => {
                 warehouse.products = classParser(result.rows, classes.Product);
                 return oracleConnection.execute(orderQuery, [param[0]]);
             })
-            .then((result) => {
+            .then(result => {
                 warehouse.orders = classParser(result.rows, classes.Product);
                 res.status(200).json(warehouse);
             })
-            .catch((err) => res.status(404).json({
+            .catch(err => res.status(404).json({
                 message: err.message,
                 details: err
             }));
     })
     .delete((req, res) => {
         let query = 'DELETE FROM SW_Warehouse WHERE id = :id AND id_owner = :id_owner',
-            param = [req.param.id, req.uid];
+            param = [req.params.id, req.uid];
 
         oracleConnection.execute(query, param)
-            .then((result) => res.sendStatus(200))
-            .catch((err) => res.status(500).json({
+            .then(result => res.sendStatus(200))
+            .catch(err => res.status(500).json({
                 message: err.message,
                 details: err
             }));
@@ -119,8 +116,8 @@ router.route('/warehouses/:id/products')
             param = [req.params.id, req.uid];
 
         oracleConnection.execute(query, param)
-            .then((result) => res.status(200).json(classParser(result.rows, classes.Product)))
-            .catch((err) => res.status(404).json({
+            .then(result => res.status(200).json(classParser(result.rows, classes.Product)))
+            .catch(err => res.status(404).json({
                 message: err.message,
                 details: err
             }));
@@ -132,8 +129,8 @@ router.route('/warehouses/:id/orders')
             param = [req.params.id, req.uid];
 
         oracleConnection.execute(query, param)
-            .then((result) => res.status(200).json(classParser(result.rows, classes.Order)))
-            .catch((err) => res.status(404).json({
+            .then(result => res.status(200).json(classParser(result.rows, classes.Order)))
+            .catch(err => res.status(404).json({
                 message: err.message,
                 details: err
             }));
@@ -143,8 +140,8 @@ router.route('/warehouses/:id/orders')
             param = [req.body.id_product, req.params.id, req.body.amount];
 
         oracleConnection.execute(query, param)
-            .then((result) => res.sendStatus(201))
-            .catch((err) => res.status(404).json({
+            .then(result => res.sendStatus(201))
+            .catch(err => res.status(404).json({
                 message: err.message,
                 details: err
             }));

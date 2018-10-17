@@ -1,5 +1,6 @@
-const crypto = require('crypto');
-
+const crypto = require('crypto'),
+    access = {};
+    
 module.exports = {
     access(req, res, next) {
         let token = req.headers.token;
@@ -36,7 +37,3 @@ module.exports = {
         }
     }
 };
-
-let salt = "17seventeen";
-
-const access = {};

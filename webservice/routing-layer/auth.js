@@ -16,7 +16,7 @@ router.post('/login', (req, res) => {
         param = [req.body.name, req.body.password];
 
     oracleConnection.execute(query, param)
-        .then((result) => {
+        .then(result => {
             let user = classParser(result.rows, classes.Owner)[0];
             if (user)
                 res.status(200).json({
@@ -25,7 +25,7 @@ router.post('/login', (req, res) => {
             else
                 error.respondWith(res, 403.1);
         })
-        .catch((err) => error.respondWith(res, 403.1));
+        .catch(err => error.respondWith(res, 403.1));
 });
 
 router.get('/logout', (req, res) => {
@@ -40,8 +40,8 @@ router.post('/register', (req, res) => {
         param = [req.body.name, req.body.password];
 
     oracleConnection.execute(query, param)
-        .then((result) => res.sendStatus(201))
-        .catch((err) => res.status(500).json({
+        .then(result => res.sendStatus(201))
+        .catch(err => res.status(500).json({
             message: err.message,
             details: err
         }));
@@ -52,13 +52,13 @@ router.delete('/delete', (req, res) => {
         param = [token.get(req.headers.token)];
 
     oracleConnection.execute(query, param)
-        .then((result) => {
+        .then(result => {
             if (result && result.rowsAffected === 1)
                 res.sendStatus(200);
             else
                 res.sendStatus(404);
         })
-        .catch((err) => res.status(500).json({
+        .catch(err => res.status(500).json({
             message: err.message,
             details: err
         }));

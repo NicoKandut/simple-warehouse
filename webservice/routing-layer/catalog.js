@@ -3,8 +3,8 @@ const express = require('express'),
     oracleConnection = require('../data-layer/oracleDataAccess'),
     classParser = require('../data-layer/classParser'),
     classes = require('../data-layer/classes'),
-    router = express.Router()
-host = process.env.HOST;
+    router = express.Router(),
+    host = process.env.HOST;
 
 // add routes
 router.get('/', (req, res) => res.json({
@@ -13,11 +13,9 @@ router.get('/', (req, res) => res.json({
 }));
 
 router.get('/products', (req, res) => {
-    let query = 'SELECT * from SW_Product';
-
-    oracleConnection.execute(query)
-        .then((result) => res.json(classParser(result.rows, classes.ProductBase)))
-        .catch((err) => res.status(404).json({
+    oracleConnection.execute('SELECT * from SW_Product')
+        .then(result => res.json(classParser(result.rows, classes.ProductBase)))
+        .catch(err => res.status(404).json({
             message: err.message,
             details: err
         }));
@@ -25,8 +23,8 @@ router.get('/products', (req, res) => {
 
 router.get('/manufacturers', (req, res) => {
     oracleConnection.execute('SELECT * from SW_Manufacturer')
-        .then((result) => res.json(classParser(result.rows, classes.Manufacturer)))
-        .catch((err) => res.status(404).json({
+        .then(result => res.json(classParser(result.rows, classes.Manufacturer)))
+        .catch(err => res.status(404).json({
             message: err.message,
             details: err
         }));
@@ -39,20 +37,20 @@ router.get('/manufacturers/:id', (req, res) => {
         manufacturer;
 
     oracleConnection.execute(query, param)
-        .then((result) => {
+        .then(result => {
             manufacturer = classParser(result.rows, classes.Manufacturer)[0];
 
             if (!manufacturer)
                 res.sendStatus(404);
             else
                 return oracleConnection.execute(innerQuery, param);
-                   
+
         })
-        .then((result) => {
+        .then(result => {
             manufacturer.products = classParser(result.rows, classes.ProductBase);
             res.json(manufacturer);
         })
-        .catch((err) => res.status(404).json({
+        .catch(err => res.status(404).json({
             message: err.message,
             details: err
         }));
