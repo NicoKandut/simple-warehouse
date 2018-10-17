@@ -16,8 +16,9 @@
         android:ems="10"
         android:hint="@string/hint_username"
         android:inputType="textPersonName"
+        android:text="Angie"
         android:textColor="@color/black"
-        android:textColorHighlight="@color/lightgrey" />
+        android:textColorHighlight="@color/lightgrey"/>
 
     <EditText
         android:id="@+id/editText_password"
@@ -25,7 +26,8 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/hint_password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:text="angie1234" />
 
 
     <Button
