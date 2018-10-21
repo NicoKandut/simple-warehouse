@@ -21,7 +21,7 @@ import retrofit2.Response;
 public class RegisterActivity extends AppCompatActivity {
 
     //UI reference
-    private Button btn_Register;
+    private Button btn_Register, btn_Back;
     private EditText editText_Username, editText_Password, editText_ConfirmPwd;
 
     @Override
@@ -35,6 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void initUIReferences() {
         btn_Register = findViewById(R.id.btn_register);
+        btn_Back = findViewById(R.id.btn_back);
 
         editText_Username = findViewById(R.id.editText_username);
         editText_Password = findViewById(R.id.editText_password);
@@ -47,12 +48,11 @@ public class RegisterActivity extends AppCompatActivity {
             try {
                 Credentials c = new Credentials(registerActivity.editText_Username.getText().toString(), registerActivity.editText_Password.getText().toString());
                 checkInput(c.getName(), c.getPassword(), registerActivity.editText_ConfirmPwd.getText().toString());
-
                 //region register Service
                 ApiUtils.getService().registerUser(c).enqueue(new Callback<Void>() { //asynchronous request
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
+                        if (response.isSuccessful()) { // response is successful
                             Toast.makeText(registerActivity, "You are registered please log in.", Toast.LENGTH_LONG).show();
                             registerActivity.startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                         } else {  // error response, no access to resource
@@ -64,18 +64,18 @@ public class RegisterActivity extends AppCompatActivity {
                             registerActivity.setTextFieldsToNull();
                         }
                     }
-
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {  //something went completely wrong (eg. no internet connection)
                         Toast.makeText(registerActivity, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
                 //endregion
-
             }catch(Exception ex){
                 Toast.makeText(registerActivity, "Error: " + ex.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+
+        btn_Back.setOnClickListener(view-> this.startActivity(new Intent(this, LoginActivity.class)));
 
     }
 

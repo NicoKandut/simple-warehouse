@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="50dp"
+    android:layout_marginRight="50dp"
+    android:background="@drawable/ic_background"
     android:orientation="vertical"
     tools:context=".activity.account.LoginActivity">
 
@@ -13,6 +14,13 @@
         android:id="@+id/editText_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="162dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/grey"
         android:ems="10"
         android:hint="@string/hint_username"
         android:inputType="textPersonName"
@@ -24,24 +32,43 @@
         android:id="@+id/editText_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_username"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="20dp"
+        android:background="@color/grey"
         android:ems="10"
         android:hint="@string/hint_password"
         android:inputType="textPassword"
-        android:text="angie1234" />
-
+        android:text="angie1234"
+        android:textColor="@color/black"
+        android:textColorHighlight="@color/lightgrey"/>
 
     <Button
         android:id="@+id/btn_login"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/editText_password"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="false"
+        android:layout_marginEnd="150dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/btn_round"
         android:text="@string/button_Login" />
 
     <Button
         android:id="@+id/btn_register"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_Register"
-        tools:layout_editor_absoluteX="95dp"
-        tools:layout_editor_absoluteY="384dp" />
+        android:layout_below="@+id/btn_login"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="false"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="150dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/btn_round"
+        android:text="@string/button_Register" />
 
-</LinearLayout>
+
+</RelativeLayout>

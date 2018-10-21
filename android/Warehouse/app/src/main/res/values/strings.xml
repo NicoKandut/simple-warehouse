@@ -8,5 +8,5 @@
 
     <string name="button_Login">Login</string>
     <string name="button_Register">Register</string>
-
+    <string name="button_Back">Back</string>
 </resources>

@@ -3,6 +3,7 @@ package com.okb.warehouse.activity.account;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Display;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -49,13 +50,15 @@ public class LoginActivity extends AppCompatActivity {
         btn_Login.setOnClickListener(view ->{
             Credentials c = new Credentials(self.editText_Username.getText().toString(), self.editText_Password.getText().toString());
             checkInput(c.getName(), c.getPassword());
-
             //region Login Service
             ApiUtils.getService().loginUser(c).enqueue(new Callback<JsonObject>() { //asynchronous request
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     if (response.isSuccessful()){
-                        getSharedPreferences("Userdata", MODE_PRIVATE).edit().putString("actualToken", response.body().get("token").getAsString()); //store actual Token in sharedPreferences
+                        getSharedPreferences("Userdata", MODE_PRIVATE).edit().putString("actualToken", response.body().get("token").getAsString()).commit(); //store actual Token in sharedPreferences
+                        getSharedPreferences("Userdata", MODE_PRIVATE).edit().putString("username", c.getName()).commit();
+                        getSharedPreferences("Userdata", MODE_PRIVATE).edit().putString("password", c.getPassword()).commit();
+
                         self.startActivity(new Intent(getApplicationContext(), UserWarehousesActivity.class));
                     }else{  // error response, no access to resource
                         if (response.code() == 403){
@@ -66,10 +69,9 @@ public class LoginActivity extends AppCompatActivity {
                         self.setTextFieldsToNull();
                     }
                 }
-
                 @Override
                 public void onFailure(Call<JsonObject> call, Throwable t) {  //something went completely wrong (eg. no internet connection)
-                    Toast.makeText(self, "Error: " + t.getMessage(), Toast.LENGTH_LONG);
+                    Toast.makeText(self, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
             //endregion
@@ -78,13 +80,13 @@ public class LoginActivity extends AppCompatActivity {
         btn_Register.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
     }
 
-    private void checkInput(java.lang.String username, java.lang.String pwd){
+    private void checkInput(java.lang.String username, java.lang.String pwd) throws InputMismatchException{
         if (username == null || username.equals("")){
-            new InputMismatchException("Enter a username");
+            throw new InputMismatchException("Enter a username");
         }
 
         if (pwd == null || pwd.equals("")){
-            new InputMismatchException("Enter a password");
+            throw new InputMismatchException("Enter a password");
         }
     }
 
