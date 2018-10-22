@@ -6,6 +6,7 @@ namespace WerhausCore
 {
     public class Warehouse
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int Location { get; set; }
@@ -25,7 +26,7 @@ namespace WerhausCore
         //    }
         //} 
 
-                public Warehouse(string name, string description, int location, int capacity, Owner owner)
+        public Warehouse(string name, string description, int location, int capacity, Owner owner)
         {
             Name = name;
             Description = description;
@@ -36,27 +37,15 @@ namespace WerhausCore
             Orders = new List<Order>();
             GetCurrentCapacity();
         }
-        public void AddProduct(Product product)
-        {
-            Products.Add(product);
-        }
         public int GetCurrentCapacity()
         {
             int sum = 0;
             foreach (Product p in Products)
             {
-                sum += p.space * p.Amount;
+                sum += p.Space * p.Amount;
             }
             //currentCapacity = sum;
             return sum;
-        }
-        public void AddOrder(Order order)
-        {
-            Orders.Add(order);
-        }
-        public void ChangeDescription(string description)
-        {
-            Description = description;
         }
         public override string ToString()
         {

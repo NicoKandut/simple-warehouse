@@ -39,7 +39,6 @@ namespace Lagerverwaltung
                     main.ucLogin.txtBoxName.Text = txtBoxName.Text;
                     main.ucLogin.txtBoxPwd.Password = txtBoxPwd.Password;
                     main.ucLogin.btnLogin_Click(sender, e);
-                    main.ucLogin.Visibility = Visibility.Visible;
                     main.ucRegister.Visibility = Visibility.Collapsed;
                 }
             }

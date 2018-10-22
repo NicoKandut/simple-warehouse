@@ -78,17 +78,31 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="addOrder.xaml.cs">
+      <DependentUpon>addOrder.xaml</DependentUpon>
+    </Compile>
     <Compile Include="createWarehouse.xaml.cs">
       <DependentUpon>createWarehouse.xaml</DependentUpon>
     </Compile>
     <Compile Include="Database.cs" />
+    <Compile Include="editWarehouse.xaml.cs">
+      <DependentUpon>editWarehouse.xaml</DependentUpon>
+    </Compile>
     <Compile Include="manageWarehouses.xaml.cs">
       <DependentUpon>manageWarehouses.xaml</DependentUpon>
     </Compile>
     <Compile Include="register.xaml.cs">
       <DependentUpon>register.xaml</DependentUpon>
     </Compile>
+    <Page Include="addOrder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="createWarehouse.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="editWarehouse.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,20 +162,24 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="werhaus_icon.ico">
+    <Resource Include="images\werhaus_icon.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="My_Post.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="werhaus_background.jpg">
+    <Resource Include="images\My_Post.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="profile_picture.png" />
+    <Resource Include="images\werhaus_background.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\profile_picture.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WerhausCore\WerhausCore.csproj">
@@ -170,9 +188,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="werhaus_icon_transparent.ico">
+    <Resource Include="images\werhaus_icon_transparent.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Back_Arrow.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

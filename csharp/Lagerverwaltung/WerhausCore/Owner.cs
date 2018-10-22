@@ -21,13 +21,5 @@ namespace WerhausCore
             else
                 Warehouses = warehouses;
         }
-        public void AddWarehouse(Warehouse warehouse)
-        {
-            Warehouses.Add(warehouse);
-        }
-        public void RemoveWarehouse(Warehouse warehouse)
-        {
-            Warehouses.Remove(warehouse);
-        }
     }
 }

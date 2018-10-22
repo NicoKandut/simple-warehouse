@@ -62,7 +62,7 @@ namespace Lagerverwaltung
         public static async Task<Warehouse> getWarehouseAsync(int warehouseId)
         {
             Warehouse warehouse = null;
-            string path = " https://simple-warehouse-api.herokuapp.com/warehouses/" + warehouseId;
+            string path = " https://simple-warehouse-api.herokuapp.com/user/warehouses/" + warehouseId;
             HttpResponseMessage response = await Client.GetAsync(path);
             if (response.IsSuccessStatusCode)
             {
@@ -120,7 +120,7 @@ namespace Lagerverwaltung
         {
             try
             {
-                HttpResponseMessage response = await Client.DeleteAsync(Path + "/auth/logout");
+                HttpResponseMessage response = await Client.DeleteAsync(Path + "/auth/delete");
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                     return true;
                 return false;
@@ -147,9 +147,14 @@ namespace Lagerverwaltung
                 throw new Exception(ex.Message);
             }
         }
-        public static async Task<bool> deleteWarehouseAsnyc()
+        public static async Task<bool> deleteWarehouseAsnyc(int warehouseId)
         {
-            throw new NotImplementedException();
+            HttpResponseMessage response = await Client.DeleteAsync(Path + "/user/warehouses/" + warehouseId);
+            if(response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                return true;
+            }
+            return false;
         }
         public static async Task<bool> updateOwnerAsync(string newName, string newPassword)
         {
@@ -168,14 +173,69 @@ namespace Lagerverwaltung
                 throw new Exception(ex.Message);
             }
         }
-        public static async Task<List<Warehouse>> getWarehousesOfOwnerAsync(int ownerId)
+        public static async Task<List<ProductBase>> getAllProductsOfCatalogAsync()
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<ProductBase> products = new List<ProductBase>();
+                HttpResponseMessage response = await Client.GetAsync(Path + "/catalog/products");
+                if(response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    products = JsonConvert.DeserializeObject<List<ProductBase>>(response.Content.ReadAsStringAsync().Result);
+                }
+                return products;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
-        public static async Task<List<Product>> getProductsOfWArehouseAsync(int warehouseId)
+        public static async Task<bool> addOrderAsync(Order _order)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string content = JsonConvert.SerializeObject(new OrderHelp(_order.Amounts.ElementAt(0).Key.Id, _order.Amounts[_order.Amounts.ElementAt(0).Key]));
+                HttpResponseMessage response = await Client.PostAsync(Path + "/user/warehouses/" + _order.IdWarehouse + "/orders", new StringContent(content, Encoding.UTF8, "application/json"));
+                if (response.StatusCode == System.Net.HttpStatusCode.Created)
+                    return true;
+                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                    return false;
+                else
+                    throw new Exception("Error while trying to add order!");
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
+        public static async Task<List<Product>> getProductsOfWarehouseAsync(int warehouseId)
+        {
+            try
+            {
+                List<Product> products = new List<Product>();
+                HttpResponseMessage response = await Client.GetAsync(Path + "/user/warehouses/" + warehouseId + "/products");
+                if(response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    products = JsonConvert.DeserializeObject<List<Product>>(response.Content.ReadAsStringAsync().Result);
+                }
+                return products;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+    }
+}
+class OrderHelp
+{
+    public int id_product { get; set; }
+    public int amount { get; set; }
+
+    public OrderHelp(int id_product, int amount)
+    {
+        this.id_product = id_product;
+        this.amount = amount;
     }
 }
 class OwnerHelp

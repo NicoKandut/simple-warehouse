@@ -30,8 +30,8 @@
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
-        <Button x:Name="btnLogout" Content="Logout" Margin="0,10,10,0" HorizontalAlignment="Right" Width="81" Height="29" VerticalAlignment="Top" Click="btnLogout_Click"/>
-        <Button x:Name="btnAddWarehouse" Content="Add warehouse" Height="29" Margin="0,74,6,0" VerticalAlignment="Top" Click="btnAddWarehouse_Click" HorizontalAlignment="Right" Width="308"/>
-        <Button x:Name="btnDeleteWarehouse" Content="Delete warehouse" Height="29" Margin="0,108,6,0" VerticalAlignment="Top" Click="btnDeleteWarehouse_Click" HorizontalAlignment="Right" Width="308"/>
+        <Button x:Name="btnAddWarehouse" Content="Add warehouse" Height="29" Margin="0,25,15,0" VerticalAlignment="Top" Click="btnAddWarehouse_Click" HorizontalAlignment="Right" Width="308"/>
+        <Button x:Name="btnDeleteWarehouse" Content="Delete warehouse" Height="29" Margin="0,67,15,0" VerticalAlignment="Top" Click="btnDeleteWarehouse_Click" HorizontalAlignment="Right" Width="308"/>
+        <Button x:Name="btnEditWarehouse" Content="Edit warehouse" Height="29" Margin="0,110,15,0" VerticalAlignment="Top" Click="btnEditWarehouse_Click" HorizontalAlignment="Right" Width="308"/>
     </Grid>
 </UserControl>

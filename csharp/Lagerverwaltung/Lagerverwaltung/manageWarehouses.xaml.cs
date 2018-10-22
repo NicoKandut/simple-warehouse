@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WerhausCore;
 
 namespace Lagerverwaltung
 {
@@ -27,33 +28,43 @@ namespace Lagerverwaltung
             InitializeComponent();
         }
 
-        
+
 
         private void btnAddWarehouse_Click(object sender, RoutedEventArgs e)
         {
             main.ucCreateWarehouse.Visibility = Visibility.Visible;
         }
 
-        private void btnDeleteWarehouse_Click(object sender, RoutedEventArgs e)
+        private async void btnDeleteWarehouse_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("NOT IMPLEMENTED");
+            if (listBoxWarehouses.SelectedItem != null)
+            {
+                Warehouse warehouse = listBoxWarehouses.SelectedItem as Warehouse;
+                if ( await Database.deleteWarehouseAsnyc(warehouse.Id))
+                {
+                    main.currentOwner.Warehouses.Remove(warehouse);
+                    listBoxWarehouses.Items.Refresh();
+                }
+            }
         }
 
-        public void btnLogout_Click(object sender, RoutedEventArgs e)
+        private async void btnEditWarehouse_Click(object sender, RoutedEventArgs e)
         {
-
-            if (MessageBoxResult.Yes == MessageBox.Show("Are you sure you want to logout?", "Logout?", MessageBoxButton.YesNo, MessageBoxImage.Question))
+            try
             {
-                bool result = Database.logoutAsync().Result;
-                if (result)
+                if (listBoxWarehouses.SelectedItem != null)
                 {
-                    main.ucLogin.Visibility = Visibility.Visible;
+                    Warehouse warehouse = (Warehouse)listBoxWarehouses.SelectedItem;
+                    main.ucEditWarehouse.Warehouse = await Database.getWarehouseAsync(warehouse.Id);
+                    main.ucEditWarehouse.Visibility = Visibility.Visible;
                     main.ucManageWarehouses.Visibility = Visibility.Collapsed;
-                    main.ucCreateWarehouse.Visibility = Visibility.Collapsed;
-                    main.ucRegister.Visibility = Visibility.Collapsed;
-                    main.loggedIn = false;
-                    main.Title = "Werhaus";
                 }
+                else
+                    throw new Exception("No warehouse selected!");
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

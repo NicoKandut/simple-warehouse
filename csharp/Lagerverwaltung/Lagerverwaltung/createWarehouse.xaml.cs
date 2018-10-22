@@ -32,17 +32,22 @@ namespace Lagerverwaltung
         {
             try
             {
-                if (await Database.addWarehouseAsync(new Warehouse(txtBoxName.Text, new TextRange(txtBoxDescription.Document.ContentStart, txtBoxDescription.Document.ContentEnd).Text, 0, int.Parse(txtBoxCapacity.Text), main.currentOwner)))
+                if (!(String.IsNullOrWhiteSpace(txtBoxCapacity.Text) || String.IsNullOrWhiteSpace(new TextRange(txtBoxDescription.Document.ContentStart, txtBoxDescription.Document.ContentEnd).Text) || String.IsNullOrWhiteSpace(txtBoxName.Text)))
                 {
-                    main.ucManageWarehouses.Visibility = Visibility.Visible;
-                    main.ucCreateWarehouse.Visibility = Visibility.Collapsed;
-                    main.currentOwner.Warehouses = await Database.getWarehousesOfOwnerAsync();
-                    main.ucManageWarehouses.listBoxWarehouses.ItemsSource = main.currentOwner.Warehouses;
-                    main.ucManageWarehouses.listBoxWarehouses.Items.Refresh();
+                    if (await Database.addWarehouseAsync(new Warehouse(txtBoxName.Text, new TextRange(txtBoxDescription.Document.ContentStart, txtBoxDescription.Document.ContentEnd).Text, 0, int.Parse(txtBoxCapacity.Text), main.currentOwner)))
+                    {
+                        main.ucManageWarehouses.Visibility = Visibility.Visible;
+                        main.ucCreateWarehouse.Visibility = Visibility.Collapsed;
+                        main.currentOwner.Warehouses = await Database.getWarehousesOfOwnerAsync();
+                        main.ucManageWarehouses.listBoxWarehouses.ItemsSource = main.currentOwner.Warehouses;
+                        main.ucManageWarehouses.listBoxWarehouses.Items.Refresh();
+                    }
+                    else
+                        MessageBox.Show("Error while trying to add warehouse!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else
-                    MessageBox.Show("Error while trying to add warehouse!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+                    MessageBox.Show("Not all required fields filled!", "MISSING VALUES", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
             catch(Exception ex)
             {
                 MessageBox.Show("Error while trying to create warehouse!");

@@ -50,12 +50,12 @@ namespace Lagerverwaltung
                 }
                 else
                 {
-                    MessageBox.Show("Login failed");
+                    MessageBox.Show("Username or password incorrect!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Login failed!\n"+ex.Message);
+                MessageBox.Show("Login failed!\n"+ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

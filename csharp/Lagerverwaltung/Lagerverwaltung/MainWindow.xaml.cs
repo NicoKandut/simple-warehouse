@@ -31,6 +31,9 @@ namespace Lagerverwaltung
             ucRegister.Visibility = Visibility.Collapsed;
             ucManageWarehouses.Visibility = Visibility.Collapsed;
             ucCreateWarehouse.Visibility = Visibility.Collapsed;
+            ucLogin.txtBoxName.Text = "Martin";
+            ucLogin.txtBoxPwd.Password = "martin3101";
+            ucLogin.btnLogin_Click(null, null);
         }
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
@@ -44,8 +47,8 @@ namespace Lagerverwaltung
                         ucRegister.btnRegister_Click(sender, e);
                 }
                 else if (e.Key == Key.Escape)
-                    if (ucManageWarehouses.Visibility == Visibility.Visible)
-                        ucManageWarehouses.btnLogout_Click(sender, e);
+                    if (ucLogin.Visibility == Visibility.Collapsed)
+                        btnLogout_Click(sender, e);
                     else
                         Close();
             }
@@ -83,12 +86,16 @@ namespace Lagerverwaltung
         {
             try
             {
-                if (!String.IsNullOrWhiteSpace(txtBoxNewPassword.Text))
+                if (!String.IsNullOrWhiteSpace(txtBoxNewPassword.Password))
                 {
-                    if (txtBoxPassword.Text == currentOwner.Password)
+                    if (txtBoxPassword.Password == currentOwner.Password)
                     {
                         if (!String.IsNullOrWhiteSpace(txtBoxUsername.Text))
-                            await Database.updateOwnerAsync(txtBoxUsername.Text, txtBoxNewPassword.Text);
+                            if(await Database.updateOwnerAsync(txtBoxUsername.Text, txtBoxNewPassword.Password))
+                            {
+                                flyoutProfile.IsOpen = false;
+                                MessageBox.Show("Credentials changed!", "Change", MessageBoxButton.OK, MessageBoxImage.Information);
+                            }
                         else
                             MessageBox.Show("Username cannot be empty!","ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
@@ -109,6 +116,50 @@ namespace Lagerverwaltung
             catch(Exception ex)
             {
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        public void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (MessageBoxResult.Yes == MessageBox.Show("Are you sure you want to logout?", "Logout?", MessageBoxButton.YesNo, MessageBoxImage.Question))
+            {
+                bool result = Database.logoutAsync().Result;
+                if (result)
+                {
+                    ucAddOrder.Visibility = Visibility.Collapsed;
+                    ucLogin.Visibility = Visibility.Visible;
+                    ucEditWarehouse.Visibility = Visibility.Collapsed;
+                    ucManageWarehouses.Visibility = Visibility.Collapsed;
+                    ucCreateWarehouse.Visibility = Visibility.Collapsed;
+                    ucRegister.Visibility = Visibility.Collapsed;
+                    loggedIn = false;
+                    currentOwner = null;
+                    Database.Token = null;
+                    Title = "Werhaus";
+                    flyoutProfile.IsOpen = false;
+                }
+            }
+        }
+
+        private async void btnDeleteAccount_Click(object sender, RoutedEventArgs e)
+        {
+            if(MessageBox.Show("Are you sure you want do delete your account?\nThis change is permament and cannot be reversed!", "Delete Account", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                if(await Database.deleteAccountAsync())
+                {
+                    ucLogin.Visibility = Visibility.Visible;
+                    ucManageWarehouses.Visibility = Visibility.Collapsed;
+                    ucCreateWarehouse.Visibility = Visibility.Collapsed;
+                    ucRegister.Visibility = Visibility.Collapsed;
+                    loggedIn = false;
+                    currentOwner = null;
+                    Database.Token = null;
+                    Title = "Werhaus";
+                    flyoutProfile.IsOpen = false;
+                    txtBoxNewPassword.Password = "";
+                    txtBoxPassword.Password = "";
+                    txtBoxUsername.Text = "";
+                }
             }
         }
     }
