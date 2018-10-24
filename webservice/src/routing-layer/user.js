@@ -14,6 +14,7 @@ router.route('/')
     .get((req, res) => {
         let query = 'SELECT * from SW_Owner WHERE id = :id',
             warehouseQuery = 'SELECT * from SW_Warehouse WHERE id_owner = :id',
+            productQuery = 'SELECT id, name, description, price, space, amount, id_warehouse FROM SW_Stored_In left join sw_product on id = id_product',
             param = [req.uid],
             owner;
 
@@ -24,6 +25,12 @@ router.route('/')
             })
             .then(result => {
                 owner.warehouses = classParser(result.rows, classes.Warehouse);
+                return oracleConnection.execute(productQuery);
+            })
+            .then(result => {  
+                owner.warehouses.forEach(wh => {
+                    wh.products = classParser(result.rows.filter(row => row[6] === wh.id), classes.Product);
+                });
                 res.status(200).json(owner);
             })
             .catch(err => res.status(404).json({
