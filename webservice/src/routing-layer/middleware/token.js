@@ -1,4 +1,5 @@
 const crypto = require('crypto'),
+    errorResponse = require('../misc/error'),
     access = {};
     
 module.exports = {
@@ -6,9 +7,9 @@ module.exports = {
         let token = req.headers.token;
 
         if (!token)
-            return res.sendStatus(401);
+            errorResponse(res, 401.1);
         else if (!access[token])
-            res.sendStatus(403);
+            errorResponse(res, 403.2);
         else {
             req.uid = access[token];
             next();
@@ -30,10 +31,14 @@ module.exports = {
         return token;
     },
 
-    remove(token) {
-        if (token in access) {
-            delete access[token];
-            return true;
+    remove(uid) {
+        for (let token in access) {
+            if(access[token] === uid){
+                delete access[token];
+                return true;
+            }
         }
+
+        return false;
     }
 };

@@ -7,7 +7,8 @@ const express = require('express'),
 router.get('/', (req, res) => {
     res.json({
         title: 'The Werhaus API',
-        documentation: 'https://drive.google.com/open?id=1Q7M9immTpeOPTIU5YpzBSn9f_k-VgX0Ii9DalNl0xmg',
+        version: '2.1',
+        documentation: 'https://documenter.getpostman.com/view/3279137/RzZ1qNC2',
         auth: host + '/auth',
         user: host + '/user',
         catalog: host + '/catalog'

@@ -2,7 +2,7 @@
 const express = require('express'),
     oracleConnection = require('../data-layer/oracleDataAccess'),
     token = require('./middleware/token'),
-    error = require('./misc/error'),
+    errorResponse = require('./misc/error'),
     classParser = require('../data-layer/classParser'),
     classes = require('../data-layer/classes'),
     router = express.Router();
@@ -23,44 +23,42 @@ router.post('/login', (req, res) => {
                     token: token.create(user)
                 });
             else
-                error.respondWith(res, 403.1);
+                errorResponse(res, 403.1);
         })
-        .catch(err => error.respondWith(res, 403.1));
+        .catch(err => errorResponse(res, 403.1));
 });
 
 router.get('/logout', (req, res) => {
-    if (token.remove(req.headers.token))
-        res.sendStatus(200);
+    if (token.remove(req.uid))
+        res.sendStatus(204);
     else
-        res.sendStatus(404);
+        errorResponse(res, 403.2);
 });
 
 router.post('/register', (req, res) => {
     let query = 'INSERT INTO SW_Owner VALUES (seq_owner.NEXTVAL, :name, :password)',
         param = [req.body.name, req.body.password];
 
+    if(!req.body.name && !req.body.password)
+        return errorResponse(res, 400.2);
+
     oracleConnection.execute(query, param)
         .then(result => res.sendStatus(201))
-        .catch(err => res.status(500).json({
-            message: err.message,
-            details: err
-        }));
+        .catch(err => errorResponse(res, 500, err));
 });
 
 router.delete('/delete', (req, res) => {
     let query = 'DELETE FROM SW_Owner WHERE id = :id',
-        param = [token.get(req.headers.token)];
+        param = [req.uid];
 
     oracleConnection.execute(query, param)
         .then(result => {
-            if (result && result.rowsAffected === 1)
-                res.sendStatus(200);
-            else
-                res.sendStatus(404);
+            if (result && result.rowsAffected === 1) {
+                token.remove(req.uid)
+                res.sendStatus(204);
+            } else
+                errorResponse(res, 404.2);
         })
-        .catch(err => res.status(500).json({
-            message: err.message,
-            details: err
-        }));
+        .catch(err => errorResponse(res, 500, err));
 });
 module.exports = router;
