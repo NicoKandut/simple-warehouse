@@ -26,6 +26,7 @@ namespace Lagerverwaltung
         public login()
         {
             InitializeComponent();
+            main = (MainWindow)Application.Current.MainWindow;
         }
 
         public async void btnLogin_Click(object sender, RoutedEventArgs e)
@@ -39,14 +40,13 @@ namespace Lagerverwaltung
                 {
                     main.currentOwner = await Database.getOwnerAsync();
                     main.currentOwner.Name = txtBoxName.Text;
-                    main.currentOwner.Password = txtBoxPwd.Password;
-                    main.ucLogin.Visibility = Visibility.Collapsed;
-                    main.ucManageWarehouses.Visibility = Visibility.Visible;
+                    main.currentOwner.Password = txtBoxPwd.Password;                   
                     main.loggedIn = true;
                     main.ucManageWarehouses.listBoxWarehouses.ItemsSource = main.currentOwner.Warehouses;
                     main.Title = txtBoxName.Text;
                     txtBoxName.Text = "";
                     txtBoxPwd.Password = "";
+                    main.switchToManageWarehouses();
                 }
                 else
                 {
@@ -61,8 +61,7 @@ namespace Lagerverwaltung
 
         private void btnRegister_Click(object sender, RoutedEventArgs e)
         {
-            main.ucLogin.Visibility = Visibility.Collapsed;
-            main.ucRegister.Visibility = Visibility.Visible;
+            main.switchToRegister();
         }
     }
 }

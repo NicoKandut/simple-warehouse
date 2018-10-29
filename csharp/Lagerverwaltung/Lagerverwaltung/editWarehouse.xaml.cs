@@ -48,23 +48,29 @@ namespace Lagerverwaltung
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            main.ucEditWarehouse.Visibility = Visibility.Collapsed;
-            main.ucManageWarehouses.Visibility = Visibility.Visible;
-            main.ucAddOrder.Visibility = Visibility.Collapsed;
+            main.switchToManageWarehouses();
         }
 
         private void btnBuyProduct_Click(object sender, RoutedEventArgs e)
         {
             main.ucAddOrder.purchase = true;
             main.ucAddOrder.lblTitle.Content = "Buy Product";
-            main.ucAddOrder.Visibility = Visibility.Visible;
+            main.switchToAddOrder();
         }
 
         private void btnSellProduct_Click(object sender, RoutedEventArgs e)
         {
             main.ucAddOrder.purchase = false;
             main.ucAddOrder.lblTitle.Content = "Sell Product";
-            main.ucAddOrder.Visibility = Visibility.Visible;
+            main.switchToAddOrder();
+        }
+
+        private void listBoxProducts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(main.ucAddOrder.Visibility == Visibility.Visible && listBoxProducts.SelectedItem != null)
+            {
+                main.ucAddOrder.cbProducts.SelectedItem = main.ucEditWarehouse.Warehouse.Products.Find(x => x.Name == (listBoxProducts.SelectedItem as ProductBase).Name);
+            }
         }
     }
 }

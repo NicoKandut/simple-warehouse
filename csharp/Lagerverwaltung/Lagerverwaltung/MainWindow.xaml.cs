@@ -27,14 +27,16 @@ namespace Lagerverwaltung
         public MainWindow()
         {
             InitializeComponent();
+            //////initialize database class to be ready for use/////////
             Database.init();
-            ucRegister.Visibility = Visibility.Collapsed;
-            ucManageWarehouses.Visibility = Visibility.Collapsed;
-            ucCreateWarehouse.Visibility = Visibility.Collapsed;
+            ///////login while testing ui//////
+            switchToLogin();
             ucLogin.txtBoxName.Text = "Martin";
             ucLogin.txtBoxPwd.Password = "martin3101";
             ucLogin.btnLogin_Click(null, null);
+            /////////////////////////////
         }
+        //keydown eventhandler for enhanced user experience(e.g. esc = back)
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             try
@@ -57,11 +59,13 @@ namespace Lagerverwaltung
                 MessageBox.Show("Something went wrong...", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        //check if user really wants to quit the application
         private void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (MessageBoxResult.No == MessageBox.Show("Are you sure you want to quit?", "Quit?", MessageBoxButton.YesNo, MessageBoxImage.Question))
                 e.Cancel = true;
         }
+        //event handler for settings button which triggers the flyout
         private void btnSettingsClick(object sender, RoutedEventArgs e)
         {
             if (currentOwner != null)
@@ -77,11 +81,7 @@ namespace Lagerverwaltung
                 MessageBox.Show("Login first!", "Login required", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
         }
-        ~MainWindow()
-        {
-            //TODO:logout to delete token
-        }
-
+        //event handler for saving changed user settings in flyout
         private async void btnSaveSettings_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -118,49 +118,93 @@ namespace Lagerverwaltung
                 MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        public void btnLogout_Click(object sender, RoutedEventArgs e)
+        //event handler for button logout with check
+        public async void btnLogout_Click(object sender, RoutedEventArgs e)
         {
-
             if (MessageBoxResult.Yes == MessageBox.Show("Are you sure you want to logout?", "Logout?", MessageBoxButton.YesNo, MessageBoxImage.Question))
             {
-                bool result = Database.logoutAsync().Result;
+                bool result = await Database.logoutAsync();
                 if (result)
                 {
-                    ucAddOrder.Visibility = Visibility.Collapsed;
-                    ucLogin.Visibility = Visibility.Visible;
-                    ucEditWarehouse.Visibility = Visibility.Collapsed;
-                    ucManageWarehouses.Visibility = Visibility.Collapsed;
-                    ucCreateWarehouse.Visibility = Visibility.Collapsed;
-                    ucRegister.Visibility = Visibility.Collapsed;
-                    loggedIn = false;
-                    currentOwner = null;
-                    Database.Token = null;
-                    Title = "Werhaus";
-                    flyoutProfile.IsOpen = false;
+                    switchToLogin();
                 }
             }
         }
-
+        //event handler for button delete account with check
         private async void btnDeleteAccount_Click(object sender, RoutedEventArgs e)
         {
             if(MessageBox.Show("Are you sure you want do delete your account?\nThis change is permament and cannot be reversed!", "Delete Account", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 if(await Database.deleteAccountAsync())
                 {
-                    ucLogin.Visibility = Visibility.Visible;
-                    ucManageWarehouses.Visibility = Visibility.Collapsed;
-                    ucCreateWarehouse.Visibility = Visibility.Collapsed;
-                    ucRegister.Visibility = Visibility.Collapsed;
-                    loggedIn = false;
-                    currentOwner = null;
-                    Database.Token = null;
-                    Title = "Werhaus";
-                    flyoutProfile.IsOpen = false;
-                    txtBoxNewPassword.Password = "";
-                    txtBoxPassword.Password = "";
-                    txtBoxUsername.Text = "";
+                    switchToLogin();
                 }
             }
         }
+        #region visibility handling methods
+        public void switchToEditWarehouse()
+        {
+            switchAllOff();
+            ucEditWarehouse.Visibility = Visibility.Visible;
+        }
+        public void switchToCreateWarehouse()
+        {
+            switchAllOff();
+            ucCreateWarehouse.Visibility = Visibility.Visible;
+            ucManageWarehouses.Visibility = Visibility.Visible;
+        }
+        public void switchToAddOrder()
+        {
+            switchAllOff();
+            ucEditWarehouse.Visibility = Visibility.Visible;
+            ucAddOrder.Visibility = Visibility.Visible;
+        }
+        public void switchToLogin()
+        {
+            switchAllOff();
+            ucLogin.Visibility = Visibility.Visible;
+            txtBoxNewPassword.Password = "";
+            txtBoxPassword.Password = "";
+            txtBoxUsername.Text = "";
+            Title = "Werhaus";
+            flyoutProfile.IsOpen = false;
+            loggedIn = false;
+            currentOwner = null;
+            Database.Token = null;
+        }
+        public void switchToManageWarehouses()
+        {
+            switchAllOff();
+            ucManageWarehouses.Visibility = Visibility.Visible;
+        }
+        public void switchToRegister()
+        {
+            switchAllOff();
+            ucRegister.Visibility = Visibility.Visible;
+        }
+        public void switchAllOff()
+        {
+            ucRegister.Visibility = Visibility.Collapsed;
+            ucLogin.Visibility = Visibility.Collapsed;
+            ucEditWarehouse.Visibility = Visibility.Collapsed;
+            ucManageWarehouses.Visibility = Visibility.Collapsed;
+            ucCreateWarehouse.Visibility = Visibility.Collapsed;
+            ucAddOrder.Visibility = Visibility.Collapsed;
+        }
+        public void switchAllOn()
+        {
+            ucRegister.Visibility = Visibility.Visible;
+            ucLogin.Visibility = Visibility.Visible;
+            ucEditWarehouse.Visibility = Visibility.Visible;
+            ucManageWarehouses.Visibility = Visibility.Visible;
+            ucCreateWarehouse.Visibility = Visibility.Visible;
+            ucAddOrder.Visibility = Visibility.Visible;
+        }
+#endregion
+        ~MainWindow()
+        {
+            Database.logoutAsync();
+        }
+
     }
 }

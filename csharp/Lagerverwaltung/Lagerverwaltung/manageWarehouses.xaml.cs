@@ -27,12 +27,9 @@ namespace Lagerverwaltung
         {
             InitializeComponent();
         }
-
-
-
         private void btnAddWarehouse_Click(object sender, RoutedEventArgs e)
         {
-            main.ucCreateWarehouse.Visibility = Visibility.Visible;
+            main.switchToCreateWarehouse();
         }
 
         private async void btnDeleteWarehouse_Click(object sender, RoutedEventArgs e)
@@ -40,12 +37,14 @@ namespace Lagerverwaltung
             if (listBoxWarehouses.SelectedItem != null)
             {
                 Warehouse warehouse = listBoxWarehouses.SelectedItem as Warehouse;
-                if ( await Database.deleteWarehouseAsnyc(warehouse.Id))
+                if (await Database.deleteWarehouseAsnyc(warehouse.Id))
                 {
                     main.currentOwner.Warehouses.Remove(warehouse);
                     listBoxWarehouses.Items.Refresh();
                 }
             }
+            else
+                MessageBox.Show("No warehouse selected!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private async void btnEditWarehouse_Click(object sender, RoutedEventArgs e)
@@ -56,8 +55,7 @@ namespace Lagerverwaltung
                 {
                     Warehouse warehouse = (Warehouse)listBoxWarehouses.SelectedItem;
                     main.ucEditWarehouse.Warehouse = await Database.getWarehouseAsync(warehouse.Id);
-                    main.ucEditWarehouse.Visibility = Visibility.Visible;
-                    main.ucManageWarehouses.Visibility = Visibility.Collapsed;
+                    main.switchToEditWarehouse();
                 }
                 else
                     throw new Exception("No warehouse selected!");

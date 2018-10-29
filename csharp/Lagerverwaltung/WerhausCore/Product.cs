@@ -18,7 +18,6 @@ namespace WerhausCore
         public override string ToString()
         {
             return Name + " | " + string.Format("{0:0.00}", Price)+"€";
-            ;
         }
     }
 }

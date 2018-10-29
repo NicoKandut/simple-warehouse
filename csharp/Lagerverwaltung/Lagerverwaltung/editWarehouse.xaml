@@ -21,7 +21,7 @@
     </UserControl.Resources>
     <Grid>
         
-        <ListBox x:Name="listBoxProducts" Margin="340,0,0,0" BorderThickness="1,0,0,0">
+        <ListBox x:Name="listBoxProducts" Margin="340,0,0,0" BorderThickness="1,0,0,0" SelectionChanged="listBoxProducts_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate >
                     <StackPanel Orientation="Vertical">

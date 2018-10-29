@@ -39,27 +39,24 @@ namespace Lagerverwaltung
                     if (await Database.addOrderAsync(order))
                     {
                         main.ucEditWarehouse.listBoxProducts.ItemsSource = await Database.getProductsOfWarehouseAsync(order.IdWarehouse);
-                        Visibility = Visibility.Collapsed;
-                        txtBoxAmount.Text = "";
-                        lblSummary.Text = "";
-                        order = new Order();
+                        main.switchToEditWarehouse();
+                        clearVariables();
                     }
                     else
                         MessageBox.Show("Not enough capacity!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
                 else
                 {
-                    foreach (KeyValuePair<ProductBase, int> product in order.Amounts)
+                    List<ProductBase> keys = order.Amounts.Keys.ToList();
+                    foreach (ProductBase key in keys)
                     {
-                        order.Amounts[product.Key] *= -1;
+                        order.Amounts[key] *= -1;
                     }
                     if (await Database.addOrderAsync(order))
                     {
                         main.ucEditWarehouse.listBoxProducts.ItemsSource = await Database.getProductsOfWarehouseAsync(order.IdWarehouse);
-                        Visibility = Visibility.Collapsed;
-                        txtBoxAmount.Text = "";
-                        lblSummary.Text = "";
-                        order = new Order();
+                        main.switchToEditWarehouse();
+                        clearVariables();
                     }
                     else
                         MessageBox.Show("Not enough capacity!");
@@ -73,10 +70,8 @@ namespace Lagerverwaltung
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            txtBoxAmount.Text = "";
-            lblSummary.Text = "";
-            Visibility = Visibility.Collapsed;
-            order = new Order();
+            clearVariables();
+            main.switchToEditWarehouse();
         }
         private void btnAddProduct_Click(object sender, RoutedEventArgs e)
         {
@@ -84,16 +79,19 @@ namespace Lagerverwaltung
             {
                 if (!(cbProducts.SelectedItem == null))
                 {
-                    if (!order.Amounts.ContainsKey(cbProducts.SelectedItem as ProductBase))
-                    {
-                        order.Amounts.Add(cbProducts.SelectedItem as ProductBase, int.Parse(txtBoxAmount.Text));
-                        lblSummary.Text = getAllOrderedProductsInformation();
-                    }
-                    else
-                    {
-                        order.Amounts[cbProducts.SelectedItem as ProductBase] += int.Parse(txtBoxAmount.Text);
-                        lblSummary.Text = getAllOrderedProductsInformation();
-                    }
+                    Product product = (Product)main.ucEditWarehouse.Warehouse.Products.Where(x => x.Id == (cbProducts.SelectedItem as ProductBase).Id).ElementAt(0);
+                    if (!purchase && (int.Parse(txtBoxAmount.Text)) > product.Amount)
+                        txtBoxAmount.Text = product.Amount.ToString();         
+                        if (!order.Amounts.ContainsKey(cbProducts.SelectedItem as ProductBase))
+                        {
+                            order.Amounts.Add(cbProducts.SelectedItem as ProductBase, int.Parse(txtBoxAmount.Text));
+                            UpdateAllOrderedProductsInformation();
+                        }
+                        else
+                        {
+                            order.Amounts[cbProducts.SelectedItem as ProductBase] += int.Parse(txtBoxAmount.Text);
+                            UpdateAllOrderedProductsInformation();
+                        }
                 }
                 else
                 {
@@ -105,23 +103,26 @@ namespace Lagerverwaltung
                 MessageBox.Show("Not a valid amount!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
-        private string getAllOrderedProductsInformation()
+        private void UpdateAllOrderedProductsInformation()
         {
-            string result = "";
+            listBoxSummary.Items.Clear();
             foreach (KeyValuePair<ProductBase, int> product in order.Amounts)
             {
-                result += product.Key.Name + " | Amount: " + product.Value + "\n";
+               listBoxSummary.Items.Add(new Product(0, product.Key.Name, null, 0, 0, product.Value));
             }
-            return result;
+            listBoxSummary.Items.Refresh();
         }
         private async void VisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             try
             {
+                clearVariables();
                 if (purchase)
                     cbProducts.ItemsSource = await Database.getAllProductsOfCatalogAsync();
                 else
                     cbProducts.ItemsSource = main.ucEditWarehouse.listBoxProducts.ItemsSource;
+                order = new Order();
+                main.ucEditWarehouse.Warehouse.Products = main.ucEditWarehouse.listBoxProducts.ItemsSource as List<Product>;
                 order.IdWarehouse = (main.ucManageWarehouses.listBoxWarehouses.SelectedItem as Warehouse).Id;
                 cbProducts.Items.Refresh();
             }
@@ -130,6 +131,7 @@ namespace Lagerverwaltung
                 throw new Exception(ex.Message);
             }
         }
+        //check for textinput on amount field to only allow numbers
         private void textInput(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
@@ -148,12 +150,12 @@ namespace Lagerverwaltung
                         if (((order.Amounts[product]) - int.Parse(txtBoxAmount.Text) > 0))
                         {
                             order.Amounts[product] -= int.Parse(txtBoxAmount.Text);
-                            lblSummary.Text = getAllOrderedProductsInformation();
-                        }
+                            UpdateAllOrderedProductsInformation();                        }
                         else
                         {
                             order.Amounts.Remove(product);
-                            lblSummary.Text = getAllOrderedProductsInformation();
+                            txtBoxAmount.Text = "";
+                            UpdateAllOrderedProductsInformation();
                         }
                     }
                     else
@@ -180,7 +182,21 @@ namespace Lagerverwaltung
                 {
                     txtBoxAmount.Text = main.ucEditWarehouse.Warehouse.Products.Find(x => x.Id == (cbProducts.SelectedItem as ProductBase).Id).Amount.ToString();
                 }
+                else
+                    txtBoxAmount.Text = "";
             }
+        }
+
+        private void listBoxSummary_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(listBoxSummary.SelectedItem != null)
+            main.ucAddOrder.cbProducts.SelectedItem = main.ucEditWarehouse.Warehouse.Products.Find(x => x.Name == (listBoxSummary.SelectedItem as ProductBase).Name);
+        }
+        private void clearVariables()
+        {
+            txtBoxAmount.Text = "";
+            listBoxSummary.Items.Clear();
+            order = new Order();
         }
     }
 }

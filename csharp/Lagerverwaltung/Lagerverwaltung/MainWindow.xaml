@@ -83,7 +83,8 @@
                     <Label BorderBrush="Transparent" FontSize="20">New Password:</Label>
                     <PasswordBox x:Name="txtBoxNewPassword" HorizontalAlignment="Left" Width="305"/>
                     <Button x:Name="btnSaveSettings" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Click="btnSaveSettings_Click">Save settings</Button>
-                    <Button x:Name="btnLogout" Margin="0,230,10,10" Height="31" Width="308" Style="{DynamicResource SquareButtonStyle}" Content="Logout" Click="btnLogout_Click"/>
+                    <CheckBox x:Name="cbStayLoggedIn" Margin="0,10,10,10">Wanna stay logged in?</CheckBox>
+                    <Button x:Name="btnLogout" Margin="0,5,10,10" Height="31" Width="308" Style="{DynamicResource SquareButtonStyle}" Content="Logout" Click="btnLogout_Click"/>
                     <Button x:Name="btnDeleteAccount" Background="DarkRed" Margin="0,0,10,10" Style="{DynamicResource SquareButtonStyle}" Click="btnDeleteAccount_Click" Height="31" Width="308" Content="Delete account"/>
                 </StackPanel>
             </DockPanel>

@@ -81,6 +81,7 @@
     <Compile Include="addOrder.xaml.cs">
       <DependentUpon>addOrder.xaml</DependentUpon>
     </Compile>
+    <Compile Include="configManager.cs" />
     <Compile Include="createWarehouse.xaml.cs">
       <DependentUpon>createWarehouse.xaml</DependentUpon>
     </Compile>
@@ -157,6 +158,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="user.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
