@@ -34,7 +34,7 @@ namespace Lagerverwaltung
             {
                 if (!(String.IsNullOrWhiteSpace(txtBoxCapacity.Text) || String.IsNullOrWhiteSpace(new TextRange(txtBoxDescription.Document.ContentStart, txtBoxDescription.Document.ContentEnd).Text) || String.IsNullOrWhiteSpace(txtBoxName.Text)))
                 {
-                    if (await Database.addWarehouseAsync(new Warehouse(txtBoxName.Text, new TextRange(txtBoxDescription.Document.ContentStart, txtBoxDescription.Document.ContentEnd).Text, 0, int.Parse(txtBoxCapacity.Text), main.currentOwner)))
+                    if (await Database.addWarehouseAsync(new Warehouse(txtBoxName.Text, new TextRange(txtBoxDescription.Document.ContentStart, txtBoxDescription.Document.ContentEnd).Text, 0, int.Parse(txtBoxCapacity.Text), main.currentOwner, new List<Product>(), new List<Order>())))
                     {
                         main.switchToManageWarehouses();
                         main.currentOwner.Warehouses = await Database.getWarehousesOfOwnerAsync();

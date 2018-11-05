@@ -14,38 +14,54 @@ namespace WerhausCore
         public Owner Owner { get; set; }
         public List<Product> Products { get; set; }
         public List<Order> Orders { get; set; }
-        //public int currentCapacity
-        //{
-        //    get
-        //    {
-        //        return GetCurrentCapacity();
-        //    }
-        //    set
-        //    {
-        //        currentCapacity = value;
-        //    }
-        //} 
+        private int currentCapacity = 0;
+        public int CurrentCapacity
+        {
+            get
+            {
+                return currentCapacity;
+            }
+            set
+            {
+                currentCapacity = value;
+            }
+        }
 
-        public Warehouse(string name, string description, int location, int capacity, Owner owner)
+        public Warehouse(string name, string description, int location, int capacity, Owner owner, List<Product> products, List<Order> orders)
         {
             Name = name;
             Description = description;
             Location = location;
             Capacity = capacity;
             Owner = owner;
-            Products = new List<Product>();
-            Orders = new List<Order>();
-            GetCurrentCapacity();
+            Products = products;
+            Orders = orders;
+            currentCapacity = GetCurrentCapacity();
         }
+        //public Warehouse(string name, string description, int location, int capacity, Owner owner)
+        //{
+        //    Name = name;
+        //    Description = description;
+        //    Location = location;
+        //    Capacity = capacity;
+        //    Owner = owner;
+        //    Products = new List<Product>();
+        //    Orders = new List<Order>();
+        //    currentCapacity = GetCurrentCapacity();
+        //}
         public int GetCurrentCapacity()
         {
-            int sum = 0;
-            foreach (Product p in Products)
+            if (Products != null)
             {
-                sum += p.Space * p.Amount;
+                int sum = 0;
+
+                foreach (Product p in Products)
+                {
+                    sum += p.Space * p.Amount;
+                }
+                return sum;
             }
-            //currentCapacity = sum;
-            return sum;
+            return 0;
         }
         public override string ToString()
         {

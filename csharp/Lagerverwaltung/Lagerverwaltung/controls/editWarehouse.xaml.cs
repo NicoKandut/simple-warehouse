@@ -48,6 +48,7 @@ namespace Lagerverwaltung
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
+            main.ucManageWarehouses.updateWarehouseList();
             main.switchToManageWarehouses();
         }
 
@@ -71,6 +72,11 @@ namespace Lagerverwaltung
             {
                 main.ucAddOrder.cbProducts.SelectedItem = main.ucEditWarehouse.Warehouse.Products.Find(x => x.Name == (listBoxProducts.SelectedItem as ProductBase).Name);
             }
+        }
+
+        private void btnHistography_Click(object sender, RoutedEventArgs e)
+        {
+            main.switchToHistography();
         }
     }
 }

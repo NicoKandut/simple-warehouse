@@ -141,6 +141,10 @@ namespace Lagerverwaltung
                 }
             }
         }
+        public void setStatus(string text)
+        {
+            lblMessage.Content = text;
+        }
         #region visibility handling methods
         public void switchToEditWarehouse()
         {
@@ -159,6 +163,11 @@ namespace Lagerverwaltung
             ucEditWarehouse.Visibility = Visibility.Visible;
             ucAddOrder.Visibility = Visibility.Visible;
         }
+        public void switchToHistography()
+        {
+            switchAllOff();
+            ucHistography.Visibility = Visibility.Visible;
+        }
         public void switchToLogin()
         {
             switchAllOff();
@@ -167,6 +176,7 @@ namespace Lagerverwaltung
             txtBoxPassword.Password = "";
             txtBoxUsername.Text = "";
             Title = "Werhaus";
+            btnSettings.Content = "Profile";
             flyoutProfile.IsOpen = false;
             loggedIn = false;
             currentOwner = null;
@@ -190,6 +200,7 @@ namespace Lagerverwaltung
             ucManageWarehouses.Visibility = Visibility.Collapsed;
             ucCreateWarehouse.Visibility = Visibility.Collapsed;
             ucAddOrder.Visibility = Visibility.Collapsed;
+            ucHistography.Visibility = Visibility.Collapsed;
         }
         public void switchAllOn()
         {

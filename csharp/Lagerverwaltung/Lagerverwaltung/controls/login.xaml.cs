@@ -43,7 +43,8 @@ namespace Lagerverwaltung
                     main.currentOwner.Password = txtBoxPwd.Password;                   
                     main.loggedIn = true;
                     main.ucManageWarehouses.listBoxWarehouses.ItemsSource = main.currentOwner.Warehouses;
-                    main.Title = txtBoxName.Text;
+                    main.btnSettings.Content = main.currentOwner.Name;
+                    main.Title = main.currentOwner.Name;
                     txtBoxName.Text = "";
                     txtBoxPwd.Password = "";
                     main.switchToManageWarehouses();

@@ -13,11 +13,23 @@
         <ListBox x:Name="listBoxWarehouses" FontSize="13" BorderBrush="Black" BorderThickness="0,0,1,0"  Margin="0,0,340,0">
             <ListBox.ItemTemplate>
                 <DataTemplate >
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock FontSize="20" Text="{Binding Name}"></TextBlock>
-                        <TextBlock FontSize="15" Text="{Binding Description}"></TextBlock>
-                        <ProgressBar Minimum="0" Maximum="{Binding Capacity}" Value="{Binding currentCapacity}"></ProgressBar>
-                    </StackPanel>
+                    <DockPanel x:Name="dockPane" HorizontalAlignment="Left" >
+                        <StackPanel x:Name="stackPaneText" Width="670" Orientation="Vertical">
+                            <TextBlock FontSize="20" Text="{Binding Name}"></TextBlock>
+                            <TextBlock FontSize="15" Text="{Binding Description}"></TextBlock>
+                        </StackPanel>
+                        <StackPanel x:Name="stackPaneCapacity" Margin="50,0,0,0" Orientation="Horizontal" HorizontalAlignment="Right">
+                            <ProgressBar x:Name="progressBarCapacity" HorizontalContentAlignment="Right" HorizontalAlignment="Right" MaxHeight="30" Width="200" Minimum="0" Maximum="{Binding Capacity}" Value="{Binding CurrentCapacity}"></ProgressBar>
+                            <TextBlock FontSize="15" VerticalAlignment="Center">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0}/{1}">
+                                        <Binding ElementName="progressBarCapacity" Path="Value" />
+                                        <Binding ElementName="progressBarCapacity" Path="Maximum" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </StackPanel>
+                    </DockPanel>
                 </DataTemplate>
                 
             </ListBox.ItemTemplate>
@@ -32,6 +44,6 @@
         </ListBox>
         <Button x:Name="btnAddWarehouse" Content="Add warehouse" Height="29" Margin="0,25,15,0" VerticalAlignment="Top" Click="btnAddWarehouse_Click" HorizontalAlignment="Right" Width="308"/>
         <Button x:Name="btnDeleteWarehouse" Content="Delete warehouse" Height="29" Margin="0,67,15,0" VerticalAlignment="Top" Click="btnDeleteWarehouse_Click" HorizontalAlignment="Right" Width="308"/>
-        <Button x:Name="btnEditWarehouse" Content="Edit warehouse" Height="29" Margin="0,110,15,0" VerticalAlignment="Top" Click="btnEditWarehouse_Click" HorizontalAlignment="Right" Width="308"/>
+        <Button x:Name="btnEditWarehouse" Content="Manage warehouse" Height="29" Margin="0,110,15,0" VerticalAlignment="Top" Click="btnEditWarehouse_Click" HorizontalAlignment="Right" Width="308"/>
     </Grid>
 </UserControl>

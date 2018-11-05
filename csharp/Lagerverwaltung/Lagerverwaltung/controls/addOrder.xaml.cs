@@ -32,39 +32,46 @@ namespace Lagerverwaltung
 
         private async void btnOrder_Click(object sender, RoutedEventArgs e)
         {
-            if (order.Amounts.Count > 0)
+            try
             {
-                if (purchase)
+                if (order.Amounts.Count > 0)
                 {
-                    if (await Database.addOrderAsync(order))
+                    if (purchase)
                     {
-                        main.ucEditWarehouse.listBoxProducts.ItemsSource = await Database.getProductsOfWarehouseAsync(order.IdWarehouse);
-                        main.switchToEditWarehouse();
-                        clearVariables();
+                        if (await Database.addOrderAsync(order))
+                        {
+                            main.ucEditWarehouse.listBoxProducts.ItemsSource = await Database.getProductsOfWarehouseAsync(order.IdWarehouse);
+                            main.switchToEditWarehouse();
+                            clearVariables();
+                        }
+                        else
+                            MessageBox.Show("Not enough capacity!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     else
-                        MessageBox.Show("Not enough capacity!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                    {
+                        List<ProductBase> keys = order.Amounts.Keys.ToList();
+                        foreach (ProductBase key in keys)
+                        {
+                            order.Amounts[key] *= -1;
+                        }
+                        if (await Database.addOrderAsync(order))
+                        {
+                            main.ucEditWarehouse.listBoxProducts.ItemsSource = await Database.getProductsOfWarehouseAsync(order.IdWarehouse);
+                            main.switchToEditWarehouse();
+                            clearVariables();
+                        }
+                        else
+                            MessageBox.Show("Not enough capacity!");
+                    }
                 }
                 else
                 {
-                    List<ProductBase> keys = order.Amounts.Keys.ToList();
-                    foreach (ProductBase key in keys)
-                    {
-                        order.Amounts[key] *= -1;
-                    }
-                    if (await Database.addOrderAsync(order))
-                    {
-                        main.ucEditWarehouse.listBoxProducts.ItemsSource = await Database.getProductsOfWarehouseAsync(order.IdWarehouse);
-                        main.switchToEditWarehouse();
-                        clearVariables();
-                    }
-                    else
-                        MessageBox.Show("Not enough capacity!");
+                    MessageBox.Show("No products ordered!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
-            else
+            catch(Exception ex)
             {
-                MessageBox.Show("No products ordered!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(ex.Message + "\n" + ex.InnerException.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -73,15 +80,20 @@ namespace Lagerverwaltung
             clearVariables();
             main.switchToEditWarehouse();
         }
+
         private void btnAddProduct_Click(object sender, RoutedEventArgs e)
         {
+            Product product = null;
             if (!String.IsNullOrWhiteSpace(txtBoxAmount.Text))
             {
-                if (!(cbProducts.SelectedItem == null))
+                if (cbProducts.SelectedItem != null)
                 {
-                    Product product = (Product)main.ucEditWarehouse.Warehouse.Products.Where(x => x.Id == (cbProducts.SelectedItem as ProductBase).Id).ElementAt(0);
-                    if (!purchase && (int.Parse(txtBoxAmount.Text)) > product.Amount)
-                        txtBoxAmount.Text = product.Amount.ToString();         
+                    if (!purchase)
+                    {
+                        product = main.ucEditWarehouse.Warehouse.Products.Where(x => x.Id == (cbProducts.SelectedItem as ProductBase).Id).ElementAt(0);
+                        if ((int.Parse(txtBoxAmount.Text)) > product.Amount)
+                            txtBoxAmount.Text = product.Amount.ToString();
+                    }
                         if (!order.Amounts.ContainsKey(cbProducts.SelectedItem as ProductBase))
                         {
                             order.Amounts.Add(cbProducts.SelectedItem as ProductBase, int.Parse(txtBoxAmount.Text));
@@ -140,17 +152,19 @@ namespace Lagerverwaltung
 
         private void btnRemoveProduct_Click(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrWhiteSpace(txtBoxAmount.Text))
+            if (!(cbProducts.SelectedItem == null))
             {
-                if (!(cbProducts.SelectedItem == null))
-                {
+                if (!String.IsNullOrWhiteSpace(txtBoxAmount.Text))
+            {
+
                     ProductBase product = cbProducts.SelectedItem as ProductBase;
                     if (order.Amounts.ContainsKey(product))
                     {
                         if (((order.Amounts[product]) - int.Parse(txtBoxAmount.Text) > 0))
                         {
                             order.Amounts[product] -= int.Parse(txtBoxAmount.Text);
-                            UpdateAllOrderedProductsInformation();                        }
+                            UpdateAllOrderedProductsInformation();
+                        }
                         else
                         {
                             order.Amounts.Remove(product);
@@ -165,12 +179,12 @@ namespace Lagerverwaltung
                 }
                 else
                 {
-                    MessageBox.Show("No product selected!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Not a valid amount!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
             else
             {
-                MessageBox.Show("Not a valid amount!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("No product selected!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
