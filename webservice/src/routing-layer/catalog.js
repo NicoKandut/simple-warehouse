@@ -1,6 +1,6 @@
 // packages
 const express = require('express'),
-    oracleConnection = require('../data-layer/oracleDataAccess'),
+    database = require('../data-layer/database'),
     classParser = require('../data-layer/classParser'),
     classes = require('../data-layer/classes'),
     errorResponse = require('./misc/error'),
@@ -14,13 +14,17 @@ router.get('/', (req, res) => res.json({
 }));
 
 router.get('/products', (req, res) => {
-    oracleConnection.execute('SELECT * from SW_Product')
-        .then(result => res.json(classParser(result.rows, classes.ProductBase)))
-        .catch(err => errorResponse(res, 500, err));
+    database.execute('SELECT * from SW_Product')
+        .then(result => {
+            res.json(classParser(result.rows, classes.ProductBase))
+        })
+        .catch(err => {
+            errorResponse(res, 500, err)
+        });
 });
 
 router.get('/manufacturers', (req, res) => {
-    oracleConnection.execute('SELECT * from SW_Manufacturer')
+    database.execute('SELECT * from SW_Manufacturer')
         .then(result => res.json(classParser(result.rows, classes.Manufacturer)))
         .catch(err => errorResponse(res, 500, err));
 });
@@ -31,14 +35,14 @@ router.get('/manufacturers/:id', (req, res) => {
         innerQuery = 'SELECT * from SW_Product WHERE id_manufacturer = :id',
         manufacturer;
 
-    oracleConnection.execute(query, param)
+    database.execute(query, param)
         .then(result => {
             manufacturer = classParser(result.rows, classes.Manufacturer)[0];
 
             if (!manufacturer)
                 errorResponse(res, 404.4);
             else
-                return oracleConnection.execute(innerQuery, param);
+                return database.execute(innerQuery, param);
 
         })
         .then(result => {

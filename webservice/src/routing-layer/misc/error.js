@@ -8,8 +8,8 @@ class HttpError {
 module.exports = (res, code, cause) => {
     let err;
 
-    if (cause)
-        err = new HttpError("Database Error", cause);
+    if (cause) //IDEA: switch case for cause - make errors more specific
+        err = new HttpError("Internal Server Error", cause.message)
     else
         switch (code) {
             case 400.1:

@@ -1,6 +1,6 @@
 // packages
 const express = require('express'),
-    oracleConnection = require('../data-layer/oracleDataAccess'),
+    database = require('../data-layer/database'),
     token = require('./middleware/token'),
     errorResponse = require('./misc/error'),
     classParser = require('../data-layer/classParser'),
@@ -15,7 +15,7 @@ router.post('/login', (req, res) => {
     let query = 'SELECT * FROM SW_Owner WHERE name = :name AND password = :password',
         param = [req.body.name, req.body.password];
 
-    oracleConnection.execute(query, param)
+    database.execute(query, param)
         .then(result => {
             let user = classParser(result.rows, classes.Owner)[0];
             if (user)
@@ -42,7 +42,7 @@ router.post('/register', (req, res) => {
     if(!req.body.name && !req.body.password)
         return errorResponse(res, 400.2);
 
-    oracleConnection.execute(query, param)
+    database.execute(query, param)
         .then(result => res.sendStatus(201))
         .catch(err => errorResponse(res, 500, err));
 });
@@ -51,7 +51,7 @@ router.delete('/delete', (req, res) => {
     let query = 'DELETE FROM SW_Owner WHERE id = :id',
         param = [req.uid];
 
-    oracleConnection.execute(query, param)
+    database.execute(query, param)
         .then(result => {
             if (result && result.rowsAffected === 1) {
                 token.remove(req.uid)

@@ -34,9 +34,8 @@ class Product extends ProductBase {
 }
 
 class Order {
-    constructor(id, name, description, price, space, amount, timestamp) {
-        this.product = new ProductBase(id, name, description, price, space);
-        this.amount = amount;
+    constructor(id, timestamp) {
+        this.id = id;
         this.timestamp = timestamp;
     }
 }
