@@ -10,7 +10,7 @@ Our weekly progress reports can be found here: [Google Document](https://docs.go
 ## Documentation for webservice calls 
 The API is documented and tested using Postman, all routes are documented here: [Postman Documentation](https://documenter.getpostman.com/view/3279137/RzZ1qNC2#e31b80cf-98f5-45af-83e1-cef4c21447e0)
 
-## Current ERD (WIP)
+## Current ERD
 ![Entity Relationship Diagram](https://raw.githubusercontent.com/NicoKandut/simple-warehouse/organizational/erd-diagram.png)
 
 ## Relational Schema (WIP)
