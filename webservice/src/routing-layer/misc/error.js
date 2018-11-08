@@ -50,5 +50,7 @@ module.exports = (res, code, cause) => {
                 err = new HttpError("Internal Server Error", "Please dont't do that again.");
         }
 
+        console.error(code, " : ", err);
+
     res.status(code).json(err);
 };

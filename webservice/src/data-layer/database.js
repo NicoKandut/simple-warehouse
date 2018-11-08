@@ -40,7 +40,8 @@ function batchInsert(query, param = []) {
                 .then(() => connection.close());
         }))
         .catch(err => {
-            throw new Error("Connection Error");
+            err.message = "Connection Error: " + err.message;
+            throw err;
         });
 }
 

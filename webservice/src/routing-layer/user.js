@@ -91,7 +91,7 @@ router.route('/warehouses/:id')
         let query = 'SELECT * from SW_Warehouse WHERE id = :id AND id_owner = :id_owner',
             productQuery = 'SELECT id_product, name, description, price, space, amount from SW_Stored_In INNER JOIN SW_Product ON id_product = SW_Product.id WHERE id_warehouse = :id',
             orderQuery = 'SELECT id, timestamp from SW_Order WHERE id_warehouse = :id_warehouse',
-            partQuery = 'SELECT SW_Product.id, name, description, price, space, amount, id_warehouse FROM SW_Orderpart LEFT JOIN SW_Product ON id_product = SW_Product.id LEFT JOIN SW_Order ON id_order = SW_Order.id WHERE id_warehouse = :id_warehouse',
+            partQuery = 'SELECT SW_Product.id, name, description, price, space, amount, id_warehouse FROM SW_Orderpart LEFT JOIN SW_Product ON id_product = SW_Product.id LEFT JOIN SW_Order ON id_order = SW_Order.id WHERE id_warehouse = :id',
             param = [req.params.id, req.uid],
             warehouse;
 
