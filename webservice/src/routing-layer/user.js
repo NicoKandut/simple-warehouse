@@ -110,7 +110,7 @@ router.route('/warehouses/:id')
                 return database.execute(orderQuery, [req.params.id]);
             })
             .then(result => {
-                warehouse.orders = classParser(result.rows, classes.Product);
+                warehouse.orders = classParser(result.rows, classes.Order);
                 return database.execute(partQuery, [req.params.id]);
             })
             .then(result => {
