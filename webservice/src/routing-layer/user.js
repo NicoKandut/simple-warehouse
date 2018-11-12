@@ -147,21 +147,21 @@ router.route('/warehouses/:id/products')
 
 router.route('/warehouses/:id/orders')
     .get((req, res) => {
-        let query = 'SELECT id_product, SW_Product.name, SW_Product.description, price, space, amount, timestamp from SW_Product INNER JOIN SW_Order ON SW_Product.id = id_product INNER JOIN SW_Warehouse ON SW_Warehouse.id = id_warehouse WHERE id_warehouse = :id AND id_owner = :id_owner',
-            partQuery = 'SELECT SW_Product.id, name, description, price, space, amount, id_warehouse FROM SW_Orderpart LEFT JOIN SW_Product ON id_product = SW_Product.id LEFT JOIN SW_Order ON id_order = SW_Order.id WHERE id_warehouse = :id_warehouse',
-            param = [req.params.id, req.uid],
+        let query = 'SELECT id, timestamp from SW_Order WHERE id_warehouse = :id_warehouse',
+            partQuery = 'SELECT SW_Product.id, name, description, price, space, amount, id_warehouse FROM SW_Orderpart LEFT JOIN SW_Product ON id_product = SW_Product.id LEFT JOIN SW_Order ON id_order = SW_Order.id WHERE id_warehouse = :id',
+            param = [req.params.id],
             orders;
 
         database.execute(query, param)
             .then(result => {
                 orders = classParser(result.rows, classes.Order);
-                return database.execute(partQuery, [req.params.id]);
+                return database.execute(partQuery, param);
             })
             .then(result => {
                 orders.forEach(o => {
                     o.products = classParser(result.rows.filter(row => row[6] === o.id), classes.Product);
                 });
-                res.status(200).json(order);
+                res.status(200).json(orders);
             })
             .catch(err => errorResponse(res, 500, err));
     })
