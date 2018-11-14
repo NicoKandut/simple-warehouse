@@ -91,7 +91,7 @@ router.route('/warehouses/:id')
         let query = 'SELECT * from SW_Warehouse WHERE id = :id AND id_owner = :id_owner',
             productQuery = 'SELECT id_product, name, description, price, space, amount from SW_Stored_In INNER JOIN SW_Product ON id_product = SW_Product.id WHERE id_warehouse = :id',
             orderQuery = 'SELECT id, timestamp from SW_Order WHERE id_warehouse = :id_warehouse',
-            partQuery = 'SELECT SW_Product.id, name, description, price, space, amount, id_warehouse FROM SW_Orderpart LEFT JOIN SW_Product ON id_product = SW_Product.id LEFT JOIN SW_Order ON id_order = SW_Order.id WHERE id_warehouse = :id',
+            partQuery = 'SELECT SW_Product.id, name, description, price, space, amount, id_order FROM SW_Orderpart LEFT JOIN SW_Product ON id_product = SW_Product.id LEFT JOIN SW_Order ON id_order = SW_Order.id WHERE id_warehouse = :id',
             param = [req.params.id, req.uid],
             warehouse;
 
@@ -148,7 +148,7 @@ router.route('/warehouses/:id/products')
 router.route('/warehouses/:id/orders')
     .get((req, res) => {
         let query = 'SELECT id, timestamp from SW_Order WHERE id_warehouse = :id_warehouse',
-            partQuery = 'SELECT SW_Product.id, name, description, price, space, amount, id_warehouse FROM SW_Orderpart LEFT JOIN SW_Product ON id_product = SW_Product.id LEFT JOIN SW_Order ON id_order = SW_Order.id WHERE id_warehouse = :id',
+            partQuery = 'SELECT SW_Product.id, name, description, price, space, amount, id_order FROM SW_Orderpart LEFT JOIN SW_Product ON id_product = SW_Product.id LEFT JOIN SW_Order ON id_order = SW_Order.id WHERE id_warehouse = :id',
             param = [req.params.id],
             orders;
 
@@ -168,12 +168,17 @@ router.route('/warehouses/:id/orders')
     .post((req, res) => {
         let seqQuery = 'SELECT seq_order.NEXTVAL FROM DUAL',
             orderQuery = 'INSERT INTO SW_Order VALUES (:id, :id_warehouse, CURRENT_TIMESTAMP)',
-            partQuery = 'INSERT INTO SW_Orderpart VALUES (:id_order, :id_product, :amount)'
-        param;
+            partQuery = 'INSERT INTO SW_Orderpart VALUES (:id_order, :id, :amount)',
+            orderId,
+            param;
 
         database.execute(seqQuery)
             .then(result => {
-                param = req.body.foreach(v => v.id_order = result.rows[0][0]);
+                orderId =  result.rows[0][0];
+                param = req.body.map(v => {
+                    v.id_order = orderId
+                    return v;
+                });
                 return database.execute(orderQuery, [orderId, req.params.id]);
             })
             .then(result => {

@@ -27,7 +27,7 @@ function execute(query, param = []) {
                 .then(() => connection.close());
         }))
         .catch(err => {
-            err.message = "Connection Error: " + err.message;
+            err.message = "Database Error: " + err.message;
             throw err;
         });
 }
@@ -41,7 +41,7 @@ function batchInsert(query, param = []) {
                 .then(() => connection.close());
         }))
         .catch(err => {
-            err.message = "Connection Error: " + err.message;
+            err.message = "Database Error: " + err.message;
             throw err;
         });
 }
