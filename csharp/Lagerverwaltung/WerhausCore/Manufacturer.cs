@@ -18,13 +18,5 @@ namespace WerhausCore
             Description = description;
             ProducedProducts = new List<ProductBase>();
         }
-        public void changeDescription(string description)
-        {
-            Description = description;
-        }
-        public void addProducedProduct(ProductBase product)
-        {
-            ProducedProducts.Add(product);
-        }
     }
 }

@@ -26,7 +26,7 @@ namespace Lagerverwaltung
             InitializeComponent();
         }
 
-        public void btnRegister_Click(object sender, RoutedEventArgs e)
+        public async void btnRegister_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -34,9 +34,13 @@ namespace Lagerverwaltung
                     throw new Exception("Passwords don't match!");
                 if (String.IsNullOrWhiteSpace(txtBoxPwd.Password) || String.IsNullOrWhiteSpace(txtBoxConfirmPwd.Password) || String.IsNullOrWhiteSpace(txtBoxName.Text))
                     throw new Exception("All fields must be filled!");
-                Database.register(txtBoxName.Text, txtBoxConfirmPwd.Password);
-                main.ucLogin.Visibility = Visibility.Visible;
-                main.ucRegister.Visibility = Visibility.Collapsed;
+                if (await Database.registerAsync(txtBoxName.Text, txtBoxConfirmPwd.Password))
+                {
+                    main.ucLogin.txtBoxName.Text = txtBoxName.Text;
+                    main.ucLogin.txtBoxPwd.Password = txtBoxPwd.Password;
+                    main.ucLogin.btnLogin_Click(sender, e);
+                    main.ucRegister.Visibility = Visibility.Collapsed;
+                }
             }
             catch(Exception ex)
             {

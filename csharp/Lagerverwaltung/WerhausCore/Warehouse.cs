@@ -6,39 +6,66 @@ namespace WerhausCore
 {
     public class Warehouse
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public int Location { get; set; }
         public int Capacity { get; set; }
         public Owner Owner { get; set; }
-        public List<ProductBase> Products { get; set; }
+        public List<Product> Products { get; set; }
         public List<Order> Orders { get; set; }
-        public Warehouse(string name, string description, int location, int capacity, Owner owner)
+        private int currentCapacity = 0;
+        public int CurrentCapacity
+        {
+            get
+            {
+                return currentCapacity;
+            }
+            set
+            {
+                currentCapacity = value;
+            }
+        }
+
+        public Warehouse(string name, string description, int location, int capacity, Owner owner, List<Product> products, List<Order> orders)
         {
             Name = name;
             Description = description;
             Location = location;
             Capacity = capacity;
             Owner = owner;
-            Products = new List<ProductBase>();
-            Orders = new List<Order>();
+            Products = products;
+            Orders = orders;
+            currentCapacity = GetCurrentCapacity();
         }
-        public void AddProduct(Product product)
+        //public Warehouse(string name, string description, int location, int capacity, Owner owner)
+        //{
+        //    Name = name;
+        //    Description = description;
+        //    Location = location;
+        //    Capacity = capacity;
+        //    Owner = owner;
+        //    Products = new List<Product>();
+        //    Orders = new List<Order>();
+        //    currentCapacity = GetCurrentCapacity();
+        //}
+        public int GetCurrentCapacity()
         {
-            Products.Add(product);
+            if (Products != null)
+            {
+                int sum = 0;
+
+                foreach (Product p in Products)
+                {
+                    sum += p.Space * p.Amount;
+                }
+                return sum;
+            }
+            return 0;
         }
-        public void AddOrder(Order order)
+        public override string ToString()
         {
-            Orders.Add(order);
-        }
-        public void ChangeDescription(string description)
-        {
-            Description = description;
-        }
-        public void Order()
-        {
-            //TODO: call webservice with order
-            //update information
+            return Name + " with a capacity of " + Capacity + "\n" + Description;
         }
     }
 }
