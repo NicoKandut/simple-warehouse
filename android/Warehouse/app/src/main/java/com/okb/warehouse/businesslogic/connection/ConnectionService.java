@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import java.lang.String;
 import java.sql.Connection;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -18,6 +19,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  * provides all paths for the webservice
@@ -47,5 +49,10 @@ public interface ConnectionService {
 
     //warehouses from user
     @GET("/user/warehouses")
-    Call<Warehouse> getWarehousesFromUser(@Header("Token") String token);
+    Call<List<Warehouse>> getWarehousesFromUser(@Header("Token") String token);
+
+    //get one Warehouse
+    @GET("/user/warehouses/{w_id}")
+    Call<Warehouse> getOneWarehouse(@Header ("Token") String token, @Path("w_id") int id);
+
 }

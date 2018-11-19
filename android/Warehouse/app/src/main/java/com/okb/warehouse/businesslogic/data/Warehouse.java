@@ -1,10 +1,13 @@
 package com.okb.warehouse.businesslogic.data;
 
+import java.util.List;
+
 public class Warehouse {
     private int id;
     private String name;
     private String description;
     private int capacity;
+    private List<Product> products;
 
     public int getId() {
         return id;
@@ -38,10 +41,21 @@ public class Warehouse {
         this.capacity = capacity;
     }
 
-    public Warehouse(int id, String name, String description, int capacity) {
+    public String getStringCapacity(){return "" + capacity; }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
+
+    public Warehouse(int id, String name, String description, int capacity, List<Product> products) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.capacity = capacity;
+        this.products = products;
     }
 }

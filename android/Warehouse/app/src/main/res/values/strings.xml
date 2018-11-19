@@ -9,4 +9,18 @@
     <string name="button_Login">Login</string>
     <string name="button_Register">Register</string>
     <string name="button_Back">Back</string>
+
+    <!--Navigation Drawer-->
+    <string name="menu">Profile</string>
+    <string name="editProfile">Edit Profile</string>
+    <string name="logout">Logout</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="settings">Settings</string>
+
+    <!--Warehouselist-->
+    <string name="text_capacity">Capacity:</string>
+
+    <string name="action_settings">Settings:</string>
+
 </resources>

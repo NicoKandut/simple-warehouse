@@ -1,22 +1,23 @@
 package com.okb.warehouse.activity.account;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Display;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.okb.warehouse.R;
+import com.okb.warehouse.activity.warehouse.UserWarehousesActivity;
 import com.okb.warehouse.businesslogic.connection.ApiUtils;
 import com.okb.warehouse.businesslogic.connection.ConnectionService;
 import com.okb.warehouse.businesslogic.data.Credentials;
 
 import java.util.InputMismatchException;
 
-import oracle.jdbc.util.Login;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -50,14 +51,17 @@ public class LoginActivity extends AppCompatActivity {
         btn_Login.setOnClickListener(view ->{
             Credentials c = new Credentials(self.editText_Username.getText().toString(), self.editText_Password.getText().toString());
             checkInput(c.getName(), c.getPassword());
+            SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
             //region Login Service
             ApiUtils.getService().loginUser(c).enqueue(new Callback<JsonObject>() { //asynchronous request
                 @Override
                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                     if (response.isSuccessful()){
-                        getSharedPreferences("Userdata", MODE_PRIVATE).edit().putString("actualToken", response.body().get("token").getAsString()).commit(); //store actual Token in sharedPreferences
-                        getSharedPreferences("Userdata", MODE_PRIVATE).edit().putString("username", c.getName()).commit();
-                        getSharedPreferences("Userdata", MODE_PRIVATE).edit().putString("password", c.getPassword()).commit();
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putString("token", response.body().get("token").getAsString()); //store actual Token in sharedPreferences
+                        editor.putString("username", c.getName());
+                        editor.putString("password", c.getPassword());
+                        editor.commit();
 
                         self.startActivity(new Intent(getApplicationContext(), UserWarehousesActivity.class));
                     }else{  // error response, no access to resource
