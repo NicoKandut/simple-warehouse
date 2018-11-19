@@ -8,7 +8,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lagerverwaltung"
         mc:Ignorable="d"
-        Icon="images/werhaus_icon_transparent.ico"
+        Icon="images/main_icon_new.ico"
         MinHeight="560"
         MinWidth="680"
         Closing="OnWindowClosing"
@@ -75,7 +75,7 @@
         <StatusBar x:Name="statusBar" Height="24" VerticalAlignment="Bottom" Background="#0D74DB">
             <Label x:Name="lblMessage" Height="24" Width="145" Content="Hello this is example text" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <StatusBarItem HorizontalContentAlignment="Right" HorizontalAlignment="Right">
-            <ProgressBar x:Name="progressBar" Width="200" Height="14" VerticalAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Value="70"></ProgressBar>
+            <ProgressBar x:Name="progressBar" Width="200" Height="14" VerticalAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Value="0"></ProgressBar>
             </StatusBarItem>
         </StatusBar>
         <Controls:Flyout x:Name="flyoutProfile" Header="Profile Settings"  Width="340" Position="Right" Theme="Inverse">

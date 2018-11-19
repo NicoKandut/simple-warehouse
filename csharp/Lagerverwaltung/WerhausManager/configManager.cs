@@ -5,18 +5,33 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Configuration;
+using WerhausManager;
+
 namespace Lagerverwaltung
 {
     public static class configManager
     {
         public static string Path { private get; set; }
-        public static void init(string configPath)
+        public static void init()
         {
-            Path = configPath;
+            Path = @"./log.txt";
         }
         public static void getUserFromConfig()
         {
             
+        }
+        public static void writeLog(string information, LogType type)
+        {
+            CheckForLogFileCreateIfMissing();
+            using (StreamWriter sw = new StreamWriter(Path))
+            {
+                sw.WriteLine("[" + DateTime.Now + "]" + "[" + type.ToString() + "]" + information);
+            }           
+        }
+        private static void CheckForLogFileCreateIfMissing()
+        {
+            if (!File.Exists(Path))            
+                File.Create(Path);
         }
     }
 }
@@ -31,3 +46,4 @@ public class User
         Password = password;
     }
 }
+

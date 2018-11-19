@@ -69,9 +69,9 @@ namespace Lagerverwaltung
                     MessageBox.Show("No products ordered!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\n" + ex.InnerException.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message + "\n", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -80,39 +80,56 @@ namespace Lagerverwaltung
             clearVariables();
             main.switchToEditWarehouse();
         }
-
+        private bool AmountOverflows(Product product)
+        {
+            if (!purchase && (order.Amounts[cbProducts.SelectedItem as ProductBase] + int.Parse(txtBoxAmount.Text)) > product.Amount)
+                return true;
+            return false;
+        }
         private void btnAddProduct_Click(object sender, RoutedEventArgs e)
         {
-            Product product = null;
-            if (!String.IsNullOrWhiteSpace(txtBoxAmount.Text))
+            try
             {
-                if (cbProducts.SelectedItem != null)
+                Product product = null;
+                if (!String.IsNullOrWhiteSpace(txtBoxAmount.Text))
                 {
-                    if (!purchase)
+                    if (cbProducts.SelectedItem != null)
                     {
-                        product = main.ucEditWarehouse.Warehouse.Products.Where(x => x.Id == (cbProducts.SelectedItem as ProductBase).Id).ElementAt(0);
-                        if ((int.Parse(txtBoxAmount.Text)) > product.Amount)
-                            txtBoxAmount.Text = product.Amount.ToString();
-                    }
+                        if (!purchase)
+                        {
+                            product = main.ucEditWarehouse.Warehouse.Products.Where(x => x.Id == (cbProducts.SelectedItem as ProductBase).Id).ElementAt(0);
+                            //if ((int.Parse(txtBoxAmount.Text)) > product.Amount)
+                            //    txtBoxAmount.Text = product.Amount.ToString();
+                        }
                         if (!order.Amounts.ContainsKey(cbProducts.SelectedItem as ProductBase))
                         {
+                            if(!purchase)
+                            if (int.Parse(txtBoxAmount.Text) > product.Amount)
+                                throw new Exception("Cannot sell more wares than stored!");
                             order.Amounts.Add(cbProducts.SelectedItem as ProductBase, int.Parse(txtBoxAmount.Text));
                             UpdateAllOrderedProductsInformation();
                         }
                         else
                         {
+                            if (AmountOverflows(product))
+                                throw new Exception("Cannot sell more wares than stored!");
                             order.Amounts[cbProducts.SelectedItem as ProductBase] += int.Parse(txtBoxAmount.Text);
                             UpdateAllOrderedProductsInformation();
                         }
+                    }
+                    else
+                    {
+                        MessageBox.Show("No product selected!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("No product selected!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Not a valid amount!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Not a valid amount!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private void UpdateAllOrderedProductsInformation()
@@ -120,7 +137,7 @@ namespace Lagerverwaltung
             listBoxSummary.Items.Clear();
             foreach (KeyValuePair<ProductBase, int> product in order.Amounts)
             {
-               listBoxSummary.Items.Add(new Product(0, product.Key.Name, null, 0, 0, product.Value));
+                listBoxSummary.Items.Add(new Product(product.Key.Id, product.Key.Name, product.Key.Description, 0, 0, product.Value));
             }
             listBoxSummary.Items.Refresh();
         }
@@ -155,7 +172,7 @@ namespace Lagerverwaltung
             if (!(cbProducts.SelectedItem == null))
             {
                 if (!String.IsNullOrWhiteSpace(txtBoxAmount.Text))
-            {
+                {
 
                     ProductBase product = cbProducts.SelectedItem as ProductBase;
                     if (order.Amounts.ContainsKey(product))
@@ -190,21 +207,28 @@ namespace Lagerverwaltung
 
         private void cbProducts_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if (!purchase)
+            if (!purchase && main.ucEditWarehouse.listBoxProducts.Items.Contains(cbProducts.SelectedItem))
             {
-                if (main.ucEditWarehouse.listBoxProducts.Items.Contains(cbProducts.SelectedItem))
-                {
-                    txtBoxAmount.Text = main.ucEditWarehouse.Warehouse.Products.Find(x => x.Id == (cbProducts.SelectedItem as ProductBase).Id).Amount.ToString();
-                }
-                else
-                    txtBoxAmount.Text = "";
+                txtBoxAmount.Text = main.ucEditWarehouse.Warehouse.Products.Find(x => x.Id == (cbProducts.SelectedItem as ProductBase).Id).Amount.ToString();
             }
+            else
+            {
+                List<Product> p = listBoxSummary.Items.Cast<Product>().ToList().Where(x => x.Name == ((ProductBase)cbProducts.SelectedItem).Name).ToList();
+                if (p.Count > 0)
+                {
+                    txtBoxAmount.Text = p[0].Amount.ToString();
+                }
+            }
+
         }
 
         private void listBoxSummary_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(listBoxSummary.SelectedItem != null)
-            main.ucAddOrder.cbProducts.SelectedItem = main.ucEditWarehouse.Warehouse.Products.Find(x => x.Name == (listBoxSummary.SelectedItem as ProductBase).Name);
+            if (listBoxSummary.SelectedItem != null)
+                if (purchase)
+                    main.ucAddOrder.cbProducts.SelectedItem = cbProducts.Items.Cast<ProductBase>().ToList().Find(x => x.Id == ((Product)listBoxSummary.SelectedItem).Id);
+                else
+                    main.ucAddOrder.cbProducts.SelectedItem = main.ucEditWarehouse.Warehouse.Products.Find(x => x.Name == (listBoxSummary.SelectedItem as ProductBase).Name);
         }
         private void clearVariables()
         {

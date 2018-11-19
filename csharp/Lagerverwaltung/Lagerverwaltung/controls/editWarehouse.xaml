@@ -50,7 +50,7 @@
                     <Rectangle.OpacityMask>
                         <VisualBrush Stretch="Fill">
                             <VisualBrush.Visual>
-                                <Image Source="images/Back_Arrow.png"></Image>
+                                <Image Source="../images/Back_Arrow.png"></Image>
                             </VisualBrush.Visual>
                         </VisualBrush>
                     </Rectangle.OpacityMask>

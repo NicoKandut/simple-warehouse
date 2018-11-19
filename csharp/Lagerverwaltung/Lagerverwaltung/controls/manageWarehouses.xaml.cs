@@ -63,7 +63,7 @@ namespace Lagerverwaltung
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Error while trying to refresh warehouses");
+                MessageBox.Show("Error while trying to refresh warehouses!\n" + ex.Message);
             }
         }
     }

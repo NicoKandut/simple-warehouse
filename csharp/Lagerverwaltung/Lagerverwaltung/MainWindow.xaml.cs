@@ -29,6 +29,7 @@ namespace Lagerverwaltung
             InitializeComponent();
             //////initialize database class to be ready for use/////////
             Database.init();
+            configManager.init();
             ///////login while testing ui//////
             switchToLogin();
             ucLogin.txtBoxName.Text = "Martin";

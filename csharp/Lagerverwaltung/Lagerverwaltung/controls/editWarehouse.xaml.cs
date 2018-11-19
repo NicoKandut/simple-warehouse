@@ -70,7 +70,12 @@ namespace Lagerverwaltung
         {
             if(main.ucAddOrder.Visibility == Visibility.Visible && listBoxProducts.SelectedItem != null)
             {
-                main.ucAddOrder.cbProducts.SelectedItem = main.ucEditWarehouse.Warehouse.Products.Find(x => x.Name == (listBoxProducts.SelectedItem as ProductBase).Name);
+                main.ucAddOrder.cbProducts.SelectedItem = main.ucAddOrder.cbProducts.Items.Cast<ProductBase>().ToList().Find(x => x.Id == ((Product)listBoxProducts.SelectedItem).Id);
+                Product p = main.ucAddOrder.listBoxSummary.Items.Cast<Product>().ToList().Find(x => x.Id == ((ProductBase)main.ucAddOrder.cbProducts.SelectedItem).Id);
+                if (p != null)
+                {
+                    main.ucAddOrder.txtBoxAmount.Text = p.Amount.ToString();
+                }
             }
         }
 
