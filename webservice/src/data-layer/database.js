@@ -1,11 +1,14 @@
 const oracledb = require('oracledb'),
     SimpleOracleDB = require('simple-oracledb'),
-    DB_STRING = process.env.DB_STRING || '212.152.179.117/ora11g',
-    DB_USER = process.env.DB_USER || 'd5a13',
-    DB_PASS = process.env.DB_PASS || 'd5a',
+    DB_STRING = process.env.DB_STRING,
+    DB_USER = process.env.DB_USER,
+    DB_PASS = process.env.DB_PASS,
     options = {
         autoCommit: true
     };
+
+if(DB_STRING === null || DB_USER === null || DB_PASS === null)
+    throw new Error("Invalid Environment");
 
 // modify the original oracledb library
 SimpleOracleDB.extend(oracledb);
