@@ -41,7 +41,7 @@ router.route('/')
             param = [req.body.name, req.body.password, req.uid];
 
         if (!req.body.name && !req.body.password)
-            errorResponse(res, 409.1)
+            errorResponse(res, 409.1);
         else {
             let sets = [];
             if (req.body.name)
@@ -73,7 +73,7 @@ router.route('/warehouses')
                 warehouses.forEach(wh => {
                     wh.products = classParser(result.rows.filter(row => row[6] === wh.id), classes.Product);
                 });
-                res.status(200).json(warehouses)
+                res.status(200).json(warehouses);
             })
             .catch(err => errorResponse(res, 500, err));
     })
@@ -175,9 +175,10 @@ router.route('/warehouses/:id/orders')
         database.execute(seqQuery)
             .then(result => {
                 orderId =  result.rows[0][0];
-                param = req.body.map(v => {
-                    v.id_order = orderId
-                    return v;
+                console.log("ORDER ID: " + orderId);
+                param = req.body.map(value => {
+                    value.id_order = orderId;
+                    return value;
                 });
                 return database.execute(orderQuery, [orderId, req.params.id]);
             })
@@ -187,7 +188,9 @@ router.route('/warehouses/:id/orders')
                 else
                     return database.batchInsert(partQuery, param);
             })
-            .then(result => res.sendStatus(204))
+            .then(result => {
+                res.sendStatus(204);
+            })
             .catch(err => {
                 errorResponse(res, 500, err);
             });

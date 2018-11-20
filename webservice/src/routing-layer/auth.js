@@ -54,7 +54,7 @@ router.delete('/delete', (req, res) => {
     database.execute(query, param)
         .then(result => {
             if (result && result.rowsAffected === 1) {
-                token.remove(req.uid)
+                token.remove(req.uid);
                 res.sendStatus(204);
             } else
                 errorResponse(res, 404.2);

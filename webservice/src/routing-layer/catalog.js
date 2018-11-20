@@ -16,10 +16,10 @@ router.get('/', (req, res) => res.json({
 router.get('/products', (req, res) => {
     database.execute('SELECT * from SW_Product')
         .then(result => {
-            res.json(classParser(result.rows, classes.ProductBase))
+            res.json(classParser(result.rows, classes.ProductBase));
         })
         .catch(err => {
-            errorResponse(res, 500, err)
+            errorResponse(res, 500, err);
         });
 });
 

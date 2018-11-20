@@ -10,7 +10,6 @@ const oracledb = require('oracledb'),
 if(DB_STRING === null || DB_USER === null || DB_PASS === null)
     throw new Error("Invalid Environment");
 
-// modify the original oracledb library
 SimpleOracleDB.extend(oracledb);
 
 function connect() {
@@ -25,9 +24,15 @@ function execute(query, param = []) {
     return connect()
         .then(connection => new Promise((resolve, reject) => {
             return connection.execute(query, param, options)
-                .then(result => resolve(result))
-                .catch(err => reject(err))
-                .then(() => connection.close());
+                .then(result => {
+                    resolve(result);
+                })
+                .catch(err => {
+                    reject(err);
+                })
+                .then(() => {
+                    connection.close();
+                });
         }))
         .catch(err => {
             err.message = "Database Error: " + err.message;
@@ -39,14 +44,16 @@ function batchInsert(query, param = []) {
     return connect()
         .then(connection => new Promise((resolve, reject) => {
             return connection.batchInsert(query, param, options)
-                .then(result => resolve(result))
-                .catch(err => reject(err))
-                .then(() => connection.close());
-        }))
-        .catch(err => {
-            err.message = "Database Error: " + err.message;
-            throw err;
-        });
+                .then(result => {
+                    resolve(result);
+                })
+                .catch(err => {
+                    reject(err);
+                })
+                .then(() => {
+                    connection.close();
+                });
+        }));
 }
 
 module.exports = {
