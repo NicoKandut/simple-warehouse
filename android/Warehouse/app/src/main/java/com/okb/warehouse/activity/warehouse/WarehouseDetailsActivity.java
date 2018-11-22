@@ -1,24 +1,20 @@
 package com.okb.warehouse.activity.warehouse;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.okb.warehouse.R;
 import com.okb.warehouse.activity.adapter.RVA_Product;
-import com.okb.warehouse.activity.adapter.RVA_Warehouse;
 import com.okb.warehouse.activity.base.BaseActivity;
 import com.okb.warehouse.businesslogic.connection.ApiUtils;
 import com.okb.warehouse.businesslogic.data.Product;
 import com.okb.warehouse.businesslogic.data.Warehouse;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -55,7 +51,7 @@ public class WarehouseDetailsActivity extends BaseActivity {
     }
 
     private void initEventHandlers(){
-        //this.fab_addAuftrag.setOnClickListener(this);
+        this.fab_addAuftrag.setOnClickListener(view -> startActivity(new Intent(WarehouseDetailsActivity.this, CreateOrderActivity.class).putExtra("warehouseId", warehouseID)));
     }
 
     private int calculateProgress(List<Product> Capacities){

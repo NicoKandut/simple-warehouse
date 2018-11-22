@@ -40,7 +40,7 @@ public class UserWarehousesActivity extends BaseActivity {
     }
 
     private void initEventHandlers(){
-        this.fab_addWarehouse.setOnClickListener(view -> startActivity(new Intent(UserWarehousesActivity.this, AddWarehouseActivity.class)));
+        this.fab_addWarehouse.setOnClickListener(view -> startActivity(new Intent(UserWarehousesActivity.this, CreateWarehouseActivity.class)));
     }
 
     private void fillRecyclerView(){

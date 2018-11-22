@@ -39,7 +39,7 @@ public interface ConnectionService {
     @Headers("Content-Type:application/json")
     Call<Void> registerUser(@Body Credentials credentials);
 
-    //Logout
+    //Delete
     @DELETE("/auth/delete")
     Call<Void> deleteUser(@Header("Token") String token);
 
@@ -54,5 +54,10 @@ public interface ConnectionService {
     //get one Warehouse
     @GET("/user/warehouses/{w_id}")
     Call<Warehouse> getOneWarehouse(@Header ("Token") String token, @Path("w_id") int id);
+
+    //create one Warehouse
+    @POST("/user/warehouses")
+    Call<Warehouse> createWarehouse(@Header ("Token") String token, @Body Warehouse warehouse);
+
 
 }

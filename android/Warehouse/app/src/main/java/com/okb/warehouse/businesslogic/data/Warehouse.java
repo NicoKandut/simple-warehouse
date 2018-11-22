@@ -58,4 +58,10 @@ public class Warehouse {
         this.capacity = capacity;
         this.products = products;
     }
+
+    public Warehouse(String name, String description, int capacity){
+        this.name = name;
+        this.description = description;
+        this.capacity = capacity;
+    }
 }
