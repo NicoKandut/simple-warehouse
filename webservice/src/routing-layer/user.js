@@ -1,7 +1,6 @@
 // packages
 const express = require('express'),
     connection = require('../data-layer/connection'),
-    database = require('../data-layer/database'),
     classParser = require('../data-layer/classParser'),
     classes = require('../data-layer/classes'),
     tokenAccess = require('./middleware/token').access,
@@ -20,14 +19,14 @@ router.route('/')
             param = [req.uid],
             owner;
 
-        database.execute(query, param)
+        connection.execute(query, param)
             .then(result => {
                 owner = classParser(result.rows, classes.Owner)[0];
-                return database.execute(warehouseQuery, param);
+                return connection.execute(warehouseQuery, param);
             })
             .then(result => {
                 owner.warehouses = classParser(result.rows, classes.Warehouse);
-                return database.execute(productQuery);
+                return connection.execute(productQuery);
             })
             .then(result => {
                 owner.warehouses.forEach(wh => {
@@ -53,9 +52,13 @@ router.route('/')
             query.replace('{{set}}', sets.join(', '));
         }
 
-        database.execute(query, param)
-            .then(result => res.sendStatus(204))
-            .catch(err => errorResponse(res, 500, err));
+        connection.execute(query, param)
+            .then(result => {
+                res.sendStatus(204);
+            })
+            .catch(err => {
+                errorResponse(res, 500, err);
+            });
     });
 
 router.route('/warehouses')
@@ -65,10 +68,10 @@ router.route('/warehouses')
             param = [req.uid],
             warehouses;
 
-        database.execute(query, param)
+        connection.execute(query, param)
             .then(result => {
                 warehouses = classParser(result.rows, classes.Warehouse);
-                return database.execute(productQuery);
+                return connection.execute(productQuery);
             })
             .then(result => {
                 warehouses.forEach(wh => {
@@ -76,15 +79,21 @@ router.route('/warehouses')
                 });
                 res.status(200).json(warehouses);
             })
-            .catch(err => errorResponse(res, 500, err));
+            .catch(err => {
+                errorResponse(res, 500, err);
+            });
     })
     .post((req, res) => {
         let query = 'INSERT INTO SW_Warehouse VALUES (seq_warehouse.NEXTVAL, :name, :descripion, :capacity, :id_owner)',
             param = [req.body.name, req.body.description, req.body.capacity, req.uid];
 
-        database.execute(query, param)
-            .then(result => res.sendStatus(201))
-            .catch(err => errorResponse(res, 500, err));
+        connection.execute(query, param)
+            .then(result => {
+                res.sendStatus(201);
+            })
+            .catch(err => {
+                errorResponse(res, 500, err);
+            });
     });
 
 router.route('/warehouses/:id')
@@ -96,23 +105,23 @@ router.route('/warehouses/:id')
             param = [req.params.id, req.uid],
             warehouse;
 
-        database.execute(query, param)
+        connection.execute(query, param)
             .then(result => {
                 warehouse = classParser(result.rows, classes.Warehouse)[0];
 
                 if (!warehouse)
                     errorResponse(res, 404.3);
                 else
-                    return database.execute(productQuery, [req.params.id]);
+                    return connection.execute(productQuery, [req.params.id]);
 
             })
             .then(result => {
                 warehouse.products = classParser(result.rows, classes.Product);
-                return database.execute(orderQuery, [req.params.id]);
+                return connection.execute(orderQuery, [req.params.id]);
             })
             .then(result => {
                 warehouse.orders = classParser(result.rows, classes.Order);
-                return database.execute(partQuery, [req.params.id]);
+                return connection.execute(partQuery, [req.params.id]);
             })
             .then(result => {
                 warehouse.orders.forEach(o => {
@@ -120,20 +129,24 @@ router.route('/warehouses/:id')
                 });
                 res.status(200).json(warehouse);
             })
-            .catch(err => errorResponse(res, 500, err));
+            .catch(err => {
+                errorResponse(res, 500, err);
+            });
     })
     .delete((req, res) => {
         let query = 'DELETE FROM SW_Warehouse WHERE id = :id AND id_owner = :id_owner',
             param = [req.params.id, req.uid];
 
-        database.execute(query, param)
+        connection.execute(query, param)
             .then(result => {
                 if (result && result.rowsAffected === 1)
                     res.sendStatus(204);
                 else
                     errorResponse(res, 404.3);
             })
-            .catch(err => errorResponse(res, 500, err));
+            .catch(err => {
+                errorResponse(res, 500, err);
+            });
     });
 
 router.route('/warehouses/:id/products')
@@ -141,9 +154,13 @@ router.route('/warehouses/:id/products')
         let query = 'SELECT  id_product, SW_Product.name, SW_Product.description, price, space, amount from SW_Product INNER JOIN SW_Stored_In ON SW_Product.id = id_product INNER JOIN SW_Warehouse ON SW_Warehouse.id = id_warehouse WHERE id_warehouse = :id AND id_owner = :id_owner',
             param = [req.params.id, req.uid];
 
-        database.execute(query, param)
-            .then(result => res.status(200).json(classParser(result.rows, classes.Product)))
-            .catch(err => errorResponse(res, 500, err));
+        connection.execute(query, param)
+            .then(result => {
+                res.status(200).json(classParser(result.rows, classes.Product));
+            })
+            .catch(err => {
+                errorResponse(res, 500, err);
+            });
     });
 
 router.route('/warehouses/:id/orders')
@@ -153,10 +170,10 @@ router.route('/warehouses/:id/orders')
             param = [req.params.id],
             orders;
 
-        database.execute(query, param)
+        connection.execute(query, param)
             .then(result => {
                 orders = classParser(result.rows, classes.Order);
-                return database.execute(partQuery, param);
+                return connection.execute(partQuery, param);
             })
             .then(result => {
                 orders.forEach(o => {
@@ -164,7 +181,9 @@ router.route('/warehouses/:id/orders')
                 });
                 res.status(200).json(orders);
             })
-            .catch(err => errorResponse(res, 500, err));
+            .catch(err => {
+                errorResponse(res, 500, err);
+            });
     })
     .post((req, res) => {
         let seqQuery = 'SELECT seq_order.NEXTVAL FROM DUAL',
@@ -176,18 +195,18 @@ router.route('/warehouses/:id/orders')
         connection.execute(seqQuery)
             .then(result => {
                 orderId = result.rows[0][0];
-                console.log("ORDER ID: " + orderId);
-                param = req.body.map(value => {
-                    value.id_order = orderId;
-                    return value;
-                });
                 return connection.execute(orderQuery, [orderId, req.params.id]);
             })
             .then(result => {
                 if (result.rowsAffected !== 1)
                     errorResponse(res, 500, "Error when creating Order.");
-                else
+                else {
+                    param = req.body.map(value => {
+                        value.id_order = orderId;
+                        return value;
+                    });
                     return connection.batchInsert(partQuery, param);
+                }
             })
             .then(result => {
                 res.sendStatus(204);

@@ -1,6 +1,6 @@
 // packages
 const express = require('express'),
-    database = require('../data-layer/database'),
+    connection = require('../data-layer/connection'),
     token = require('./middleware/token'),
     errorResponse = require('./misc/error'),
     classParser = require('../data-layer/classParser'),
@@ -12,10 +12,10 @@ router.use('/logout|/delete', token.access);
 
 // add routes
 router.post('/login', (req, res) => {
-    let query = 'SELECT * FROM SW_Owner WHERE name = :name AND password = :password',
-        param = [req.body.name, req.body.password];
+    if (!req.body.name && !req.body.password)
+        return errorResponse(res, 400.2);
 
-    database.execute(query, param)
+    connection.execute('SELECT * FROM SW_Owner WHERE name = :name AND password = :password', [req.body.name, req.body.password])
         .then(result => {
             let user = classParser(result.rows, classes.Owner)[0];
             if (user)
@@ -25,7 +25,9 @@ router.post('/login', (req, res) => {
             else
                 errorResponse(res, 403.1);
         })
-        .catch(err => errorResponse(res, 403.1));
+        .catch(err => {
+            errorResponse(res, 403.1);
+        });
 });
 
 router.get('/logout', (req, res) => {
@@ -36,22 +38,20 @@ router.get('/logout', (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-    let query = 'INSERT INTO SW_Owner VALUES (seq_owner.NEXTVAL, :name, :password)',
-        param = [req.body.name, req.body.password];
-
-    if(!req.body.name && !req.body.password)
+    if (!req.body.name && !req.body.password)
         return errorResponse(res, 400.2);
 
-    database.execute(query, param)
-        .then(result => res.sendStatus(201))
-        .catch(err => errorResponse(res, 500, err));
+    connection.execute('INSERT INTO SW_Owner VALUES (seq_owner.NEXTVAL, :name, :password)', [req.body.name, req.body.password])
+        .then(result => {
+            res.sendStatus(201);
+        })
+        .catch(err => {
+            errorResponse(res, 500, err);
+        });
 });
 
 router.delete('/delete', (req, res) => {
-    let query = 'DELETE FROM SW_Owner WHERE id = :id',
-        param = [req.uid];
-
-    database.execute(query, param)
+    connection.execute('DELETE FROM SW_Owner WHERE id = :id', [req.uid])
         .then(result => {
             if (result && result.rowsAffected === 1) {
                 token.remove(req.uid);
@@ -59,6 +59,8 @@ router.delete('/delete', (req, res) => {
             } else
                 errorResponse(res, 404.2);
         })
-        .catch(err => errorResponse(res, 500, err));
+        .catch(err => {
+            errorResponse(res, 500, err);
+        });
 });
 module.exports = router;

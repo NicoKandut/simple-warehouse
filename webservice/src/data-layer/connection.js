@@ -9,6 +9,8 @@ let connection;
 if (DB_STRING === null || DB_USER === null || DB_PASS === null)
     throw new Error("Invalid Environment");
 
+SimpleOracleDB.extend(oracledb);
+
 function connect() {
     if (!connection)
         oracledb.getConnection({
