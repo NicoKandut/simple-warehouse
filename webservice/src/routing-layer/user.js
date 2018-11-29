@@ -1,5 +1,6 @@
 // packages
 const express = require('express'),
+    connection = require('../data-layer/connection'),
     database = require('../data-layer/database'),
     classParser = require('../data-layer/classParser'),
     classes = require('../data-layer/classes'),
@@ -172,21 +173,21 @@ router.route('/warehouses/:id/orders')
             orderId,
             param;
 
-        database.execute(seqQuery)
+        connection.execute(seqQuery)
             .then(result => {
-                orderId =  result.rows[0][0];
+                orderId = result.rows[0][0];
                 console.log("ORDER ID: " + orderId);
                 param = req.body.map(value => {
                     value.id_order = orderId;
                     return value;
                 });
-                return database.execute(orderQuery, [orderId, req.params.id]);
+                return connection.execute(orderQuery, [orderId, req.params.id]);
             })
             .then(result => {
                 if (result.rowsAffected !== 1)
                     errorResponse(res, 500, "Error when creating Order.");
                 else
-                    return database.batchInsert(partQuery, param);
+                    return connection.batchInsert(partQuery, param);
             })
             .then(result => {
                 res.sendStatus(204);
