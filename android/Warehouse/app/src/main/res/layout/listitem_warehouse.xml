@@ -1,34 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:id="@+id/liw_rl_listItem"
-    android:padding = "15dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingStart="15dp"
+    android:background="@drawable/shape_rounded_corners"
+    android:elevation="@dimen/defaultElevation"
+    android:layout_marginStart="@dimen/defaultMargin"
+    android:layout_marginEnd="@dimen/defaultMargin"
+    android:layout_marginTop="@dimen/defaultMargin">
 
     <TextView
         android:id="@+id/liw_tv_wName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:textColor="@color/black"
-        android:textSize="17sp" />
+        android:textSize="@dimen/defaultTextSize"/>
 
     <TextView
         android:id="@+id/liw_tv_wDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:textColor="@color/black"
-        android:textSize="17sp" />
+        android:textColor="@color/darkgrey" />
 
     <TextView
         android:id="@+id/liw_tv_wCapacity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginBottom="12dp"
-        android:textColor="@color/black"
-        android:textSize="17sp" />
+        android:textColor="@color/darkgrey"/>
 
 </LinearLayout>

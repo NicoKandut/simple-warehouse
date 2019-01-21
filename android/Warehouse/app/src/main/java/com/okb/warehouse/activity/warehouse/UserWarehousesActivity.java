@@ -27,7 +27,7 @@ public class UserWarehousesActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_warehouses);
+        setContent(R.layout.activity_user_warehouses);
 
         initUIReferences();
         initEventHandlers();

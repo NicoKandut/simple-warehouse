@@ -16,16 +16,18 @@
         <activity android:name=".activity.account.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".activity.account.RegisterActivity" />
         <activity android:name=".activity.warehouse.UserWarehousesActivity" />
         <activity android:name=".activity.warehouse.CreateWarehouseActivity" />
         <activity android:name=".activity.warehouse.WarehouseDetailsActivity" />
         <activity android:name=".activity.base.BaseActivity" />
-        <activity android:name=".activity.warehouse.CreateOrderActivity"></activity>
+        <activity android:name=".activity.warehouse.CreateOrderActivity" />
+        <activity android:name=".activity.warehouse.BasketActivity" />
+        <activity android:name=".activity.warehouse.ExportActivity"></activity>
     </application>
 
 </manifest>

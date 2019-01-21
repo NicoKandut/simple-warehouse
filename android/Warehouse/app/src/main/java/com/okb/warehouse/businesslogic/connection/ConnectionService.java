@@ -2,6 +2,8 @@ package com.okb.warehouse.businesslogic.connection;
 
 import com.google.gson.JsonObject;
 import com.okb.warehouse.businesslogic.data.Credentials;
+import com.okb.warehouse.businesslogic.data.OrderProduct;
+import com.okb.warehouse.businesslogic.data.Product;
 import com.okb.warehouse.businesslogic.data.Warehouse;
 
 import org.json.JSONObject;
@@ -25,6 +27,7 @@ import retrofit2.http.Path;
  * provides all paths for the webservice
  */
 public interface ConnectionService {
+    //region Authentification
     //Login
     @POST("/auth/login")
     @Headers("Content-Type:application/json")
@@ -42,8 +45,10 @@ public interface ConnectionService {
     //Delete
     @DELETE("/auth/delete")
     Call<Void> deleteUser(@Header("Token") String token);
+    //endregion
 
-    //userinfo whit warehouses
+    //region warehouses
+    //userinfo with warehouses
     @GET("/user")
     Call<JsonObject> getUser(@Header("Token") String token);
 
@@ -57,7 +62,20 @@ public interface ConnectionService {
 
     //create one Warehouse
     @POST("/user/warehouses")
-    Call<Warehouse> createWarehouse(@Header ("Token") String token, @Body Warehouse warehouse);
+    Call<Void> createWarehouse(@Header ("Token") String token, @Body Warehouse warehouse);
+    //endregion
 
+    //region products
+    //get all Products
+    @GET("/catalog/products")
+    Call<List<Product>> getProducts();
 
+    //get Products from Warehouse
+    @GET("/user/warehouses/{w_id}/products")
+    Call<List<Product>> getProductsFromWarehouse(@Header("Token") String token, @Path("w_id") int id);
+    //endregion
+
+    //handle Orders
+    @POST("/user/warehouses/{w_id}/orders")
+    Call<Void> createOrder(@Header("Token") String token, @Path("w_id") int id, @Body List<OrderProduct> products);
 }

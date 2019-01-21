@@ -52,7 +52,7 @@ public class RVA_Warehouse extends RecyclerView.Adapter<RVA_Warehouse.ViewHolder
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tv_wName.setText(al_Warehouses.get(position).getName());
         holder.tv_wDescription.setText(al_Warehouses.get(position).getDescription());
-        holder.tv_wCapacity.setText(al_Warehouses.get(position).getStringCapacity());
+        holder.tv_wCapacity.setText("Capacity: " + al_Warehouses.get(position).getStringCapacity());
 
         int id = al_Warehouses.get(position).getId();
         Context uwa = context;

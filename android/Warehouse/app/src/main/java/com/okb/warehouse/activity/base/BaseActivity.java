@@ -1,32 +1,34 @@
 package com.okb.warehouse.activity.base;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import com.okb.warehouse.R;
+import com.okb.warehouse.activity.warehouse.BasketActivity;
+import com.okb.warehouse.activity.warehouse.ExportActivity;
 
-public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class BaseActivity extends AppCompatActivity {
 
     // UI references
     private FrameLayout contentContainer;
-    private DrawerLayout drawer;
+    //private DrawerLayout drawer;
     protected Toolbar toolbar;
 
+    private int layout;
+
+    protected int warehouseID;
     public SharedPreferences sp;
 
     @Override
@@ -38,36 +40,24 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         // set up views
         initToolbar();
-        initDrawer();
-        initNav();
         initContainer();
     }
 
-    private void initDrawer() {
-        drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-    }
 
     private void initToolbar() {
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.ab_toolbar);
         setSupportActionBar(toolbar);
     }
 
     private void initContainer() {
-        contentContainer = findViewById(R.id.content_container);
-    }
-
-    private void initNav() {
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        contentContainer = findViewById(R.id.ab_content_container);
     }
 
     protected void setContent(@LayoutRes int layout) {
         LayoutInflater layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (layoutInflater != null) {
             layoutInflater.inflate(layout, contentContainer);
+            this.layout = layout;
         } else {
             System.out.println("layoutInflater was null in setContent of BaseActivity");
         }
@@ -75,50 +65,48 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_app_bar, menu);
+        handleMenuIcons(menu);
         return true;
+    }
+
+    private void handleMenuIcons(Menu menu){
+        if (layout == R.layout.activity_warehouse_details) {
+            menu.findItem(R.id.action_export).setVisible(true);
+            menu.findItem(R.id.action_basket).setVisible(true);
+        }
+        else{
+            menu.findItem(R.id.action_export).setVisible(false);
+            menu.findItem(R.id.action_basket).setVisible(false);
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean result = true;
         switch (item.getItemId()) {
-            case R.id.action_settings:
-                //TODO:Settings
+            case R.id.action_export:
+                //TODO: getWarehousActivity export
+                Intent intentE = new Intent(this, ExportActivity.class);
+                startActivity(intentE);
+                break;
+            case R.id.action_basket:
+                //TODO: getWarehousActivity basket
+                Intent intentB = new Intent(this, BasketActivity.class);
+                intentB.putExtra("wid", warehouseID);
+                startActivity(intentB);
+                break;
+            case R.id.action_accountSettings:
+                //TODO: Account Settings
                 break;
             default:
                 result = super.onOptionsItemSelected(item);
         }
         return result;
     }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        try {
-            switch (item.getItemId()) {
-                case R.id.nav_editProfile:
-                    //startActivity(new Intent(this, ProfileActivity.class));
-                    break;
-
-                case R.id.nav_logout:
-
-                    break;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
 }

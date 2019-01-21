@@ -1,5 +1,7 @@
 package com.okb.warehouse.businesslogic.data;
 
+import java.text.DecimalFormat;
+
 public class Product {
     private int id;
     private String name;
@@ -66,5 +68,11 @@ public class Product {
         this.price = price;
         this.space = space;
         this.amount = amount;
+    }
+
+    @Override
+    public String toString() {
+        DecimalFormat df = new DecimalFormat("#0.00");
+        return  name + " - " +  df.format(price) + "€";
     }
 }

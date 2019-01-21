@@ -1,5 +1,5 @@
 <resources>
-
+    <!--STYLES-->
     <!-- Base application theme. -->
     <style name="AppThemeNoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
@@ -10,6 +10,5 @@
 
     <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
 
 </resources>

@@ -6,57 +6,50 @@
     android:layout_height="match_parent"
     tools:context=".activity.warehouse.WarehouseDetailsActivity">
 
-    <TextView
-        android:id="@+id/awd_tv_warehouseName"
-        android:layout_width="290dp"
-        android:layout_height="47dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="72dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/defaultMargin"
+        android:layout_marginEnd="@dimen/defaultMargin"
+        android:layout_marginTop="@dimen/defaultMargin">
 
-    <TextView
-        android:id="@+id/awd_tv_description"
-        android:layout_width="290dp"
-        android:layout_height="97dp"
-        android:layout_below="@+id/awd_tv_warehouseName"
-        android:layout_alignStart="@+id/awd_tv_warehouseName" />
+        <TextView
+            android:id="@+id/awd_tv_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/defaultMargin"/>
 
-    <ProgressBar
-        android:id="@+id/awd_pbar_capacity"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="290dp"
-        android:layout_height="80dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="229dp" />
+        <TextView
+            android:id="@+id/awd_tv_capacity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/capacity"
+            android:textColor="@color/black"
+            android:textSize="@dimen/defaultTextSize"/>
 
+        <ProgressBar
+            android:id="@+id/awd_pbar_capacity"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="20dp"
+            android:layout_marginBottom="@dimen/defaultMargin"
+            />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/awd_rv_products"
-        android:layout_width="290dp"
-        android:layout_height="250dp"
-        android:layout_below="@+id/awd_pbar_capacity"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="54dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="38dp"
-        tools:itemCount="9" />
+        <TextView
+            android:id="@+id/awd_tv_storedProducts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/storedProducts"
+            android:textColor="@color/black"
+            android:textSize="@dimen/defaultTextSize"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/awd_fab_addAuftrag"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="18dp"
-        android:clickable="true"
-        android:focusable="true"
-        app:backgroundTint="@android:color/background_light"
-        app:srcCompat="@drawable/ic_add_aufgabe" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/awd_rv_products"
+            android:layout_width="match_parent"
+            android:layout_height="460dp"
+            tools:itemCount="9" />
+    </LinearLayout>
 
 </RelativeLayout>

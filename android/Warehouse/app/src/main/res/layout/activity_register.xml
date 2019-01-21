@@ -5,73 +5,75 @@
     android:layout_height="match_parent"
     android:background="@drawable/ic_background"
     android:orientation="vertical"
+    android:gravity="center"
     tools:context=".activity.account.RegisterActivity">
 
-    <EditText
-        android:id="@+id/editText_username"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="100dp"
-        android:layout_marginTop="150dp"
-        android:layout_marginRight="100dp"
-        android:layout_marginBottom="20dp"
-        android:background="@color/grey"
-        android:ems="10"
-        android:hint="@string/hint_username"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        android:textColorHighlight="@color/lightgrey" />
+        android:background="@drawable/shape_rounded_corners"
+        android:minWidth="200dp"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-    <EditText
-        android:id="@+id/editText_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText_username"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="100dp"
-        android:layout_marginRight="100dp"
-        android:layout_marginBottom="20dp"
-        android:background="@color/grey"
-        android:ems="10"
-        android:hint="@string/hint_password"
-        android:inputType="textPassword" />
 
-    <EditText
-        android:id="@+id/editText_confirmPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText_password"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="100dp"
-        android:layout_marginRight="100dp"
-        android:layout_marginBottom="20dp"
-        android:background="@color/grey"
-        android:ems="10"
-        android:hint="@string/hint_confirmPassword"
-        android:inputType="textPassword" />
+        <TextView
+            android:id="@+id/ar_tv_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/register" />
 
-    <Button
-        android:id="@+id/btn_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/editText_confirmPassword"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="false"
-        android:layout_marginEnd="150dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/btn_round"
-        android:text="@string/button_Register" />
+        <EditText
+            android:id="@+id/ar_et_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/al_ar_spaceBetweenElements"
+            android:background="@drawable/shape_full_rounded_corners"
+            android:ems="10"
+            android:hint="@string/username"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            android:textColorHighlight="@color/lightgrey" />
 
-    <Button
-        android:id="@+id/btn_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_register"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="false"
-        android:layout_marginEnd="150dp"
-        android:background="@drawable/btn_round"
-        android:text="@string/button_Back" />
+        <EditText
+            android:id="@+id/ar_et_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/al_ar_spaceBetweenElements"
+            android:background="@drawable/shape_full_rounded_corners"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="textPassword"/>
+
+        <EditText
+            android:id="@+id/ar_et_confirmPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/al_ar_spaceBetweenElements"
+            android:background="@drawable/shape_full_rounded_corners"
+            android:ems="10"
+            android:hint="@string/confirmPassword"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/ar_btn_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/al_ar_spaceBetweenElements"
+            android:background="@drawable/shape_full_rounded_corners"
+            android:text="@string/register" />
+
+        <Button
+            android:id="@+id/ar_btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/al_ar_spaceBetweenElements"
+            android:background="@drawable/shape_full_rounded_corners"
+            android:text="@string/back" />
+
+    </LinearLayout>
 </RelativeLayout>

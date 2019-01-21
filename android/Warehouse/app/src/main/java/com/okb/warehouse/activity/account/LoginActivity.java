@@ -39,11 +39,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initUIReferences() {
-        btn_Login = findViewById(R.id.btn_login);
-        btn_Register = findViewById(R.id.btn_register);
+        btn_Login = findViewById(R.id.al_btn_login);
+        btn_Register = findViewById(R.id.ar_btn_register);
 
-        editText_Username = findViewById(R.id.editText_username);
-        editText_Password = findViewById(R.id.editText_password);
+        editText_Username = findViewById(R.id.al_et_username);
+        editText_Password = findViewById(R.id.ar_et_password);
     }
 
     private void initEventHandlers(){
@@ -75,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 @Override
                 public void onFailure(Call<JsonObject> call, Throwable t) {  //something went completely wrong (eg. no internet connection)
+                    //if (t.getMessage().equals(""))
                     Toast.makeText(self, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
