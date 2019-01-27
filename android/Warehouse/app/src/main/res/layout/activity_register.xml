@@ -3,67 +3,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/ic_background"
+    android:background="@drawable/bg"
     android:orientation="vertical"
     android:gravity="center"
     tools:context=".activity.account.RegisterActivity">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="287dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/shape_rounded_corners"
         android:minWidth="200dp"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:elevation="@dimen/defaultElevation">
 
 
         <TextView
             android:id="@+id/ar_tv_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/register" />
+            android:layout_marginBottom="@dimen/spaceBetweenElements10"
+            android:text="@string/register"
+            android:textAlignment="center"
+            android:textSize="@dimen/titleSize"
+            android:textColor="@color/black"/>
 
         <EditText
             android:id="@+id/ar_et_username"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/al_ar_spaceBetweenElements"
+            android:layout_marginBottom="@dimen/spaceBetweenElements10"
             android:background="@drawable/shape_full_rounded_corners"
             android:ems="10"
             android:hint="@string/username"
             android:inputType="textPersonName"
+            android:textAlignment="center"
             android:textColor="@color/black"
             android:textColorHighlight="@color/lightgrey" />
 
         <EditText
             android:id="@+id/ar_et_password"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/al_ar_spaceBetweenElements"
+            android:layout_marginBottom="@dimen/spaceBetweenElements10"
             android:background="@drawable/shape_full_rounded_corners"
             android:ems="10"
             android:hint="@string/password"
-            android:inputType="textPassword"/>
+            android:inputType="textPassword"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textColorHighlight="@color/lightgrey" />
 
         <EditText
             android:id="@+id/ar_et_confirmPassword"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/al_ar_spaceBetweenElements"
+            android:layout_marginBottom="@dimen/spaceBetweenElements10"
             android:background="@drawable/shape_full_rounded_corners"
             android:ems="10"
             android:hint="@string/confirmPassword"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textColorHighlight="@color/lightgrey" />
 
         <Button
             android:id="@+id/ar_btn_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/al_ar_spaceBetweenElements"
+            android:layout_marginBottom="@dimen/spaceBetweenElements10"
             android:background="@drawable/shape_full_rounded_corners"
+            android:elevation="0dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:minWidth="200dp"
             android:text="@string/register" />
 
         <Button
@@ -71,8 +91,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/al_ar_spaceBetweenElements"
+            android:layout_marginBottom="@dimen/spaceBetweenElements10"
             android:background="@drawable/shape_full_rounded_corners"
+            android:elevation="0dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/white"
+            android:minWidth="200dp"
             android:text="@string/back" />
 
     </LinearLayout>

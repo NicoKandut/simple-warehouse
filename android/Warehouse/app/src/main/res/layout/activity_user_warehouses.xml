@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/bg"
     tools:context=".activity.warehouse.UserWarehousesActivity">
 
 
@@ -30,6 +31,6 @@
         android:clickable="true"
         android:focusable="true"
         app:backgroundTint="@android:color/background_light"
-        app:srcCompat="@drawable/ic_add_black_30dp" />
+        app:srcCompat="@drawable/ic_add" />
 
 </RelativeLayout>

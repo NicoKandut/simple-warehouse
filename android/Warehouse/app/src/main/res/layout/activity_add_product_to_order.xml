@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="0dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginTop="0dp"
+    android:layout_marginEnd="0dp"
+    android:layout_marginRight="0dp"
+    android:layout_marginBottom="0dp"
+    android:orientation="vertical"
+    android:background="@drawable/shape_full_rounded_with_background"
+    android:elevation="@dimen/defaultElevation"
+    tools:context=".activity.warehouse.AddProductToOrder">
+
+    <TextView
+        android:id="@+id/aapto_tv_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center"
+        android:text="@string/h_addProducts"
+        android:textSize="@dimen/titleSize"/>
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/aapto_tv_products"
+                android:layout_width="@dimen/TextViewWidthPopUp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spaceBetweenElements10"
+                android:text="@string/products" />
+
+            <Spinner
+                android:id="@+id/aapto_sp_products"
+                android:layout_width="@dimen/EditTextWidthPopUp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spaceBetweenElements10" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/aapto_tv_amount"
+                android:layout_width="@dimen/TextViewWidthPopUp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spaceBetweenElements10"
+                android:text="@string/amount" />
+
+            <EditText
+                android:id="@+id/aapto_et_amount"
+                android:layout_width="@dimen/EditTextWidthPopUp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spaceBetweenElements10"
+                android:inputType="number"
+                android:text="0" />
+        </TableRow>
+    </TableLayout>
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/aapto_btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/shape_full_rounded_corners"
+            android:backgroundTint="@color/white"
+            android:text="@string/cancel"
+            android:textColor="@color/colorPrimary" />
+
+        <Button
+            android:id="@+id/aapto_btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/shape_full_rounded_corners"
+            android:backgroundTint="@color/white"
+            android:text="@string/add"
+            android:textColor="@color/colorPrimary" />
+    </TableRow>
+</LinearLayout>

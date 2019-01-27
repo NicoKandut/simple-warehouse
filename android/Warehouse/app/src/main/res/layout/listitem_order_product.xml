@@ -4,7 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:stretchColumns="1"
-    android:id="@+id/liop_tr_listItem">
+    android:background="@drawable/shape_rounded_corners"
+    android:id="@+id/liop_tr_listItem"
+    android:elevation="@dimen/defaultElevation"
+    android:layout_marginStart="@dimen/defaultMargin"
+    android:layout_marginEnd="@dimen/defaultMargin"
+    android:layout_marginTop="@dimen/defaultMargin">
 
     <TextView
         android:id="@+id/liop_tv_pAmount"

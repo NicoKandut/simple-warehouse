@@ -40,10 +40,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initUIReferences() {
         btn_Login = findViewById(R.id.al_btn_login);
-        btn_Register = findViewById(R.id.ar_btn_register);
+        btn_Register = findViewById(R.id.al_btn_register);
 
         editText_Username = findViewById(R.id.al_et_username);
-        editText_Password = findViewById(R.id.ar_et_password);
+        editText_Password = findViewById(R.id.al_et_password);
     }
 
     private void initEventHandlers(){

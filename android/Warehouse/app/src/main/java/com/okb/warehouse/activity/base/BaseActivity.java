@@ -1,6 +1,5 @@
 package com.okb.warehouse.activity.base;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,18 +11,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.FrameLayout;
 
 import com.okb.warehouse.R;
-import com.okb.warehouse.activity.warehouse.BasketActivity;
+import com.okb.warehouse.activity.warehouse.ImportActivity;
 import com.okb.warehouse.activity.warehouse.ExportActivity;
 
 public class BaseActivity extends AppCompatActivity {
 
     // UI references
     private FrameLayout contentContainer;
-    //private DrawerLayout drawer;
     protected Toolbar toolbar;
 
     private int layout;
@@ -42,7 +39,6 @@ public class BaseActivity extends AppCompatActivity {
         initToolbar();
         initContainer();
     }
-
 
     private void initToolbar() {
         toolbar = findViewById(R.id.ab_toolbar);
@@ -66,6 +62,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        this.finish();
     }
 
     @Override
@@ -91,13 +88,12 @@ public class BaseActivity extends AppCompatActivity {
         boolean result = true;
         switch (item.getItemId()) {
             case R.id.action_export:
-                //TODO: getWarehousActivity export
                 Intent intentE = new Intent(this, ExportActivity.class);
+                intentE.putExtra("wid", warehouseID);
                 startActivity(intentE);
                 break;
             case R.id.action_basket:
-                //TODO: getWarehousActivity basket
-                Intent intentB = new Intent(this, BasketActivity.class);
+                Intent intentB = new Intent(this, ImportActivity.class);
                 intentB.putExtra("wid", warehouseID);
                 startActivity(intentB);
                 break;
@@ -109,4 +105,5 @@ public class BaseActivity extends AppCompatActivity {
         }
         return result;
     }
+
 }

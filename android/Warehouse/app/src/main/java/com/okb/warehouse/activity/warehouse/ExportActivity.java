@@ -26,10 +26,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ExportActivity extends BaseActivity {
-    private int wId;
     private List<Product> l_products;
 
-    private TextView tv_orderHeading;
     private FloatingActionButton fab_addProduct;
     private RecyclerView rv_products;
     private Button btn_create;
@@ -38,39 +36,46 @@ public class ExportActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_order);
+        setContent(R.layout.activity_create_order);
 
-        wId = getIntent().getIntExtra("wid", 0);
+        warehouseID = getIntent().getIntExtra("wid", 0);
         l_products = new ArrayList<>();
+
+        getSupportActionBar().setTitle(R.string.h_Sell);
 
         initUIReferences();
         initEventHandlers();
         fillRecyclerView();
+        this.setToolbarTitle();
     }
 
     private void initUIReferences(){
-        this.tv_orderHeading = findViewById(R.id.aco_tv_orderHeading);
         this.rv_products = findViewById(R.id.aco_rv_products);
         this.btn_create = findViewById(R.id.aco_btn_create);
         this.btn_cancel = findViewById(R.id.aco_btn_cancel);
         this.fab_addProduct = findViewById(R.id.aco_fab_addProduct);
 
-        this.tv_orderHeading.setText(R.string.h_Sell);
+    }
+
+    private void setToolbarTitle(){
+        ExportActivity ea = this;
+        ea.toolbar.setTitle(R.string.h_Sell);
     }
 
     private void initEventHandlers(){
         ExportActivity ea = this;
         this.fab_addProduct.setOnClickListener(v ->{
-            //TODO: fab_Add Product
+            startActivityForResult(new Intent(this, AddProductToOrder.class).putExtra("isImport", false).putExtra("wid", warehouseID), 2);
         });
 
         this.btn_create.setOnClickListener(v -> {
-            ApiUtils.getService().createOrder(sp.getString("token", null), wId, this.convertProductsToOrderP()).enqueue(new Callback<Void>(){
+            ApiUtils.getService().createOrder(sp.getString("token", null), warehouseID, this.convertProductsToOrderP()).enqueue(new Callback<Void>(){
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if (response.isSuccessful()) {
                         Toast.makeText(ea, "Order successful", Toast.LENGTH_LONG).show();
                         l_products.clear();
+                        ea.startActivity(new Intent(getApplicationContext(), WarehouseDetailsActivity.class).putExtra("warehouseId", ea.warehouseID));
                     }else{
                         Toast.makeText(ea, "Error: " + response.code() + " = " + response.errorBody().toString(), Toast.LENGTH_LONG).show();
                     }
@@ -86,11 +91,9 @@ public class ExportActivity extends BaseActivity {
         this.btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), WarehouseDetailsActivity.class).putExtra("wId", warehouseID));
+                ea.startActivity(new Intent(ea, WarehouseDetailsActivity.class).putExtra("warehouseId", ea.warehouseID));
             }
         });
-
-
     }
 
     private void fillRecyclerView(){
@@ -101,8 +104,44 @@ public class ExportActivity extends BaseActivity {
     private List<OrderProduct> convertProductsToOrderP(){
         List<OrderProduct> op = new ArrayList<OrderProduct>();
         for(Product p : l_products){
+            p.setAmount(p.getAmount() * (-1.0));
             op.add(new OrderProduct(p));
         }
         return op;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == 2 && resultCode == RESULT_OK){
+            int productId = data.getIntExtra("product",0);
+            int amount = data.getIntExtra("amount", 0);
+
+            getAllProducts(productId, amount);
+        }
+    }
+
+    private void getAllProducts(int productId, int amount){
+        ExportActivity ea = this;
+        ApiUtils.getService().getProducts().enqueue(new Callback<List<Product>>(){
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                if (response.isSuccessful()){
+                    for (Product p : response.body()){
+                        if (p.getId() == productId){
+                            p.setAmount(Double.parseDouble(String.valueOf(amount)));
+                            ea.l_products.add(p);
+                            ea.fillRecyclerView();
+                        }
+                    }
+
+                }else{  // error response, no access to resource
+                    Toast.makeText(ea, "Error: " + response.code() + " = " + response.errorBody().toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {  //something went completely wrong (eg. no internet connection)
+                Toast.makeText(ea, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

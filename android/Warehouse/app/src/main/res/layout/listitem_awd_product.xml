@@ -2,11 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/shape_rounded_corners"
+    android:elevation="@dimen/defaultElevation"
+    android:layout_marginStart="@dimen/defaultMargin"
+    android:layout_marginEnd="@dimen/defaultMargin"
+    android:layout_marginTop="@dimen/defaultMargin"
     android:id="@+id/lip_rl_listItem">
 
     <TextView
         android:id="@+id/lip_tv_pAmount"
-        android:layout_width="100dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:layout_alignParentStart="true"/>
@@ -32,13 +37,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/black"
-            android:textSize="@dimen/defaultTextSize" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 
     <TextView
         android:id="@+id/lip_tv_pPrice"
-        android:layout_width="59dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:textColor="@color/black"
