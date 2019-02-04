@@ -1,12 +1,48 @@
 <resources>
     <string name="app_name">Warehouse</string>
 
-    <!--Login & Register-->
-    <string name="hint_username">Username</string>
-    <string name="hint_password">Password</string>
-    <string name="hint_confirmPassword">Confirm Password</string>
+    <!--ToolbarText-->
+    <string name="tt_Warehouses">Warehouses</string>
+    <string name="accountSettings">Account Settings</string>
+    <string name="basket">Basket</string>
 
-    <string name="button_Login">Login</string>
-    <string name="button_Register">Register</string>
-    <string name="button_Back">Back</string>
+    <!--headlines-->
+    <string name="h_create_warehouse">Create Warehouse</string>
+    <string name="h_Buy">Buy</string>
+    <string name="h_Sell">Sell</string>
+
+    <!--TextView-->
+    <string name="name_colon">Name:</string>
+    <string name="description_colon">Description:</string>
+    <string name="capacity_colon">Capacity:</string>
+    <string name="quantity_colon">Quantity:</string>
+
+    <string name="capacity">Capacity</string>
+    <string name="storedProducts">Stored Products</string>
+
+    <!--TextFields-->
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="confirmPassword">Confirm Password</string>
+
+    <!--Buttons-->
+    <string name="login">Login</string>
+    <string name="logout">Logout</string>
+    <string name="register">Register</string>
+    <string name="notRegistered">Not registered yet?</string>
+    <string name="back">Back</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="addToBasket">Add to BasketS</string>
+    <string name="save">Save</string>
+
+    <!--Radio Buttons-->
+    <string name="buy">Buy</string>
+    <string name="sell">Sell</string>
+
+    <!--Image View-->
+    <string name="settings">Settings</string>
+
+    <!--Menu-->
+    <string name="loeschen">Löschen</string>
 </resources>

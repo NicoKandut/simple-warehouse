@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.account.UserWarehousesActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".activity.warehouse.UserWarehousesActivity">
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_warehouses"
+        android:id="@+id/auw_rv_warehouses"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentEnd="true"
@@ -17,12 +17,11 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintVertical_bias="0.0"
         tools:itemCount="9" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_addWarehouse"
-        android:layout_width="match_parent"
+        android:id="@+id/auw_fab_addWarehouse"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
@@ -31,7 +30,6 @@
         android:clickable="true"
         android:focusable="true"
         app:backgroundTint="@android:color/background_light"
-        app:srcCompat="@drawable/ic_btn_addcircle"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="414dp" />
+        app:srcCompat="@drawable/ic_add_black_30dp" />
+
 </RelativeLayout>

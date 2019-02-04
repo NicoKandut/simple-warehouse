@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.JsonObject;
 import com.okb.warehouse.R;
 import com.okb.warehouse.businesslogic.connection.ApiUtils;
 import com.okb.warehouse.businesslogic.data.Credentials;
@@ -34,12 +33,12 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void initUIReferences() {
-        btn_Register = findViewById(R.id.btn_register);
-        btn_Back = findViewById(R.id.btn_back);
+        btn_Register = findViewById(R.id.ar_btn_register);
+        btn_Back = findViewById(R.id.ar_btn_back);
 
-        editText_Username = findViewById(R.id.editText_username);
-        editText_Password = findViewById(R.id.editText_password);
-        editText_ConfirmPwd = findViewById(R.id.editText_confirmPassword);
+        editText_Username = findViewById(R.id.ar_et_username);
+        editText_Password = findViewById(R.id.ar_et_password);
+        editText_ConfirmPwd = findViewById(R.id.ar_et_confirmPassword);
     }
 
     private void initEventHandlers(){

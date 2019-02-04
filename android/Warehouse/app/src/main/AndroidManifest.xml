@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.okb.warehouse">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -10,7 +11,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppThemeNoActionBar"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".activity.account.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,7 +21,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.account.RegisterActivity" />
-        <activity android:name=".activity.account.UserWarehousesActivity"></activity>
+        <activity android:name=".activity.warehouse.UserWarehousesActivity" />
+        <activity android:name=".activity.warehouse.CreateWarehouseActivity" />
+        <activity android:name=".activity.warehouse.WarehouseDetailsActivity" />
+        <activity android:name=".activity.base.BaseActivity" />
+        <activity android:name=".activity.warehouse.CreateOrderActivity" />
+        <activity android:name=".activity.warehouse.BasketActivity" />
+        <activity android:name=".activity.warehouse.ExportActivity"></activity>
     </application>
 
 </manifest>
