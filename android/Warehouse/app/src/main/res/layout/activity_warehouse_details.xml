@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.warehouse.WarehouseDetailsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginStart="@dimen/defaultMargin"
+        android:layout_marginEnd="@dimen/defaultMargin"
+        android:layout_marginTop="@dimen/defaultMargin">
+
+        <TextView
+            android:id="@+id/awd_tv_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/defaultMargin"/>
+
+        <TextView
+            android:id="@+id/awd_tv_capacity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/capacity"
+            android:textColor="@color/black"
+            android:textSize="@dimen/defaultTextSize"/>
+
+        <ProgressBar
+            android:id="@+id/awd_pbar_capacity"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="20dp"
+            android:layout_marginBottom="@dimen/defaultMargin"
+            />
+
+        <TextView
+            android:id="@+id/awd_tv_storedProducts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/storedProducts"
+            android:textColor="@color/black"
+            android:textSize="@dimen/defaultTextSize"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/awd_rv_products"
+            android:layout_width="match_parent"
+            android:layout_height="460dp"
+            tools:itemCount="9" />
+    </LinearLayout>
+
+</RelativeLayout>

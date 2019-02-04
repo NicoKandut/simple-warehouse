@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.warehouse.UserWarehousesActivity">
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/auw_rv_warehouses"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="false"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="8dp"
+        tools:itemCount="9" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/auw_fab_addWarehouse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="19dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:backgroundTint="@android:color/background_light"
+        app:srcCompat="@drawable/ic_add_black_30dp" />
+
+</RelativeLayout>
