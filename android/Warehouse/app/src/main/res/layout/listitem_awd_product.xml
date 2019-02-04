@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/lip_rl_listItem">
+
+    <TextView
+        android:id="@+id/lip_tv_pAmount"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:layout_alignParentStart="true"/>
+
+    <LinearLayout
+        android:layout_width="152dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+
+        android:layout_toStartOf="@+id/lip_tv_pPrice"
+        android:layout_toEndOf="@+id/lip_tv_pAmount"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lip_tv_pName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/defaultTextSize" />
+
+        <TextView
+            android:id="@+id/lip_tv_pDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/defaultTextSize" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lip_tv_pPrice"
+        android:layout_width="59dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/black"
+        android:textSize="@dimen/defaultTextSize" />
+
+</RelativeLayout>

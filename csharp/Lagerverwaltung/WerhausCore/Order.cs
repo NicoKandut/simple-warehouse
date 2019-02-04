@@ -17,5 +17,9 @@ namespace WerhausCore
             Timestamp = timestamp;
             IdWarehouse = idWarehouse;
         }
+        public Order()
+        {
+            Amounts = new Dictionary<ProductBase, int>();
+        }
     }
 }
