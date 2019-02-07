@@ -22,12 +22,11 @@
         </activity>
         <activity android:name=".activity.account.RegisterActivity" />
         <activity android:name=".activity.warehouse.UserWarehousesActivity" />
-        <activity android:name=".activity.warehouse.CreateWarehouseActivity" />
+        <activity android:name=".activity.warehouse.CreateWarehouseActivity" android:theme="@style/AppThemeNoActionBar.PopUp" />
         <activity android:name=".activity.warehouse.WarehouseDetailsActivity" />
         <activity android:name=".activity.base.BaseActivity" />
-        <activity android:name=".activity.warehouse.CreateOrderActivity" />
-        <activity android:name=".activity.warehouse.BasketActivity" />
-        <activity android:name=".activity.warehouse.ExportActivity"></activity>
+        <activity android:name=".activity.warehouse.ImportActivity" />
+        <activity android:name=".activity.warehouse.ExportActivity" />
+        <activity android:name=".activity.warehouse.AddProductToOrder" android:theme="@style/AppThemeNoActionBar.PopUp" />
     </application>
-
 </manifest>

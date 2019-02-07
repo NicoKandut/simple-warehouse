@@ -57,11 +57,11 @@ public class UserWarehousesActivity extends BaseActivity {
                     if (response.code() == 403){
                         Toast.makeText(uwActivity, "Error: ", Toast.LENGTH_LONG).show();
                     }else{
-                        Log.e("in UserWarehouse", response.errorBody().toString());
                         Toast.makeText(uwActivity, "Error: " + response.code() + " = " + response.errorBody().toString(), Toast.LENGTH_LONG).show();
                     }
                 }
             }
+
 
             @Override
             public void onFailure(Call<List<Warehouse>> call, Throwable t) {  //something went completely wrong (eg. no internet connection)

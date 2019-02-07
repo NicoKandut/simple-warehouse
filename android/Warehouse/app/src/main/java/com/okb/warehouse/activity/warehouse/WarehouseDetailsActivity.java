@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,7 @@ public class WarehouseDetailsActivity extends BaseActivity {
     private TextView tv_warehouseDescription;
     private ProgressBar pbar_capacity;
     private RecyclerView rv_products;
+    private Button btn_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +39,14 @@ public class WarehouseDetailsActivity extends BaseActivity {
         warehouseID = getIntent().getIntExtra("warehouseId", 0);
         initUIReferences();
         fillViews();
+        initEventHandlers();
     }
 
     private void initUIReferences(){
         this.tv_warehouseDescription = findViewById(R.id.awd_tv_description);
         this.pbar_capacity = findViewById(R.id.awd_pbar_capacity);
         this.rv_products = findViewById(R.id.awd_rv_products);
+        this.btn_back = findViewById(R.id.awd_btn_back);
     }
 
     private int calculateProgress(List<Product> Capacities){
@@ -78,4 +82,13 @@ public class WarehouseDetailsActivity extends BaseActivity {
         });
         //endregion
     }
+
+    private void initEventHandlers(){
+        this.btn_back.setOnClickListener(v -> {
+            this.startActivity(new Intent(this, UserWarehousesActivity.class));
+            this.finish();
+        });
+    }
+
+
 }

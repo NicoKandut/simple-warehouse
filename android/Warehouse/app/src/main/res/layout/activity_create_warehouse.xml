@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="0dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginTop="0dp"
+    android:layout_marginEnd="0dp"
+    android:layout_marginRight="0dp"
+    android:layout_marginBottom="0dp"
+    android:orientation="vertical"
+    android:background="@drawable/shape_full_rounded_with_background"
+    android:elevation="@dimen/defaultElevation"
+    tools:context=".activity.warehouse.CreateWarehouseActivity">
+
+    <TextView
+        android:id="@+id/acw_tv_createWarehouse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/h_create_warehouse"
+        android:layout_gravity="center"
+        android:textSize="@dimen/titleSize" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/acw_tv_nameText"
+                android:layout_width="@dimen/TextViewWidthPopUp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spaceBetweenElements10"
+                android:text="@string/name_colon"/>
+
+            <EditText
+                android:id="@+id/acw_tv_name"
+                android:layout_width="@dimen/EditTextWidthPopUp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spaceBetweenElements10"
+                android:inputType="textPersonName"
+                android:text="" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/acw_tv_descriptionText"
+                android:layout_width="@dimen/TextViewWidthPopUp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spaceBetweenElements10"
+                android:text="@string/description_colon" />
+
+            <EditText
+                android:id="@+id/acw_tv_description"
+                android:layout_width="@dimen/EditTextWidthPopUp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spaceBetweenElements10"
+                android:inputType="text|textMultiLine"
+                android:text="" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/acw_tv_capacityText"
+                android:layout_width="@dimen/TextViewWidthPopUp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spaceBetweenElements10"
+                android:text="@string/capacity_colon" />
+
+            <EditText
+                android:id="@+id/acw_tv_capacity"
+                android:layout_width="@dimen/EditTextWidthPopUp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/spaceBetweenElements10"
+                android:inputType="number"
+                android:text="" />
+        </TableRow>
+    </TableLayout>
+
+    <TableRow
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/acw_btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/shape_full_rounded_corners"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/cancel"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/acw_btn_create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/shape_full_rounded_corners"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/create"
+            android:textColor="@color/white" />
+    </TableRow>
+</LinearLayout>

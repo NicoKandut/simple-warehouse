@@ -4,20 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:stretchColumns="1"
-    android:id="@+id/liop_tr_listItem">
+    android:background="@drawable/shape_rounded_corners"
+    android:id="@+id/liop_tr_listItem"
+    android:elevation="@dimen/defaultElevation"
+    android:layout_marginStart="@dimen/defaultMargin"
+    android:layout_marginEnd="@dimen/defaultMargin"
+    android:layout_marginTop="@dimen/defaultMargin">
 
     <TextView
         android:id="@+id/liop_tv_pAmount"
-        android:layout_width="0dip"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:text=""
         android:textColor="@color/black"
         android:textSize="@dimen/defaultTextSize" />
 
     <TextView
         android:id="@+id/liop_tv_pName"
-        android:layout_width="0dip"
+        android:layout_width="@dimen/TableRowWidth"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text=""
@@ -26,7 +30,7 @@
 
     <TextView
         android:id="@+id/liop_tv_pPrice"
-        android:layout_width="0dip"
+        android:layout_width="@dimen/TableRowWidth"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text=""

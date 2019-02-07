@@ -11,7 +11,7 @@
 
     <LinearLayout
         android:layout_width="287dp"
-        android:layout_height="287dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
@@ -28,16 +28,17 @@
             android:id="@+id/al_tv_loginText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/al_ar_spaceBetweenElements"
+            android:layout_marginBottom="@dimen/spaceBetweenElements10"
             android:text="@string/login"
             android:textAlignment="center"
-            android:textSize="@dimen/titleSize" />
+            android:textSize="@dimen/titleSize"
+            android:textColor="@color/black"/>
 
         <EditText
             android:id="@+id/al_et_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/al_ar_spaceBetweenElements"
+            android:layout_marginBottom="@dimen/spaceBetweenElements10"
             android:background="@drawable/shape_full_rounded_corners"
             android:ems="10"
             android:hint="@string/username"
@@ -48,10 +49,10 @@
             android:textColorHighlight="@color/lightgrey" />
 
         <EditText
-            android:id="@+id/ar_et_password"
+            android:id="@+id/al_et_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/al_ar_spaceBetweenElements"
+            android:layout_marginBottom="@dimen/spaceBetweenElements10"
             android:background="@drawable/shape_full_rounded_corners"
             android:ems="10"
             android:hint="@string/password"
@@ -66,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/al_ar_spaceBetweenElements"
+            android:layout_marginBottom="@dimen/spaceBetweenElements10"
             android:background="@drawable/shape_full_rounded_corners"
             android:text="@string/login"
             android:elevation="0dp"
@@ -75,7 +76,7 @@
             android:minWidth="200dp"/>
 
         <Button
-            android:id="@+id/ar_btn_register"
+            android:id="@+id/al_btn_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

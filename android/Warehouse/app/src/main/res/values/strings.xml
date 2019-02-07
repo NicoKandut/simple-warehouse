@@ -6,10 +6,12 @@
     <string name="accountSettings">Account Settings</string>
     <string name="basket">Basket</string>
 
+
     <!--headlines-->
     <string name="h_create_warehouse">Create Warehouse</string>
     <string name="h_Buy">Buy</string>
     <string name="h_Sell">Sell</string>
+    <string name="h_addProducts">Add Products to Order</string>
 
     <!--TextView-->
     <string name="name_colon">Name:</string>
@@ -19,6 +21,9 @@
 
     <string name="capacity">Capacity</string>
     <string name="storedProducts">Stored Products</string>
+
+    <string name="amount">Amount</string>
+    <string name="products">Products</string>
 
     <!--TextFields-->
     <string name="username">Username</string>
@@ -33,16 +38,12 @@
     <string name="back">Back</string>
     <string name="create">Create</string>
     <string name="cancel">Cancel</string>
-    <string name="addToBasket">Add to BasketS</string>
+    <string name="add">Add</string>
     <string name="save">Save</string>
-
-    <!--Radio Buttons-->
-    <string name="buy">Buy</string>
-    <string name="sell">Sell</string>
 
     <!--Image View-->
     <string name="settings">Settings</string>
 
     <!--Menu-->
-    <string name="loeschen">Löschen</string>
+    <string name="delete">Delete</string>
 </resources>

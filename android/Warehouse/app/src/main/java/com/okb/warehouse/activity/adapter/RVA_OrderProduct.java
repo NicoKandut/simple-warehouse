@@ -10,10 +10,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.okb.warehouse.R;
 import com.okb.warehouse.businesslogic.data.Product;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class RVA_OrderProduct extends RecyclerView.Adapter<RVA_OrderProduct.ViewHolder> {
@@ -51,9 +53,13 @@ public class RVA_OrderProduct extends RecyclerView.Adapter<RVA_OrderProduct.View
 
         @Override
         public void onBindViewHolder(@NonNull RVA_OrderProduct.ViewHolder holder, int position) {
-            holder.tv_pName.setText(al_Products.get(position).getName());
-            holder.tv_pPrice.setText(al_Products.get(position).getStringPrice());
-            holder.tv_pAmount.setText(String.valueOf(al_Products.get(position).getAmount()));
+            Product p = al_Products.get(position);
+            DecimalFormat df = new DecimalFormat("###,###,###.00");
+
+            holder.tv_pName.setText(p.getName());
+            holder.tv_pPrice.setText(String.valueOf(df.format(p.getPrice() * p.getAmount())) + "€");
+            holder.tv_pAmount.setText(String.valueOf((int)p.getAmount()) + " x");
+
             holder.iv_Menu.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view){
@@ -67,8 +73,10 @@ public class RVA_OrderProduct extends RecyclerView.Adapter<RVA_OrderProduct.View
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
-                                case R.id.action_loeschen:
-                                    //TODO:Löschen Product
+                                case R.id.action_delete:
+                                    al_Products.remove(p);
+                                    notifyDataSetChanged();
+                                    Toast.makeText(context, "Product successful deleted from List.", Toast.LENGTH_LONG ).show();
                                     break;
                             }
                             return false;

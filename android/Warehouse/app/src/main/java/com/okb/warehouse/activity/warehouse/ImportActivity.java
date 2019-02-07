@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.okb.warehouse.R;
@@ -24,11 +23,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BasketActivity extends BaseActivity {
-    private int wId;
+public class ImportActivity extends BaseActivity {
     private List<Product> l_products;
 
-    private TextView tv_orderHeading;
     private FloatingActionButton fab_addProduct;
     private RecyclerView rv_products;
     private Button btn_create;
@@ -37,47 +34,49 @@ public class BasketActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_order);
 
-        wId = getIntent().getIntExtra("wid", 0);
+        setContent(R.layout.activity_create_order);
+
+        warehouseID = getIntent().getIntExtra("wid", 0);
         l_products = new ArrayList<>();
+
+        getSupportActionBar().setTitle(R.string.h_Buy);
 
         initUIReferences();
         initEventHandlers();
         fillRecyclerView();
+
     }
 
     private void initUIReferences(){
-        this.tv_orderHeading = findViewById(R.id.aco_tv_orderHeading);
         this.rv_products = findViewById(R.id.aco_rv_products);
         this.btn_create = findViewById(R.id.aco_btn_create);
         this.btn_cancel = findViewById(R.id.aco_btn_cancel);
         this.fab_addProduct = findViewById(R.id.aco_fab_addProduct);
-
-        this.tv_orderHeading.setText(R.string.h_Buy);
     }
 
     private void initEventHandlers(){
-        BasketActivity ba = this;
+        ImportActivity ia = this;
         this.fab_addProduct.setOnClickListener(v ->{
-            //TODO: fab_Add Product
+            startActivityForResult(new Intent(this, AddProductToOrder.class).putExtra("isImport", true), 1);
         });
 
         this.btn_create.setOnClickListener(v -> {
-            ApiUtils.getService().createOrder(sp.getString("token", null), wId, this.convertProductsToOrderP()).enqueue(new Callback<Void>(){
+            ApiUtils.getService().createOrder(sp.getString("token", null), ia.warehouseID, this.convertProductsToOrderP()).enqueue(new Callback<Void>(){
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if (response.isSuccessful()) {
-                        Toast.makeText(ba, "Order successful", Toast.LENGTH_LONG).show();
+                        Toast.makeText(ia, "Order successful", Toast.LENGTH_LONG).show();
                         l_products.clear();
+                        ia.startActivity(new Intent(getApplicationContext(), WarehouseDetailsActivity.class).putExtra("warehouseId", ia.warehouseID));
                     }else{
-                        Toast.makeText(ba, "Error: " + response.code() + " = " + response.errorBody().toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ia, "Error: " + response.code() + " = " + response.errorBody().toString(), Toast.LENGTH_LONG).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<Void> call, Throwable t) {
-                    Toast.makeText(ba, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ia, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
         });
@@ -85,11 +84,9 @@ public class BasketActivity extends BaseActivity {
         this.btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), WarehouseDetailsActivity.class).putExtra("wId", warehouseID));
+                ia.startActivity(new Intent(ia, WarehouseDetailsActivity.class).putExtra("warehouseId", ia.warehouseID));
             }
         });
-
-
     }
 
     private void fillRecyclerView(){
@@ -105,4 +102,38 @@ public class BasketActivity extends BaseActivity {
         return op;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if (requestCode == 1 && resultCode == RESULT_OK){
+           int productId = data.getIntExtra("product",0);
+           int amount = data.getIntExtra("amount", 0);
+
+           getAllProducts(productId, amount);
+        }
+    }
+
+    private void getAllProducts(int productId, int amount){
+        ImportActivity ia = this;
+        ApiUtils.getService().getProducts().enqueue(new Callback<List<Product>>(){
+            @Override
+            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+                if (response.isSuccessful()){
+                    for (Product p : response.body()){
+                        if (p.getId() == productId){
+                            p.setAmount(Double.parseDouble(String.valueOf(amount)));
+                            ia.l_products.add(p);
+                            ia.fillRecyclerView();
+                        }
+                    }
+
+                }else{  // error response, no access to resource
+                    Toast.makeText(ia, "Error: " + response.code() + " = " + response.errorBody().toString(), Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Product>> call, Throwable t) {  //something went completely wrong (eg. no internet connection)
+                Toast.makeText(ia, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 }

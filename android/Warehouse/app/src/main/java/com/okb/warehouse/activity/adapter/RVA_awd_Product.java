@@ -15,6 +15,7 @@ import com.okb.warehouse.businesslogic.data.Product;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class RVA_awd_Product extends RecyclerView.Adapter<RVA_awd_Product.ViewHolder> {
@@ -53,16 +54,12 @@ public class RVA_awd_Product extends RecyclerView.Adapter<RVA_awd_Product.ViewHo
     @Override
     public void onBindViewHolder(@NonNull RVA_awd_Product.ViewHolder holder, int position) {
         Product p = al_Products.get(position);
+        DecimalFormat df = new DecimalFormat("###,###,###.00");
+
         holder.tv_pName.setText(p.getName());
         holder.tv_pDescription.setText(p.getDescription());
-        holder.tv_pPrice.setText(String.valueOf(p.getPrice() * p.getAmount()) );
-        holder.tv_pAmount.setText(String.valueOf(p.getAmount()) + "x");
-
-        holder.rl_listItem.setOnClickListener(v -> {
-            //Intent i = new Intent(context, WarehouseDetailsActivity.class);
-            //i.putExtra("warehouseId", al_Products.get(position).getId());
-            //context.startActivity(i);
-        });
+        holder.tv_pPrice.setText(String.valueOf(df.format(p.getPrice() * p.getAmount())) + "€");
+        holder.tv_pAmount.setText(String.valueOf((int)p.getAmount()) + " x");
     }
 
     @Override
