@@ -99,6 +99,7 @@ public class CreateWarehouseActivity extends BaseActivity {
                         Toast.makeText(awActivity, "Successful", Toast.LENGTH_LONG).show();
                         awActivity.clearFields();
                         awActivity.startActivity(new Intent(getApplicationContext(), UserWarehousesActivity.class));
+                        awActivity.finish();
                     } else {  // error response, no access to resource
                         if (response.code() == 403) {
                             Toast.makeText(awActivity, "Error: ", Toast.LENGTH_LONG).show();

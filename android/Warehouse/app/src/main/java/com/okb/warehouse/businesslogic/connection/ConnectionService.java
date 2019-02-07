@@ -63,7 +63,12 @@ public interface ConnectionService {
     //create one Warehouse
     @POST("/user/warehouses")
     Call<Void> createWarehouse(@Header ("Token") String token, @Body Warehouse warehouse);
+
+    //delete one warehouse
+    @DELETE("/user/warehouses/{w_id}")
+    Call<Void> deleteWarehouse(@Header ("Token") String token, @Path("w_id") int id);
     //endregion
+
 
     //region products
     //get all Products

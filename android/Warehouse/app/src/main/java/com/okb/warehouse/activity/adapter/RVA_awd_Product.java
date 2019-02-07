@@ -60,12 +60,6 @@ public class RVA_awd_Product extends RecyclerView.Adapter<RVA_awd_Product.ViewHo
         holder.tv_pDescription.setText(p.getDescription());
         holder.tv_pPrice.setText(String.valueOf(df.format(p.getPrice() * p.getAmount())) + "€");
         holder.tv_pAmount.setText(String.valueOf((int)p.getAmount()) + " x");
-
-        holder.rl_listItem.setOnClickListener(v -> {
-            //Intent i = new Intent(context, WarehouseDetailsActivity.class);
-            //i.putExtra("warehouseId", al_Products.get(position).getId());
-            //context.startActivity(i);
-        });
     }
 
     @Override

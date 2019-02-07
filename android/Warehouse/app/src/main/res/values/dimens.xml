@@ -12,4 +12,6 @@
 
     <dimen name="TextViewWidthPopUp">58dp</dimen>
     <dimen name="EditTextWidthPopUp">200dp</dimen>
+
+    <dimen name="TableRowWidth">0dip</dimen>
 </resources>

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.okb.warehouse.R;
 import com.okb.warehouse.businesslogic.data.Product;
@@ -73,7 +74,9 @@ public class RVA_OrderProduct extends RecyclerView.Adapter<RVA_OrderProduct.View
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.action_delete:
-                                    //TODO delete
+                                    al_Products.remove(p);
+                                    notifyDataSetChanged();
+                                    Toast.makeText(context, "Product successful deleted from List.", Toast.LENGTH_LONG ).show();
                                     break;
                             }
                             return false;
