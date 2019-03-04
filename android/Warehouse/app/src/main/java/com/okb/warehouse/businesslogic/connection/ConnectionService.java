@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.okb.warehouse.businesslogic.data.Credentials;
 import com.okb.warehouse.businesslogic.data.OrderProduct;
 import com.okb.warehouse.businesslogic.data.Product;
+import com.okb.warehouse.businesslogic.data.SimpleUser;
 import com.okb.warehouse.businesslogic.data.Warehouse;
 
 import org.json.JSONObject;
@@ -21,6 +22,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -47,11 +49,17 @@ public interface ConnectionService {
     Call<Void> deleteUser(@Header("Token") String token);
     //endregion
 
-    //region warehouses
-    //userinfo with warehouses
-    @GET("/user")
-    Call<JsonObject> getUser(@Header("Token") String token);
+    //region user
+    //Change User Credentials
+    @PUT("/user")
+    Call<Void> changeCredentials(@Header("Token") String token, @Body Credentials credentials);
 
+    //get User Details
+    @GET("/user?cred")
+    Call<SimpleUser> getCredentials(@Header("Token") String token);
+    //endregion
+
+    //region warehouses
     //warehouses from user
     @GET("/user/warehouses")
     Call<List<Warehouse>> getWarehousesFromUser(@Header("Token") String token);

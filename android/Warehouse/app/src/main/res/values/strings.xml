@@ -25,6 +25,9 @@
     <string name="amount">Amount</string>
     <string name="products">Products</string>
 
+    <string name="oldPassword">Old Password</string>
+    <string name="newPassword">New Password</string>
+
     <!--TextFields-->
     <string name="username">Username</string>
     <string name="password">Password</string>
@@ -40,10 +43,13 @@
     <string name="cancel">Cancel</string>
     <string name="add">Add</string>
     <string name="save">Save</string>
+    <string name="change">Change</string>
 
     <!--Image View-->
     <string name="settings">Settings</string>
 
     <!--Menu-->
     <string name="delete">Delete</string>
+    <string name="editUserdata">Edit Userdata</string>
+    <string name="deleteUser">Delete User</string>
 </resources>

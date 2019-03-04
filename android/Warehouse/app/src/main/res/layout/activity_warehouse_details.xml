@@ -45,15 +45,15 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/awd_rv_products"
             android:layout_width="match_parent"
-            android:layout_height="280dp"
-            tools:itemCount="20"/>
+            android:layout_height="189dp"
+            tools:itemCount="20" />
 
-    <Button
-        android:id="@+id/awd_btn_back"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/shape_full_rounded_corners"
-        android:backgroundTint="@color/colorPrimary"
-        android:text="@string/back"
-        android:textColor="@color/white" />
+        <Button
+            android:id="@+id/awd_btn_back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_full_rounded_corners"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/back"
+            android:textColor="@color/white" />
 </LinearLayout>

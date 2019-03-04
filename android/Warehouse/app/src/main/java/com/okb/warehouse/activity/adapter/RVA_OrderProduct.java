@@ -63,10 +63,8 @@ public class RVA_OrderProduct extends RecyclerView.Adapter<RVA_OrderProduct.View
             holder.iv_Menu.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view){
-                    //creating a popup menu
-                    PopupMenu popup = new PopupMenu(context, holder.iv_Menu);
-                    //inflating menu from xml resource
-                    popup.inflate(R.menu.menu_order_product);
+                    PopupMenu popup = new PopupMenu(context, holder.iv_Menu);   //creating a popup menu
+                    popup.inflate(R.menu.menu_order_product);//inflating menu from xml resource
 
                     //adding click listener
                     popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -82,8 +80,7 @@ public class RVA_OrderProduct extends RecyclerView.Adapter<RVA_OrderProduct.View
                             return false;
                         }
                     });
-                    //displaying the popup
-                    popup.show();
+                    popup.show();//displaying the popup
                 }
             });
         }
