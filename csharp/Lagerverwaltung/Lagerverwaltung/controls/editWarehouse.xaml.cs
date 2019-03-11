@@ -83,5 +83,10 @@ namespace Lagerverwaltung
         {
             main.switchToHistography();
         }
+
+        private void visibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            Warehouse = (main.ucManageWarehouses.listBoxWarehouses.SelectedItem as Warehouse);
+        }
     }
 }

@@ -19,7 +19,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid>
+    <Grid IsVisibleChanged="visibleChanged">
         
         <ListBox x:Name="listBoxProducts" Margin="340,0,0,0" BorderThickness="1,0,0,0" SelectionChanged="listBoxProducts_SelectionChanged">
             <ListBox.ItemTemplate>

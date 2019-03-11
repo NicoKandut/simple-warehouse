@@ -35,7 +35,7 @@ namespace Lagerverwaltung
         {
             try
             {
-                if (order.Amounts.Count > 0)
+                if (order.products.Count > 0)
                 {
                     if (purchase)
                     {
@@ -50,10 +50,10 @@ namespace Lagerverwaltung
                     }
                     else
                     {
-                        List<ProductBase> keys = order.Amounts.Keys.ToList();
+                        List<ProductBase> keys = order.products.Keys.ToList();
                         foreach (ProductBase key in keys)
                         {
-                            order.Amounts[key] *= -1;
+                            order.products[key] *= -1;
                         }
                         if (await Database.addOrderAsync(order))
                         {
@@ -83,7 +83,7 @@ namespace Lagerverwaltung
         }
         private bool AmountOverflows(Product product)
         {
-            if (!purchase && (order.Amounts[cbProducts.SelectedItem as ProductBase] + int.Parse(txtBoxAmount.Text)) > product.Amount)
+            if (!purchase && (order.products[cbProducts.SelectedItem as ProductBase] + int.Parse(txtBoxAmount.Text)) > product.Amount)
                 return true;
             return false;
         }
@@ -102,19 +102,19 @@ namespace Lagerverwaltung
                             //if ((int.Parse(txtBoxAmount.Text)) > product.Amount)
                             //    txtBoxAmount.Text = product.Amount.ToString();
                         }
-                        if (!order.Amounts.ContainsKey(cbProducts.SelectedItem as ProductBase))
+                        if (!order.products.ContainsKey(cbProducts.SelectedItem as ProductBase))
                         {
                             if(!purchase)
                             if (int.Parse(txtBoxAmount.Text) > product.Amount)
                                 throw new Exception("Cannot sell more wares than stored!");
-                            order.Amounts.Add(cbProducts.SelectedItem as ProductBase, int.Parse(txtBoxAmount.Text));
+                            order.products.Add(cbProducts.SelectedItem as ProductBase, int.Parse(txtBoxAmount.Text));
                             UpdateAllOrderedProductsInformation();
                         }
                         else
                         {
                             if (AmountOverflows(product))
                                 throw new Exception("Cannot sell more wares than stored!");
-                            order.Amounts[cbProducts.SelectedItem as ProductBase] += int.Parse(txtBoxAmount.Text);
+                            order.products[cbProducts.SelectedItem as ProductBase] += int.Parse(txtBoxAmount.Text);
                             UpdateAllOrderedProductsInformation();
                         }
                     }
@@ -136,7 +136,7 @@ namespace Lagerverwaltung
         private void UpdateAllOrderedProductsInformation()
         {
             listBoxSummary.Items.Clear();
-            foreach (KeyValuePair<ProductBase, int> product in order.Amounts)
+            foreach (KeyValuePair<ProductBase, int> product in order.products)
             {
                 listBoxSummary.Items.Add(new Product(product.Key.Id, product.Key.Name, product.Key.Description, 0, 0, product.Value));
             }
@@ -176,16 +176,16 @@ namespace Lagerverwaltung
                 {
 
                     ProductBase product = cbProducts.SelectedItem as ProductBase;
-                    if (order.Amounts.ContainsKey(product))
+                    if (order.products.ContainsKey(product))
                     {
-                        if (((order.Amounts[product]) - int.Parse(txtBoxAmount.Text) > 0))
+                        if (((order.products[product]) - int.Parse(txtBoxAmount.Text) > 0))
                         {
-                            order.Amounts[product] -= int.Parse(txtBoxAmount.Text);
+                            order.products[product] -= int.Parse(txtBoxAmount.Text);
                             UpdateAllOrderedProductsInformation();
                         }
                         else
                         {
-                            order.Amounts.Remove(product);
+                            order.products.Remove(product);
                             txtBoxAmount.Text = "";
                             UpdateAllOrderedProductsInformation();
                         }

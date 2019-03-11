@@ -40,7 +40,8 @@ namespace Lagerverwaltung
         {
             string path = " https://simple-warehouse-api.herokuapp.com/user/warehouses/" + warehouseId;
             HttpResponseMessage response = await Client.GetAsync(path);
-            return handleResponse(response, (message) =>{return JsonConvert.DeserializeObject<Warehouse>(response.Content.ReadAsStringAsync().Result);}, onErrorAction);
+            secondWarehouseHelp w = handleResponse(response, (message) =>{return JsonConvert.DeserializeObject<secondWarehouseHelp>(response.Content.ReadAsStringAsync().Result);}, onErrorAction);          
+            return new Warehouse(w.Name, w.Description, 0, w.Capacity, w.Owner, w.Products, convertOrders(w.Orders));
         }
         public static async Task<bool> registerAsync(string username, string password)
         {
@@ -94,7 +95,7 @@ namespace Lagerverwaltung
         public static async Task<bool> addOrderAsync(Order _order)
         {
             List<OrderHelp> productList = new List<OrderHelp>();
-            foreach (KeyValuePair<ProductBase, int> p in _order.Amounts)
+            foreach (KeyValuePair<ProductBase, int> p in _order.products)
                 productList.Add(new OrderHelp(p.Key.Id, p.Value));
             string content = JsonConvert.SerializeObject(productList);
             HttpResponseMessage response = await Client.PostAsync(Path + "/user/warehouses/" + _order.IdWarehouse + "/orders", new StringContent(content, Encoding.UTF8, "application/json"));
@@ -108,7 +109,8 @@ namespace Lagerverwaltung
         public static async Task<List<Order>> getAllOrdersOfWarehouse(int warehouseId)
         {
             HttpResponseMessage response = await Client.GetAsync(Path + "/user/warehouses/" + warehouseId + "/orders");
-            return handleResponse(response, (message) => { return JsonConvert.DeserializeObject<List<Order>>(response.Content.ReadAsStringAsync().Result); }, onErrorAction);
+            List<secondOrderHelp> orders = handleResponse(response, (message) => { return JsonConvert.DeserializeObject<List<secondOrderHelp>>(response.Content.ReadAsStringAsync().Result); }, onErrorAction);
+            return convertOrders(orders);
         }
 
         private static T handleResponse<T>(HttpResponseMessage response, Func<HttpResponseMessage, T> onSuccess, Action<HttpResponseMessage> onError)
@@ -119,7 +121,23 @@ namespace Lagerverwaltung
                 onError(response);
             throw new Exception("Unexpected Error!");
         }
+
+        private static List<Order> convertOrders(List<secondOrderHelp> Orders)
+        {
+            List<Order> orders = new List<Order>();
+            foreach (secondOrderHelp o in Orders)
+            {
+                Dictionary<ProductBase, int> amounts = new Dictionary<ProductBase, int>();
+                foreach (Product p in o.products)
+                {
+                    amounts.Add(new ProductBase(p.Id, p.Name, p.Description, p.Price, p.Space), p.Amount);
+                }
+                orders.Add(new Order(o.id, amounts, o.timestamp, o.IdWarehouse));
+            }
+            return orders;
+        }
     }
+
 }
 class ErrorHelp
 {
@@ -172,5 +190,41 @@ class WarehouseHelp
         this.name = name;
         this.description = description;
         this.capacity = capacity;
+    }
+}
+class secondOrderHelp
+{
+    public int id { get; set; }
+    public List<Product> products { get; set; }
+    public DateTime timestamp { get; set; }
+    public int IdWarehouse { get; set; }
+
+    public secondOrderHelp(int id, List<Product> products, DateTime timestamp, int idWarehouse)
+    {
+        this.id = id;
+        this.products = products;
+        this.timestamp = timestamp;
+        IdWarehouse = idWarehouse;
+    }
+}
+class secondWarehouseHelp
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Description { get; set; }
+    public int Capacity { get; set; }
+    public Owner Owner { get; set; }
+    public List<Product> Products { get; set; }
+    public List<secondOrderHelp> Orders { get; set; }
+
+    public secondWarehouseHelp(int id, string name, string description, int capacity, Owner owner, List<Product> products, List<secondOrderHelp> orders)
+    {
+        Id = id;
+        Name = name;
+        Description = description;
+        Capacity = capacity;
+        Owner = owner;
+        Products = products;
+        Orders = orders;
     }
 }

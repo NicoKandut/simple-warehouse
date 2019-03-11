@@ -29,7 +29,7 @@ namespace Lagerverwaltung
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Calculation.getHistographyData((main.ucEditWarehouse.Warehouse.Id));
+            Calculation.getHistographyData((main.ucEditWarehouse.Warehouse));
 
             // main.switchToEditWarehouse();
         }
