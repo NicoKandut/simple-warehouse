@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using WerhausCore;
+using WerhausManager;
 
 namespace Lagerverwaltung
 {
@@ -13,9 +14,9 @@ namespace Lagerverwaltung
     {
         public static Action<HttpResponseMessage> onErrorAction = (HttpResponseMessage response) =>
         {
-            string message = response.Content.ReadAsStringAsync().Result.ToString();
-            configManager.writeLog(message, WerhausManager.LogType.ERROR);
-            throw new Exception(message);
+            ErrorHelp message = JsonConvert.DeserializeObject<ErrorHelp>(response.Content.ReadAsStringAsync().Result.ToString());
+            configManager.writeLog(message.details + ": " + message.message, WerhausManager.LogType.ERROR);
+            throw new WebserviceError(message.message, message.details);
         };
         public static string Path { get; set; }
         public static string Token { get; set; }
@@ -109,28 +110,26 @@ namespace Lagerverwaltung
             HttpResponseMessage response = await Client.GetAsync(Path + "/user/warehouses/" + warehouseId + "/orders");
             return handleResponse(response, (message) => { return JsonConvert.DeserializeObject<List<Order>>(response.Content.ReadAsStringAsync().Result); }, onErrorAction);
         }
+
         private static T handleResponse<T>(HttpResponseMessage response, Func<HttpResponseMessage, T> onSuccess, Action<HttpResponseMessage> onError)
         {
             if (response.IsSuccessStatusCode)
                 return onSuccess(response);
             else
                 onError(response);
-            throw new Exception("Unexpedted Error!");
+            throw new Exception("Unexpected Error!");
         }
     }
 }
-class ErrorObject
+class ErrorHelp
 {
-    public string message { get; set; }
     public string details { get; set; }
-    public ErrorObject(string message, string details)
+    public string message { get; set; }
+
+    public ErrorHelp(string details, string message)
     {
-        this.message = message;
         this.details = details;
-    }
-    public override string ToString()
-    {
-        return message + "\n" + details;
+        this.message = message;
     }
 }
 class OrderHelp

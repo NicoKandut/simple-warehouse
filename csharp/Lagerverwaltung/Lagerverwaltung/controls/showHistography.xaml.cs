@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WerhausCore;
 
 namespace Lagerverwaltung
 {
@@ -28,7 +29,9 @@ namespace Lagerverwaltung
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            main.switchToEditWarehouse();
+            Calculation.getHistographyData((main.ucEditWarehouse.Warehouse.Id));
+
+            // main.switchToEditWarehouse();
         }
     }
 }

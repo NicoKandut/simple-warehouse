@@ -14,7 +14,7 @@ namespace Lagerverwaltung
         MainWindow main = (MainWindow)Application.Current.MainWindow;
         public manageWarehouses()
         {
-            InitializeComponent();
+            InitializeComponent();           
         }
         private void btnAddWarehouse_Click(object sender, RoutedEventArgs e)
         {
@@ -51,9 +51,10 @@ namespace Lagerverwaltung
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                configManager.showErrorMessage(ex);
             }
         }
+        
         public async void updateWarehouseList()
         {
             try
@@ -63,7 +64,7 @@ namespace Lagerverwaltung
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Error while trying to refresh warehouses!\n" + ex.Message);
+                configManager.showErrorMessage(ex);
             }
         }
     }

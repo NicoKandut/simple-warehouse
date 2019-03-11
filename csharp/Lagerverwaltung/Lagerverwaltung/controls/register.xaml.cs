@@ -44,7 +44,7 @@ namespace Lagerverwaltung
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Register failed!\n" + ex.Message);
+                configManager.showErrorMessage(ex);
             }
         }
 

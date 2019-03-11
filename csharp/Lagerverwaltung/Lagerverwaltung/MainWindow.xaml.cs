@@ -57,7 +57,7 @@ namespace Lagerverwaltung
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Something went wrong...", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                configManager.showErrorMessage(ex);
             }
         }
         //check if user really wants to quit the application
@@ -92,13 +92,15 @@ namespace Lagerverwaltung
                     if (txtBoxPassword.Password == currentOwner.Password)
                     {
                         if (!String.IsNullOrWhiteSpace(txtBoxUsername.Text))
-                            if(await Database.updateOwnerAsync(txtBoxUsername.Text, txtBoxNewPassword.Password))
+                        {
+                            if (await Database.updateOwnerAsync(txtBoxUsername.Text, txtBoxNewPassword.Password))
                             {
                                 flyoutProfile.IsOpen = false;
                                 MessageBox.Show("Credentials changed!", "Change", MessageBoxButton.OK, MessageBoxImage.Information);
                             }
+                        }
                         else
-                            MessageBox.Show("Username cannot be empty!","ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show("Username cannot be empty!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
                     }
                     else
                         MessageBox.Show("Wrong confirmation password", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -114,35 +116,42 @@ namespace Lagerverwaltung
                         MessageBox.Show("No changes detetced", "Alert", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                configManager.showErrorMessage(ex);
             }
         }
         //event handler for button logout with check
         public async void btnLogout_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBoxResult.Yes == MessageBox.Show("Are you sure you want to logout?", "Logout?", MessageBoxButton.YesNo, MessageBoxImage.Question))
+            try
             {
-                bool result = await Database.logoutAsync();
-                if (result)
+                if (MessageBoxResult.Yes == MessageBox.Show("Are you sure you want to logout?", "Logout?", MessageBoxButton.YesNo, MessageBoxImage.Question))
                 {
-                    switchToLogin();
+                    bool result = await Database.logoutAsync();
+                    if (result)
+                    {
+                        switchToLogin();
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                configManager.showErrorMessage(ex);
             }
         }
         //event handler for button delete account with check
         private async void btnDeleteAccount_Click(object sender, RoutedEventArgs e)
         {
-            if(MessageBox.Show("Are you sure you want do delete your account?\nThis change is permament and cannot be reversed!", "Delete Account", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Are you sure you want do delete your account?\nThis change is permament and cannot be reversed!", "Delete Account", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                if(await Database.deleteAccountAsync())
+                if (await Database.deleteAccountAsync())
                 {
                     switchToLogin();
                 }
             }
         }
-        public void setStatus(string text)
+        public void log(string text)
         {
             lblMessage.Content = text;
         }
@@ -212,7 +221,7 @@ namespace Lagerverwaltung
             ucCreateWarehouse.Visibility = Visibility.Visible;
             ucAddOrder.Visibility = Visibility.Visible;
         }
-#endregion
+        #endregion
         ~MainWindow()
         {
             Database.logoutAsync();

@@ -49,7 +49,7 @@ namespace Lagerverwaltung
                 }
             catch(Exception ex)
             {
-                MessageBox.Show("Error while trying to create warehouse!");
+                configManager.showErrorMessage(ex);
             }
         }
         //input handler for capacity of warehouse to only allow numbers

@@ -73,7 +73,7 @@
         <local:createWarehouse x:Name="ucCreateWarehouse" Background="White" Height="436" Margin="0,14,10,0" BorderBrush="Black" BorderThickness="1" Width="318" HorizontalAlignment="Right" VerticalAlignment="Top"/>
         <local:addOrder x:Name="ucAddOrder" Background="White" BorderBrush="Black" BorderThickness="0,0,1,0" Visibility="Collapsed" Margin="-2,58,0,24" HorizontalAlignment="Left" Width="343" Height="Auto"/>
         <StatusBar x:Name="statusBar" Height="24" VerticalAlignment="Bottom" Background="#0D74DB">
-            <Label x:Name="lblMessage" Height="24" Width="145" Content="Hello this is example text" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+            <Label x:Name="lblMessage" Height="24" Width="145" Content="" HorizontalAlignment="Left" VerticalAlignment="Center"/>
             <StatusBarItem HorizontalContentAlignment="Right" HorizontalAlignment="Right">
             <ProgressBar x:Name="progressBar" Width="200" Height="14" VerticalAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Value="0"></ProgressBar>
             </StatusBarItem>

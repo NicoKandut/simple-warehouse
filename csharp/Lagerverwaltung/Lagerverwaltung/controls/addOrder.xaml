@@ -14,9 +14,9 @@
         </Grid.ColumnDefinitions>
         <Button x:Name="btnOrder" Content="Order" Margin="17,0,10,16" Click="btnOrder_Click" Height="29" VerticalAlignment="Bottom"/>
         <Button x:Name="btnCancel" Content="Cancel" Margin="10,0,17,16" Click="btnCancel_Click" Height="29" VerticalAlignment="Bottom" Grid.Column="1"/>
-        <Button  x:Name="btnAddProduct" Content="Add to order" Margin="10,71,17,0" Click="btnAddProduct_Click" Height="30" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-        <ComboBox x:Name="cbProducts" Margin="10,157,17,0" Height="29" VerticalAlignment="Top" SelectionChanged="cbProducts_SelectionChanged" Grid.ColumnSpan="2"/>
-        <TextBox x:Name="txtBoxAmount" Margin="10,223,17,0" TextWrapping="Wrap" PreviewTextInput="textInput" Text="" Height="31" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Button  x:Name="btnAddProduct" Content="Add to order" Margin="10,203,17,0" Click="btnAddProduct_Click" Height="30" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <ComboBox x:Name="cbProducts" Margin="10,76,17,0" Height="29" VerticalAlignment="Top" SelectionChanged="cbProducts_SelectionChanged" Grid.ColumnSpan="2"/>
+        <TextBox x:Name="txtBoxAmount" VerticalContentAlignment="Center" Margin="10,142,17,0" TextWrapping="Wrap" PreviewTextInput="textInput" Text="" Height="31" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
         <ListBox x:Name="listBoxSummary" FontSize="20" FontWeight="SemiBold" BorderBrush="Black" BorderThickness="1" Margin="10,273,17,72" Grid.ColumnSpan="2" SelectionChanged="listBoxSummary_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate >
@@ -27,8 +27,8 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Label x:Name="lblAmount" Content="Amount:" Height="27" Margin="10,197,17,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
-        <Button  x:Name="btnRemoveProduct" Content="Remove from order" Margin="10,112,17,0" Click="btnRemoveProduct_Click" Height="30" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Label x:Name="lblAmount" Content="Amount:" Height="27" Margin="10,110,17,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Button  x:Name="btnRemoveProduct" Content="Remove from order" Margin="10,238,17,0" Click="btnRemoveProduct_Click" Height="30" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
         <Label x:Name="lblTitle" Content="" HorizontalContentAlignment="Center" FontSize="30" Height="52" Margin="10,10,17,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>

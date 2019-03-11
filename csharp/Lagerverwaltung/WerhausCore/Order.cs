@@ -21,5 +21,14 @@ namespace WerhausCore
         {
             Amounts = new Dictionary<ProductBase, int>();
         }
+        public int getTotalAmount()
+        {
+            int result = 0;
+            foreach(KeyValuePair<ProductBase, int> p in Amounts)
+            {
+                result += p.Value;
+            }
+            return result;
+        }
     }
 }

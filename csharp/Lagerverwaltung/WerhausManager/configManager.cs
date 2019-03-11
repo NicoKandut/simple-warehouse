@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Configuration;
 using WerhausManager;
+using System.Windows;
 
 namespace Lagerverwaltung
 {
@@ -27,6 +28,16 @@ namespace Lagerverwaltung
             {
                 sw.WriteLine("[" + DateTime.Now + "]" + "[" + type.ToString() + "]" + information);
             }           
+        }
+        public static void showErrorMessage(Exception ex)
+        {
+            if (ex is WebserviceError)
+            {
+                WebserviceError we = ex as WebserviceError;
+                MessageBox.Show(we.messageDetails + "\n", we.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else
+                MessageBox.Show(ex.Message + "\n", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         private static void CheckForLogFileCreateIfMissing()
         {

@@ -35,8 +35,7 @@ namespace Lagerverwaltung
             {
                 if (String.IsNullOrWhiteSpace(txtBoxName.Text) || String.IsNullOrWhiteSpace(txtBoxPwd.Password))
                     throw new Exception("All fields must be filled!");
-                bool result = await Database.loginAsync(txtBoxName.Text, txtBoxPwd.Password);
-                if (result)
+                if (await Database.loginAsync(txtBoxName.Text, txtBoxPwd.Password))
                 {
                     main.currentOwner = await Database.getOwnerAsync();
                     main.currentOwner.Name = txtBoxName.Text;
@@ -48,6 +47,7 @@ namespace Lagerverwaltung
                     txtBoxName.Text = "";
                     txtBoxPwd.Password = "";
                     main.switchToManageWarehouses();
+
                 }
                 else
                 {
@@ -56,10 +56,10 @@ namespace Lagerverwaltung
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Login failed!\n"+ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                configManager.showErrorMessage(ex);
             }
         }
-
+        
         private void btnRegister_Click(object sender, RoutedEventArgs e)
         {
             main.switchToRegister();

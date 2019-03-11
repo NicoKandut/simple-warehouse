@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WerhausCore;
+using WerhausManager;
 
 namespace Lagerverwaltung
 {
@@ -71,7 +72,7 @@ namespace Lagerverwaltung
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\n", "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                configManager.showErrorMessage(ex);
             }
         }
 
@@ -129,7 +130,7 @@ namespace Lagerverwaltung
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                configManager.showErrorMessage(ex);
             }
         }
         private void UpdateAllOrderedProductsInformation()
@@ -157,7 +158,7 @@ namespace Lagerverwaltung
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                configManager.showErrorMessage(ex);
             }
         }
         //check for textinput on amount field to only allow numbers
