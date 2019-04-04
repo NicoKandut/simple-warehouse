@@ -41,7 +41,7 @@ namespace Lagerverwaltung
             string path = " https://simple-warehouse-api.herokuapp.com/user/warehouses/" + warehouseId;
             HttpResponseMessage response = await Client.GetAsync(path);
             secondWarehouseHelp w = handleResponse(response, (message) =>{return JsonConvert.DeserializeObject<secondWarehouseHelp>(response.Content.ReadAsStringAsync().Result);}, onErrorAction);          
-            return new Warehouse(w.Name, w.Description, 0, w.Capacity, w.Owner, w.Products, convertOrders(w.Orders));
+            return new Warehouse(w.Id, w.Name, w.Description, 0, w.Capacity, w.Owner, w.Products, convertOrders(w.Orders));
         }
         public static async Task<bool> registerAsync(string username, string password)
         {
@@ -112,7 +112,6 @@ namespace Lagerverwaltung
             List<secondOrderHelp> orders = handleResponse(response, (message) => { return JsonConvert.DeserializeObject<List<secondOrderHelp>>(response.Content.ReadAsStringAsync().Result); }, onErrorAction);
             return convertOrders(orders);
         }
-
         private static T handleResponse<T>(HttpResponseMessage response, Func<HttpResponseMessage, T> onSuccess, Action<HttpResponseMessage> onError)
         {
             if (response.IsSuccessStatusCode)
@@ -121,7 +120,6 @@ namespace Lagerverwaltung
                 onError(response);
             throw new Exception("Unexpected Error!");
         }
-
         private static List<Order> convertOrders(List<secondOrderHelp> Orders)
         {
             List<Order> orders = new List<Order>();
@@ -137,7 +135,6 @@ namespace Lagerverwaltung
             return orders;
         }
     }
-
 }
 class ErrorHelp
 {

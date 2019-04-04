@@ -1,10 +1,12 @@
-﻿<UserControl x:Class="Lagerverwaltung.manageWarehouses"
+﻿<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Lagerverwaltung"
+             xmlns:controls="clr-namespace:Lagerverwaltung.controls" x:Class="Lagerverwaltung.manageWarehouses"
              mc:Ignorable="d" 
+             IsVisibleChanged="UserControl_IsVisibleChanged"
              d:DesignHeight="300" Width="602.069">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -15,11 +17,11 @@
                 <DataTemplate >
                     <DockPanel x:Name="dockPane" HorizontalAlignment="Left" >
                         <StackPanel x:Name="stackPaneText" Width="670" Orientation="Vertical">
-                            <TextBlock FontSize="20" Text="{Binding Name}"></TextBlock>
-                            <TextBlock FontSize="15" Text="{Binding Description}"></TextBlock>
+                            <TextBlock FontSize="20" Text="{Binding Name}"/>
+                            <TextBlock FontSize="15" Text="{Binding Description}"/>
                         </StackPanel>
                         <StackPanel x:Name="stackPaneCapacity" Margin="50,0,0,0" Orientation="Horizontal" HorizontalAlignment="Right">
-                            <ProgressBar x:Name="progressBarCapacity" HorizontalContentAlignment="Right" HorizontalAlignment="Right" MaxHeight="30" Width="200" Minimum="0" Maximum="{Binding Capacity}" Value="{Binding CurrentCapacity}"></ProgressBar>
+                            <ProgressBar x:Name="progressBarCapacity" HorizontalContentAlignment="Right" HorizontalAlignment="Right" MaxHeight="30" Width="200" Minimum="0" Maximum="{Binding Capacity}" Value="{Binding CurrentCapacity}"/>
                             <TextBlock FontSize="15" VerticalAlignment="Center">
                                 <TextBlock.Text>
                                     <MultiBinding StringFormat="{}{0}/{1}">
@@ -31,10 +33,10 @@
                         </StackPanel>
                     </DockPanel>
                 </DataTemplate>
-                
+
             </ListBox.ItemTemplate>
             <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
+                <Style TargetType="{x:Type ListBoxItem}">
                     <Setter Property="Height" Value="50" />
                     <Setter Property="FontSize" Value="25"/>
                     <Setter Property="BorderBrush" Value="Black"/>
@@ -45,5 +47,6 @@
         <Button x:Name="btnAddWarehouse" Content="Add warehouse" Height="29" Margin="0,25,15,0" VerticalAlignment="Top" Click="btnAddWarehouse_Click" HorizontalAlignment="Right" Width="308"/>
         <Button x:Name="btnDeleteWarehouse" Content="Delete warehouse" Height="29" Margin="0,67,15,0" VerticalAlignment="Top" Click="btnDeleteWarehouse_Click" HorizontalAlignment="Right" Width="308"/>
         <Button x:Name="btnEditWarehouse" Content="Manage warehouse" Height="29" Margin="0,110,15,0" VerticalAlignment="Top" Click="btnEditWarehouse_Click" HorizontalAlignment="Right" Width="308"/>
+        <Button x:Name="btnCatalog" Content="Catalog" Height="29" Margin="0,153,15,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="308" Click="BtnCatalog_Click"/>
     </Grid>
 </UserControl>

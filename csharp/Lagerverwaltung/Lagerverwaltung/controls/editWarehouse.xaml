@@ -20,7 +20,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid IsVisibleChanged="visibleChanged">
-        
+
         <ListBox x:Name="listBoxProducts" Margin="340,0,0,0" BorderThickness="1,0,0,0" SelectionChanged="listBoxProducts_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate >
@@ -29,13 +29,14 @@
                         <TextBlock FontSize="15" Text="{Binding Description}"></TextBlock>
                         <TextBlock FontSize="15" Text="{Binding Price, StringFormat='Price: {0:0.00}€'}"></TextBlock>
                         <TextBlock FontSize="15" Text="{Binding Amount, StringFormat='Amount: {0}'}"></TextBlock>
+                        <TextBlock FontSize="15" Text="{Binding Space, StringFormat='Space: {0}'}"></TextBlock>
                     </StackPanel>
                 </DataTemplate>
 
             </ListBox.ItemTemplate>
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
-                    <Setter Property="Height" Value="100" />
+                    <Setter Property="Height" Value="115" />
                     <Setter Property="FontSize" Value="25"/>
                     <Setter Property="BorderBrush" Value="Black"/>
                     <Setter Property="BorderThickness" Value="0 0 0 1"/>
@@ -57,9 +58,11 @@
                 </Rectangle>
             </StackPanel>
         </Button>
-        <Button x:Name="btnBuyProduct" Content="Buy Product" HorizontalAlignment="Left" Height="39" Margin="22,65,0,0" VerticalAlignment="Top" Width="299" Click="btnBuyProduct_Click"/>
-        <Button x:Name="btnSellProduct" Content="Sell Product" HorizontalAlignment="Left" Height="39" Margin="22,115,0,0" VerticalAlignment="Top" Width="299" Click="btnSellProduct_Click"/>
-        <Button x:Name="btnHistography" Content="Histography" HorizontalAlignment="Left" Height="39" Margin="22,165,0,0" VerticalAlignment="Top" Width="299" Click="btnHistography_Click"/>
+        <Button x:Name="btnBuyProduct" Content="Buy Product" Margin="22,0,0,103" Click="btnBuyProduct_Click" Height="39" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="299"/>
+        <Button x:Name="btnSellProduct" Content="Sell Product" Margin="22,0,0,59" Click="btnSellProduct_Click" Height="39" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="299"/>
+        <Button x:Name="btnHistography" Content="Histography" Margin="22,0,0,15" Click="btnHistography_Click" Height="39" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="299"/>
+        <Label x:Name="txtBoxDetails" Margin="22,57,0,150" HorizontalAlignment="Left" Width="299"/>
+        <Label x:Name="lblTitel" Content="" HorizontalAlignment="Left" Margin="65,10,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" FontSize="25" Height="45" Width="256"/>
 
     </Grid>
 </UserControl>

@@ -23,17 +23,24 @@ namespace Lagerverwaltung
 
         private async void btnDeleteWarehouse_Click(object sender, RoutedEventArgs e)
         {
-            if (listBoxWarehouses.SelectedItem != null)
+            try
             {
-                Warehouse warehouse = listBoxWarehouses.SelectedItem as Warehouse;
-                if (await Database.deleteWarehouseAsnyc(warehouse.Id))
+                if (listBoxWarehouses.SelectedItem != null)
                 {
-                    main.currentOwner.Warehouses.Remove(warehouse);
-                    listBoxWarehouses.Items.Refresh();
+                    Warehouse warehouse = listBoxWarehouses.SelectedItem as Warehouse;
+                    if (await Database.deleteWarehouseAsnyc(warehouse.Id))
+                    {
+                        main.currentOwner.Warehouses.Remove(warehouse);
+                        listBoxWarehouses.Items.Refresh();
+                    }
                 }
+                else
+                    MessageBox.Show("No warehouse selected!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            else
-                MessageBox.Show("No warehouse selected!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private async void btnEditWarehouse_Click(object sender, RoutedEventArgs e)
@@ -51,7 +58,7 @@ namespace Lagerverwaltung
             }
             catch(Exception ex)
             {
-                configManager.showErrorMessage(ex);
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         
@@ -66,6 +73,18 @@ namespace Lagerverwaltung
             {
                 configManager.showErrorMessage(ex);
             }
+        }
+
+        private void BtnCatalog_Click(object sender, RoutedEventArgs e)
+        {
+            main.switchToShowCatalog();
+        }
+
+        private void UserControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            //Warehouse w = listBoxWarehouses.SelectedItem as Warehouse;
+            //updateWarehouseList();
+            //listBoxWarehouses.SelectedItem = w;
         }
     }
 }

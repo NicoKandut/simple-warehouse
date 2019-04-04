@@ -57,7 +57,7 @@ namespace Lagerverwaltung
             }
             catch (Exception ex)
             {
-                configManager.showErrorMessage(ex);
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         //check if user really wants to quit the application
@@ -69,17 +69,23 @@ namespace Lagerverwaltung
         //event handler for settings button which triggers the flyout
         private void btnSettingsClick(object sender, RoutedEventArgs e)
         {
-            if (currentOwner != null)
+            try
             {
-                txtBoxUsername.Text = currentOwner.Name;
-                if (flyoutProfile.IsOpen)
-                    flyoutProfile.IsOpen = false;
+                if (currentOwner != null)
+                {
+                    txtBoxUsername.Text = currentOwner.Name;
+                    if (flyoutProfile.IsOpen)
+                        flyoutProfile.IsOpen = false;
+                    else
+                        flyoutProfile.IsOpen = true;
+                }
                 else
-                    flyoutProfile.IsOpen = true;
+                {
+                    MessageBox.Show("Login first!", "Login required", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
             }
-            else
-            {
-                MessageBox.Show("Login first!", "Login required", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            catch(Exception ex){
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         //event handler for saving changed user settings in flyout
@@ -118,7 +124,7 @@ namespace Lagerverwaltung
             }
             catch (Exception ex)
             {
-                configManager.showErrorMessage(ex);
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         //event handler for button logout with check
@@ -137,18 +143,25 @@ namespace Lagerverwaltung
             }
             catch(Exception ex)
             {
-                configManager.showErrorMessage(ex);
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         //event handler for button delete account with check
         private async void btnDeleteAccount_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want do delete your account?\nThis change is permament and cannot be reversed!", "Delete Account", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            try
             {
-                if (await Database.deleteAccountAsync())
+                if (MessageBox.Show("Are you sure you want do delete your account?\nThis change is permament and cannot be reversed!", "Delete Account", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    switchToLogin();
+                    if (await Database.deleteAccountAsync())
+                    {
+                        switchToLogin();
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         public void log(string text)
@@ -156,6 +169,11 @@ namespace Lagerverwaltung
             lblMessage.Content = text;
         }
         #region visibility handling methods
+        public void switchToShowCatalog()
+        {
+            switchAllOff();
+            ucShowCatalog.Visibility = Visibility.Visible;
+        }
         public void switchToEditWarehouse()
         {
             switchAllOff();
@@ -204,6 +222,7 @@ namespace Lagerverwaltung
         }
         public void switchAllOff()
         {
+            ucShowCatalog.Visibility = Visibility.Collapsed;
             ucRegister.Visibility = Visibility.Collapsed;
             ucLogin.Visibility = Visibility.Collapsed;
             ucEditWarehouse.Visibility = Visibility.Collapsed;
@@ -214,6 +233,7 @@ namespace Lagerverwaltung
         }
         public void switchAllOn()
         {
+            ucShowCatalog.Visibility = Visibility.Visible;
             ucRegister.Visibility = Visibility.Visible;
             ucLogin.Visibility = Visibility.Visible;
             ucEditWarehouse.Visibility = Visibility.Visible;

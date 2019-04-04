@@ -1,12 +1,13 @@
-﻿<Controls:MetroWindow 
-        x:Name="MainMetroWindow"
-        x:Class="Lagerverwaltung.MainWindow"
+﻿<Controls:MetroWindow
         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"                     
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Lagerverwaltung"
+        xmlns:controls="clr-namespace:Lagerverwaltung.controls" 
+        x:Name="MainMetroWindow"
+        x:Class="Lagerverwaltung.MainWindow"
         mc:Ignorable="d"
         Icon="images/main_icon_new.ico"
         MinHeight="560"
@@ -23,27 +24,7 @@
         TitleCaps="False"
         TitleForeground="White"
         WindowTitleBrush="#0D74DB">
-    <Controls:MetroWindow.RightWindowCommands>
-        <Controls:WindowCommands>
-            <Button x:Name="btnSettings" Click="btnSettingsClick">
-                <StackPanel Orientation="Horizontal">
-                    <Rectangle Width="20"
-                   Height="20"
-                   Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
-                        <Rectangle.OpacityMask>
-                            <VisualBrush Stretch="Fill">
-                                <VisualBrush.Visual>
-                                    <Image Source="images/profile_picture.png"></Image>
-                                </VisualBrush.Visual>
-                            </VisualBrush>
-                        </Rectangle.OpacityMask>
-                    </Rectangle>
-                    <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="Profile" />
-                </StackPanel>
-            </Button>
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>
-    <Window.Resources>
+    <Controls:MetroWindow.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
@@ -55,7 +36,27 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </Window.Resources>
+    </Controls:MetroWindow.Resources>
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button x:Name="btnSettings" Click="btnSettingsClick">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="20"
+                   Height="20"
+                   Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Button}}}">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill">
+                                <VisualBrush.Visual>
+                                    <Image Source="images/profile_picture.png"/>
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                    <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="Profile" />
+                </StackPanel>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -64,9 +65,9 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.Background>
-            <ImageBrush ImageSource="images/werhaus_background.jpg"></ImageBrush>
+            <ImageBrush ImageSource="images/werhaus_background.jpg"/>
         </Grid.Background>
-        <local:editWarehouse x:Name="ucEditWarehouse" Background="White" BorderBrush="Transparent" Width="Auto" Height="Auto" Visibility="Collapsed" Margin="0,0,-1,24"></local:editWarehouse>
+        <local:editWarehouse x:Name="ucEditWarehouse" Background="White" BorderBrush="Transparent" Width="Auto" Height="Auto" Visibility="Collapsed" Margin="0,0,-1,24"/>
         <local:login x:Name="ucLogin" Background="White" BorderBrush="Black" BorderThickness="1px" Height="267" HorizontalAlignment="Right" Margin="0,84,114,0" Width="200" VerticalAlignment="Top"/>
         <local:register x:Name="ucRegister" VerticalAlignment="Top" HorizontalAlignment="Right" Background="White" Height="296" BorderBrush="Black"  BorderThickness="1px" Margin="0,84,114,0" Width="200"/>
         <local:manageWarehouses x:Name="ucManageWarehouses" Visibility="Collapsed" Background="White" BorderBrush="Transparent" Margin="-2,0,-1,24" Width="Auto"/>
@@ -74,26 +75,25 @@
         <local:addOrder x:Name="ucAddOrder" Background="White" BorderBrush="Black" BorderThickness="0,0,1,0" Visibility="Collapsed" Margin="-2,58,0,24" HorizontalAlignment="Left" Width="343" Height="Auto"/>
         <StatusBar x:Name="statusBar" Height="24" VerticalAlignment="Bottom" Background="#0D74DB">
             <Label x:Name="lblMessage" Height="24" Width="145" Content="" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-            <StatusBarItem HorizontalContentAlignment="Right" HorizontalAlignment="Right">
-            <ProgressBar x:Name="progressBar" Width="200" Height="14" VerticalAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Value="0"></ProgressBar>
-            </StatusBarItem>
+            <StatusBarItem HorizontalContentAlignment="Right" HorizontalAlignment="Right"/>
         </StatusBar>
-        <Controls:Flyout x:Name="flyoutProfile" Header="Profile Settings"  Width="340" Position="Right" Theme="Inverse">
+        <Controls:Flyout Panel.ZIndex="1000" x:Name="flyoutProfile" Header="Profile Settings"  Width="340" Position="Right" Theme="Inverse">
             <DockPanel>
                 <StackPanel Margin="20,0,0,0">
-                    <Label BorderBrush="Transparent" FontSize="20">Username:</Label>
-                    <TextBox x:Name="txtBoxUsername" HorizontalAlignment="Left" Width="305"></TextBox>
-                    <Label BorderBrush="Transparent" FontSize="20">Old Password:</Label>
-                    <PasswordBox x:Name="txtBoxPassword" HorizontalAlignment="Left" Width="305"></PasswordBox>
-                    <Label BorderBrush="Transparent" FontSize="20">New Password:</Label>
+                    <Label BorderBrush="Transparent" FontSize="20" Content="Username:"/>
+                    <TextBox x:Name="txtBoxUsername" HorizontalAlignment="Left" Width="305"/>
+                    <Label BorderBrush="Transparent" FontSize="20" Content="Old Password:"/>
+                    <PasswordBox x:Name="txtBoxPassword" HorizontalAlignment="Left" Width="305"/>
+                    <Label BorderBrush="Transparent" FontSize="20" Content="New Password:"/>
                     <PasswordBox x:Name="txtBoxNewPassword" HorizontalAlignment="Left" Width="305"/>
-                    <Button x:Name="btnSaveSettings" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Click="btnSaveSettings_Click">Save settings</Button>
-                    <CheckBox x:Name="cbStayLoggedIn" Margin="0,10,10,10">Wanna stay logged in?</CheckBox>
+                    <Button x:Name="btnSaveSettings" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{DynamicResource SquareButtonStyle}" Click="btnSaveSettings_Click" Content="Save settings"/>
+                    <CheckBox x:Name="cbStayLoggedIn" Margin="0,10,10,10" Content="Wanna stay logged in?"/>
                     <Button x:Name="btnLogout" Margin="0,5,10,10" Height="31" Width="308" Style="{DynamicResource SquareButtonStyle}" Content="Logout" Click="btnLogout_Click"/>
                     <Button x:Name="btnDeleteAccount" Background="DarkRed" Margin="0,0,10,10" Style="{DynamicResource SquareButtonStyle}" Click="btnDeleteAccount_Click" Height="31" Width="308" Content="Delete account"/>
                 </StackPanel>
             </DockPanel>
         </Controls:Flyout>
-        <local:showHistography x:Name="ucHistography" Background="White" BorderBrush="Transparent" Margin="0,0,-1,24"/>
+        <local:showHistography x:Name="ucHistography" Visibility="Hidden" Background="White" BorderBrush="Transparent" Margin="0,0,-1,24"/>
+        <controls:showCatalog x:Name="ucShowCatalog" Visibility="Visible" Background="White" BorderBrush="Transparent" Margin="-2,0,-1,24"/>
     </Grid>
 </Controls:MetroWindow>

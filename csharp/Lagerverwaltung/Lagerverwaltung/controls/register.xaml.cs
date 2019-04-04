@@ -44,7 +44,7 @@ namespace Lagerverwaltung
             }
             catch(Exception ex)
             {
-                configManager.showErrorMessage(ex);
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

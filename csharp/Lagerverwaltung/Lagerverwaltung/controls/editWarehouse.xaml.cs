@@ -44,6 +44,8 @@ namespace Lagerverwaltung
         public editWarehouse()
         {
             InitializeComponent();
+            if(warehouse != null)
+            txtBoxDetails.Content = warehouse.Description;
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
@@ -68,25 +70,35 @@ namespace Lagerverwaltung
 
         private void listBoxProducts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(main.ucAddOrder.Visibility == Visibility.Visible && listBoxProducts.SelectedItem != null)
+            try
             {
-                main.ucAddOrder.cbProducts.SelectedItem = main.ucAddOrder.cbProducts.Items.Cast<ProductBase>().ToList().Find(x => x.Id == ((Product)listBoxProducts.SelectedItem).Id);
-                Product p = main.ucAddOrder.listBoxSummary.Items.Cast<Product>().ToList().Find(x => x.Id == ((ProductBase)main.ucAddOrder.cbProducts.SelectedItem).Id);
-                if (p != null)
+                if (main.ucAddOrder.Visibility == Visibility.Visible && listBoxProducts.SelectedItem != null)
                 {
-                    main.ucAddOrder.txtBoxAmount.Text = p.Amount.ToString();
+                    main.ucAddOrder.cbProducts.SelectedItem = main.ucAddOrder.cbProducts.Items.Cast<ProductBase>().ToList().Find(x => x.Id == ((Product)listBoxProducts.SelectedItem).Id);
+                    Product p = main.ucAddOrder.listBoxSummary.Items.Cast<Product>().ToList().Find(x => x.Id == ((ProductBase)main.ucAddOrder.cbProducts.SelectedItem).Id);
+                    if (p != null)
+                    {
+                        main.ucAddOrder.txtBoxAmount.Text = p.Amount.ToString();
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void btnHistography_Click(object sender, RoutedEventArgs e)
-        {
+        {           
             main.switchToHistography();
         }
 
         private void visibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             Warehouse = (main.ucManageWarehouses.listBoxWarehouses.SelectedItem as Warehouse);
+            txtBoxDetails.Content = Warehouse.Description;
+            lblTitel.Content = Warehouse.Name;
+            
         }
     }
 }

@@ -27,8 +27,9 @@ namespace WerhausCore
             }
         }
 
-        public Warehouse(string name, string description, int location, int capacity, Owner owner, List<Product> products, List<Order> orders)
+        public Warehouse(int id, string name, string description, int location, int capacity, Owner owner, List<Product> products, List<Order> orders)
         {
+            this.Id = id;
             Name = name;
             Description = description;
             Location = location;

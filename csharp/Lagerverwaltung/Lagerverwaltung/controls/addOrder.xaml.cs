@@ -35,6 +35,7 @@ namespace Lagerverwaltung
         {
             try
             {
+                order.IdWarehouse = main.ucEditWarehouse.Warehouse.Id;
                 if (order.products.Count > 0)
                 {
                     if (purchase)
@@ -43,6 +44,7 @@ namespace Lagerverwaltung
                         {
                             main.ucEditWarehouse.listBoxProducts.ItemsSource = await Database.getProductsOfWarehouseAsync(order.IdWarehouse);
                             main.switchToEditWarehouse();
+                            main.ucEditWarehouse.Warehouse = await Database.getWarehouseAsync(main.ucEditWarehouse.Warehouse.Id);
                             clearVariables();
                         }
                         else
@@ -59,6 +61,7 @@ namespace Lagerverwaltung
                         {
                             main.ucEditWarehouse.listBoxProducts.ItemsSource = await Database.getProductsOfWarehouseAsync(order.IdWarehouse);
                             main.switchToEditWarehouse();
+                            main.ucEditWarehouse.Warehouse = await Database.getWarehouseAsync(main.ucEditWarehouse.Warehouse.Id);
                             clearVariables();
                         }
                         else
@@ -72,7 +75,7 @@ namespace Lagerverwaltung
             }
             catch (Exception ex)
             {
-                configManager.showErrorMessage(ex);
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -83,8 +86,16 @@ namespace Lagerverwaltung
         }
         private bool AmountOverflows(Product product)
         {
-            if (!purchase && (order.products[cbProducts.SelectedItem as ProductBase] + int.Parse(txtBoxAmount.Text)) > product.Amount)
-                return true;
+            try
+            {
+                if (!purchase && (order.products[cbProducts.SelectedItem as ProductBase] + int.Parse(txtBoxAmount.Text)) > product.Amount)
+                    return true;
+                return false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
             return false;
         }
         private void btnAddProduct_Click(object sender, RoutedEventArgs e)
@@ -99,8 +110,6 @@ namespace Lagerverwaltung
                         if (!purchase)
                         {
                             product = main.ucEditWarehouse.Warehouse.Products.Where(x => x.Id == (cbProducts.SelectedItem as ProductBase).Id).ElementAt(0);
-                            //if ((int.Parse(txtBoxAmount.Text)) > product.Amount)
-                            //    txtBoxAmount.Text = product.Amount.ToString();
                         }
                         if (!order.products.ContainsKey(cbProducts.SelectedItem as ProductBase))
                         {
@@ -130,17 +139,24 @@ namespace Lagerverwaltung
             }
             catch (Exception ex)
             {
-                configManager.showErrorMessage(ex);
+                MessageBox.Show( ex.Message + "\n" + ex.StackTrace, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private void UpdateAllOrderedProductsInformation()
         {
-            listBoxSummary.Items.Clear();
-            foreach (KeyValuePair<ProductBase, int> product in order.products)
+            try
             {
-                listBoxSummary.Items.Add(new Product(product.Key.Id, product.Key.Name, product.Key.Description, 0, 0, product.Value));
+                listBoxSummary.Items.Clear();
+                foreach (KeyValuePair<ProductBase, int> product in order.products)
+                {
+                    listBoxSummary.Items.Add(new Product(product.Key.Id, product.Key.Name, product.Key.Description, 0, 0, product.Value));
+                }
+                listBoxSummary.Items.Refresh();
             }
-            listBoxSummary.Items.Refresh();
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         private async void VisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
@@ -152,13 +168,14 @@ namespace Lagerverwaltung
                 else
                     cbProducts.ItemsSource = main.ucEditWarehouse.listBoxProducts.ItemsSource;
                 order = new Order();
-                main.ucEditWarehouse.Warehouse.Products = main.ucEditWarehouse.listBoxProducts.ItemsSource as List<Product>;
-                order.IdWarehouse = (main.ucManageWarehouses.listBoxWarehouses.SelectedItem as Warehouse).Id;
+                main.ucEditWarehouse.Warehouse = await Database.getWarehouseAsync(main.ucEditWarehouse.Warehouse.Id);
+                //main.ucEditWarehouse.Warehouse.Products = main.ucEditWarehouse.listBoxProducts.ItemsSource as List<Product>;
+                order.IdWarehouse = main.ucEditWarehouse.Warehouse.Id;
                 cbProducts.Items.Refresh();
             }
             catch (Exception ex)
             {
-                configManager.showErrorMessage(ex);
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         //check for textinput on amount field to only allow numbers
@@ -170,66 +187,86 @@ namespace Lagerverwaltung
 
         private void btnRemoveProduct_Click(object sender, RoutedEventArgs e)
         {
-            if (!(cbProducts.SelectedItem == null))
+            try
             {
-                if (!String.IsNullOrWhiteSpace(txtBoxAmount.Text))
+                if (!(cbProducts.SelectedItem == null))
                 {
-
-                    ProductBase product = cbProducts.SelectedItem as ProductBase;
-                    if (order.products.ContainsKey(product))
+                    if (!String.IsNullOrWhiteSpace(txtBoxAmount.Text))
                     {
-                        if (((order.products[product]) - int.Parse(txtBoxAmount.Text) > 0))
+
+                        ProductBase product = cbProducts.SelectedItem as ProductBase;
+                        if (order.products.ContainsKey(product))
                         {
-                            order.products[product] -= int.Parse(txtBoxAmount.Text);
-                            UpdateAllOrderedProductsInformation();
+                            if (((order.products[product]) - int.Parse(txtBoxAmount.Text) > 0))
+                            {
+                                order.products[product] -= int.Parse(txtBoxAmount.Text);
+                                UpdateAllOrderedProductsInformation();
+                            }
+                            else
+                            {
+                                order.products.Remove(product);
+                                txtBoxAmount.Text = "";
+                                UpdateAllOrderedProductsInformation();
+                            }
                         }
                         else
                         {
-                            order.products.Remove(product);
-                            txtBoxAmount.Text = "";
-                            UpdateAllOrderedProductsInformation();
+                            MessageBox.Show("Product was not ordered!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
                         }
                     }
                     else
                     {
-                        MessageBox.Show("Product was not ordered!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
+                        MessageBox.Show("Not a valid amount!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
                     }
                 }
                 else
                 {
-                    MessageBox.Show("Not a valid amount!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("No product selected!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
-            else
+            catch(Exception ex)
             {
-                MessageBox.Show("No product selected!", "ERROR", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void cbProducts_SelectionChanged(object sender, RoutedEventArgs e)
         {
-            if (!purchase && main.ucEditWarehouse.listBoxProducts.Items.Contains(cbProducts.SelectedItem))
+            try
             {
-                txtBoxAmount.Text = main.ucEditWarehouse.Warehouse.Products.Find(x => x.Id == (cbProducts.SelectedItem as ProductBase).Id).Amount.ToString();
-            }
-            else
-            {
-                List<Product> p = listBoxSummary.Items.Cast<Product>().ToList().Where(x => x.Name == ((ProductBase)cbProducts.SelectedItem).Name).ToList();
-                if (p.Count > 0)
+                if (!purchase && main.ucEditWarehouse.listBoxProducts.Items.Contains(cbProducts.SelectedItem))
                 {
-                    txtBoxAmount.Text = p[0].Amount.ToString();
+                    txtBoxAmount.Text = main.ucEditWarehouse.Warehouse.Products.Find(x => x.Id == (cbProducts.SelectedItem as ProductBase).Id).Amount.ToString();
+                }
+                else
+                {
+                    List<Product> p = listBoxSummary.Items.Cast<Product>().ToList().Where(x => x.Name == ((ProductBase)cbProducts.SelectedItem).Name).ToList();
+                    if (p.Count > 0)
+                    {
+                        txtBoxAmount.Text = p[0].Amount.ToString();
+                    }
                 }
             }
-
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void listBoxSummary_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (listBoxSummary.SelectedItem != null)
-                if (purchase)
-                    main.ucAddOrder.cbProducts.SelectedItem = cbProducts.Items.Cast<ProductBase>().ToList().Find(x => x.Id == ((Product)listBoxSummary.SelectedItem).Id);
-                else
-                    main.ucAddOrder.cbProducts.SelectedItem = main.ucEditWarehouse.Warehouse.Products.Find(x => x.Name == (listBoxSummary.SelectedItem as ProductBase).Name);
+            try
+            {
+                if (listBoxSummary.SelectedItem != null)
+                    if (purchase)
+                        main.ucAddOrder.cbProducts.SelectedItem = cbProducts.Items.Cast<ProductBase>().ToList().Find(x => x.Id == ((Product)listBoxSummary.SelectedItem).Id);
+                    else
+                        main.ucAddOrder.cbProducts.SelectedItem = main.ucEditWarehouse.Warehouse.Products.Find(x => x.Name == (listBoxSummary.SelectedItem as ProductBase).Name);
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n" + ex.StackTrace, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         private void clearVariables()
         {

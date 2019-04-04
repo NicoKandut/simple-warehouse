@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:local="clr-namespace:Lagerverwaltung"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="300" IsVisibleChanged="visibleChanged">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -20,6 +21,38 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
+        <lvc:CartesianChart x:Name="chart"  Series="{Binding coll}" Margin="121,10,0,0">
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Stock"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Time" LabelFormatter="{Binding XFormatter}">
+                    <lvc:Axis.Separator>
+                        <lvc:Separator IsEnabled="True" Step="1"></lvc:Separator>
+                    </lvc:Axis.Separator>
+                </lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+        </lvc:CartesianChart>
+        <lvc:CartesianChart x:Name="chartInOut" Visibility="Hidden"  Series="{Binding collInOut}" Margin="121,10,0,0">
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Stock"></lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Time" LabelFormatter="{Binding XFormatter}">
+                    <lvc:Axis.Separator>
+                        <lvc:Separator IsEnabled="True" Step="1"></lvc:Separator>
+                    </lvc:Axis.Separator>
+                </lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+        </lvc:CartesianChart>
+        <lvc:PieChart x:Name="chartPie" Series="{Binding collStock}" LegendLocation="Bottom"  InnerRadius="100" Margin="121,15,0,15" Panel.ZIndex="10000">
+            <lvc:PieChart.ChartLegend>
+                <lvc:DefaultLegend BulletSize="10"></lvc:DefaultLegend>
+            </lvc:PieChart.ChartLegend>
+            <lvc:PieChart.DataTooltip>
+                <lvc:DefaultTooltip BulletSize="10"></lvc:DefaultTooltip>
+            </lvc:PieChart.DataTooltip>
+        </lvc:PieChart>
         <Button x:Name="btnBack" Style="{DynamicResource MetroCircleButtonStyle}" BorderBrush="Transparent" HorizontalAlignment="Left" Height="50" Margin="10,10,0,0" VerticalAlignment="Top" Width="50" Click="Button_Click">
             <StackPanel Orientation="Horizontal">
                 <Rectangle Width="40"
@@ -35,5 +68,8 @@
                 </Rectangle>
             </StackPanel>
         </Button>
+        <Button x:Name="btnStockGraph" Content="Stock Change" HorizontalAlignment="Left" Margin="10,65,0,0" VerticalAlignment="Top" Width="95" Click="Button_Click_1"/>
+        <Button x:Name="btnStockShare" Content="Stock Share" HorizontalAlignment="Left" Margin="10,97,0,0" VerticalAlignment="Top" Width="95" Click="btnStockShare_Click"/>
+        <Button x:Name="btnStockChangeDetails" Content="IN/OUT Stock" HorizontalAlignment="Left" Margin="10,129,0,0" VerticalAlignment="Top" Width="95" Click="btnStockChangeDetails_Click"/>
     </Grid>
 </UserControl>
