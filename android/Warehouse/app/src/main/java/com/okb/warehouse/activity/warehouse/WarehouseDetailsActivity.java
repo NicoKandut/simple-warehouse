@@ -1,12 +1,9 @@
 package com.okb.warehouse.activity.warehouse;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,6 +27,7 @@ public class WarehouseDetailsActivity extends BaseActivity {
     private ProgressBar pbar_capacity;
     private RecyclerView rv_products;
     private Button btn_back;
+    private Button btn_statistics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +44,7 @@ public class WarehouseDetailsActivity extends BaseActivity {
         this.tv_warehouseDescription = findViewById(R.id.awd_tv_description);
         this.pbar_capacity = findViewById(R.id.awd_pbar_capacity);
         this.rv_products = findViewById(R.id.awd_rv_products);
+        this.btn_statistics = findViewById(R.id.awd_btn_statistics);
         this.btn_back = findViewById(R.id.awd_btn_back);
     }
 
@@ -86,6 +85,15 @@ public class WarehouseDetailsActivity extends BaseActivity {
     private void initEventHandlers(){
         this.btn_back.setOnClickListener(v -> {
             this.startActivity(new Intent(this, UserWarehousesActivity.class));
+            this.finish();
+        });
+
+        this.btn_statistics.setOnClickListener(v->{
+            Intent i = new Intent (this, WarehouseStatisticsActivity.class);
+            i.putExtra("wId", warehouseID);
+            i.putExtra("wName", toolbar.getTitle());
+            i.putExtra("wCapacity", pbar_capacity.getMax());
+            this.startActivity(i);
             this.finish();
         });
     }

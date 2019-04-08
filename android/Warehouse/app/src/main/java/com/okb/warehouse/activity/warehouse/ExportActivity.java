@@ -76,6 +76,7 @@ public class ExportActivity extends BaseActivity {
                         Toast.makeText(ea, "Order successful", Toast.LENGTH_LONG).show();
                         l_products.clear();
                         ea.startActivity(new Intent(getApplicationContext(), WarehouseDetailsActivity.class).putExtra("warehouseId", ea.warehouseID));
+                        ea.finish();
                     }else{
                         Toast.makeText(ea, "Error: " + response.code() + " = " + response.errorBody().toString(), Toast.LENGTH_LONG).show();
                     }
@@ -92,6 +93,7 @@ public class ExportActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 ea.startActivity(new Intent(ea, WarehouseDetailsActivity.class).putExtra("warehouseId", ea.warehouseID));
+                ea.finish();
             }
         });
     }
@@ -104,7 +106,7 @@ public class ExportActivity extends BaseActivity {
     private List<OrderProduct> convertProductsToOrderP(){
         List<OrderProduct> op = new ArrayList<OrderProduct>();
         for(Product p : l_products){
-            p.setAmount(p.getAmount() * (-1.0));
+            p.setAmount(p.getAmount() * (-1));
             op.add(new OrderProduct(p));
         }
         return op;
@@ -128,7 +130,7 @@ public class ExportActivity extends BaseActivity {
                 if (response.isSuccessful()){
                     for (Product p : response.body()){
                         if (p.getId() == productId){
-                            p.setAmount(Double.parseDouble(String.valueOf(amount)));
+                            p.setAmount(amount);
                             ea.l_products.add(p);
                             ea.fillRecyclerView();
                         }

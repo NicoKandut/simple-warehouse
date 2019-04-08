@@ -185,6 +185,7 @@ public class BaseActivity extends AppCompatActivity {
         ApiUtils.getService().deleteUser(sp.getString("token", null)).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
+
                 Toast.makeText(context, "Successful delete", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(context, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)); // opn new activity with closing all opened
             }

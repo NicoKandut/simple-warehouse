@@ -9,7 +9,6 @@ import com.okb.warehouse.R;
 import com.okb.warehouse.activity.base.BaseActivity;
 import com.okb.warehouse.businesslogic.connection.ApiUtils;
 import com.okb.warehouse.businesslogic.data.Credentials;
-import com.okb.warehouse.businesslogic.data.SimpleUser;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,7 +18,7 @@ public class EditUserData extends BaseActivity {
     private EditText et_username, et_oldPassword, et_confirmNewPassword, et_newPassword;
     private Button btn_cancel, btn_change;
 
-    SimpleUser userCredentials;
+    private Credentials userCredentials;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +42,7 @@ public class EditUserData extends BaseActivity {
 
     private void fillViews(){
         getUser();
-
-        this.et_username.setText(userCredentials.getName());
-        this.et_newPassword.getText().clear();
-        this.et_confirmNewPassword.getText().clear();
+        clearPasswordFields();
     }
 
     private void initEventHandlers(){
@@ -56,56 +52,65 @@ public class EditUserData extends BaseActivity {
 
         btn_change.setOnClickListener(v->{
             try {
-                checkPassword(this.et_oldPassword.getText().toString(), this.et_newPassword.getText().toString(), this.et_confirmNewPassword.getText().toString());
-                Credentials changedUserData = new Credentials(et_username.getText().toString(), et_newPassword.getText().toString());
                 EditUserData eudActivity = this;
-                ApiUtils.getService().changeCredentials(sp.getString("token", null), changedUserData).enqueue(new Callback<Void>() {
+                String newPassword = et_newPassword.getText().toString();
+                String actualPassword = et_oldPassword.getText().toString();
+
+                checkPassword(actualPassword, newPassword, et_confirmNewPassword.getText().toString());
+                if (newPassword.equals(null) || newPassword.equals("")){
+                    newPassword = actualPassword;
+                }
+
+                ApiUtils.getService().changeCredentials(sp.getString("token", null), new Credentials(et_username.getText().toString(), actualPassword)).enqueue(new Callback<Void>() {
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         Toast.makeText(eudActivity, "Update Successful", Toast.LENGTH_LONG).show();
                         fillViews();
                     }
-
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
                         Toast.makeText(eudActivity, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
-
             }catch(Exception ex){
                 Toast.makeText(this, "Error: " + ex.getMessage(), Toast.LENGTH_LONG).show();
             }
-
         });
     }
 
     private void getUser(){
         EditUserData eudActivity = this;
-        ApiUtils.getService().getCredentials(sp.getString("token", null)).enqueue(new Callback<SimpleUser>() {
-            @Override
-            public void onResponse(Call<SimpleUser> call, Response<SimpleUser> response) {
-                if (response.isSuccessful()) {
-                    eudActivity.userCredentials = response.body();
-                }else{
+            ApiUtils.getService().getCredentials(sp.getString("token", null)).enqueue(new Callback<Credentials>() {
+                @Override
+                public void onResponse(Call<Credentials> call, Response<Credentials> response) {
+                    if (response.isSuccessful()) {
+                        eudActivity.userCredentials = response.body();
+                        eudActivity.et_username.setText(eudActivity.userCredentials.getName());
+                    } else {
+                        Toast.makeText(eudActivity, "Can't get user", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Credentials> call, Throwable t) {
                     Toast.makeText(eudActivity, "Can't get user", Toast.LENGTH_SHORT).show();
                 }
-            }
-
-            @Override
-            public void onFailure(Call<SimpleUser> call, Throwable t) {
-                Toast.makeText(eudActivity, "Can't get user", Toast.LENGTH_SHORT).show();
-            }
-        });
+            });
     }
 
     private void checkPassword(String oldPassword, String newPassword, String confirmNewPassword) throws Exception{
         if (!userCredentials.getPassword().equals(oldPassword)){
-            throw new Exception("This is the wrong password.");
+            throw new Exception("Need current password to change username or password.");
         }
 
-        if (newPassword != confirmNewPassword){
+        if (!newPassword.equals(confirmNewPassword)){
             throw new Exception("Enter your new Password again.");
         }
     }
 
+    private void clearPasswordFields(){
+        this.et_oldPassword.getText().clear();
+        this.et_newPassword.getText().clear();
+        this.et_confirmNewPassword.getText().clear();
+    }
 }

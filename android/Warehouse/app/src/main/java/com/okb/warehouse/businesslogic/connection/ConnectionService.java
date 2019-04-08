@@ -2,22 +2,18 @@ package com.okb.warehouse.businesslogic.connection;
 
 import com.google.gson.JsonObject;
 import com.okb.warehouse.businesslogic.data.Credentials;
+import com.okb.warehouse.businesslogic.data.Order;
 import com.okb.warehouse.businesslogic.data.OrderProduct;
 import com.okb.warehouse.businesslogic.data.Product;
-import com.okb.warehouse.businesslogic.data.SimpleUser;
 import com.okb.warehouse.businesslogic.data.Warehouse;
 
-import org.json.JSONObject;
 
 import java.lang.String;
-import java.sql.Connection;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
@@ -55,8 +51,8 @@ public interface ConnectionService {
     Call<Void> changeCredentials(@Header("Token") String token, @Body Credentials credentials);
 
     //get User Details
-    @GET("/user?cred")
-    Call<SimpleUser> getCredentials(@Header("Token") String token);
+    @GET("/user?cred=true")
+    Call<Credentials> getCredentials(@Header("Token") String token);
     //endregion
 
     //region warehouses
@@ -88,7 +84,14 @@ public interface ConnectionService {
     Call<List<Product>> getProductsFromWarehouse(@Header("Token") String token, @Path("w_id") int id);
     //endregion
 
+
+    //region orders
     //handle Orders
     @POST("/user/warehouses/{w_id}/orders")
     Call<Void> createOrder(@Header("Token") String token, @Path("w_id") int id, @Body List<OrderProduct> products);
+
+    @GET("/user/warehouses/{w_id}/orders")
+    Call<List<Order>> getOrdersFromWarehouse(@Header("Token") String token, @Path("w_id") int id);
+    //endregion
+
 }

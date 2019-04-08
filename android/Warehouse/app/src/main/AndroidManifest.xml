@@ -32,7 +32,16 @@
         <activity
             android:name=".activity.warehouse.AddProductToOrder"
             android:theme="@style/AppThemeNoActionBar.PopUp" />
-        <activity android:name=".activity.warehouse.EditUserData"></activity>
+        <activity android:name=".activity.warehouse.EditUserData" />
+        <activity
+            android:name=".activity.warehouse.WarehouseStatisticsActivity"
+            android:label="@string/title_activity_warehouse_statistics"
+            android:parentActivityName=".activity.warehouse.WarehouseDetailsActivity"
+            android:theme="@style/AppThemeNoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.okb.warehouse.activity.warehouse.WarehouseDetailsActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -120,7 +120,7 @@ public class ImportActivity extends BaseActivity {
                 if (response.isSuccessful()){
                     for (Product p : response.body()){
                         if (p.getId() == productId){
-                            p.setAmount(Double.parseDouble(String.valueOf(amount)));
+                            p.setAmount(amount);
                             ia.l_products.add(p);
                             ia.fillRecyclerView();
                         }

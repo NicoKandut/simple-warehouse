@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="0dp"
-    android:orientation="vertical"
     android:background="@drawable/bg"
+    android:orientation="vertical"
+    android:scrollbars="vertical"
     tools:context=".activity.warehouse.WarehouseDetailsActivity">
 
         <TextView
@@ -30,9 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/defaultMargin"
             android:minHeight="20dp"
-            android:progressTint="@color/turquoise"
             android:progressBackgroundTint="@color/darkgrey"
-            />
+            android:progressTint="@color/turquoise" />
 
         <TextView
             android:id="@+id/awd_tv_storedProducts"
@@ -46,7 +46,20 @@
             android:id="@+id/awd_rv_products"
             android:layout_width="match_parent"
             android:layout_height="189dp"
-            tools:itemCount="20" />
+            android:layout_marginBottom="25dp"
+            tools:itemCount="20" >
+
+        </android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/awd_btn_statistics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_full_rounded_corners"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="@string/statistics"
+            android:textColor="@color/white"
+            android:layout_marginBottom="15dp"/>
 
         <Button
             android:id="@+id/awd_btn_back"

@@ -108,7 +108,6 @@ public class RVA_Warehouse extends RecyclerView.Adapter<RVA_Warehouse.ViewHolder
                                     public void onFailure(Call<Void> call, Throwable t) {  //something went completely wrong (eg. no internet connection)
                                         Toast.makeText(context, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();
                                     }
-
                                 });
                                 break;
                         }

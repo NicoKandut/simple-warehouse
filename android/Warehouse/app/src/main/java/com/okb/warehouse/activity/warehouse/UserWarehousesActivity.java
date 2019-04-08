@@ -62,7 +62,6 @@ public class UserWarehousesActivity extends BaseActivity {
                 }
             }
 
-
             @Override
             public void onFailure(Call<List<Warehouse>> call, Throwable t) {  //something went completely wrong (eg. no internet connection)
                 Toast.makeText(uwActivity, "Error: " + t.getMessage(), Toast.LENGTH_LONG).show();

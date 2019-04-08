@@ -30,7 +30,7 @@
         android:inputType="textPersonName" />
 
     <TextView
-        android:id="@+id/aeud_tv_newPassword"
+        android:id="@+id/aeud_tv_oldPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/aeud_tv_username"
@@ -38,6 +38,26 @@
         android:layout_marginStart="-11dp"
         android:layout_marginTop="46dp"
         android:text="@string/oldPassword" />
+
+    <EditText
+        android:id="@+id/aeud_et_oldPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/aeud_et_username"
+        android:layout_marginTop="16dp"
+        android:layout_toEndOf="@+id/aeud_btn_cancel"
+        android:ems="10"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/aeud_tv_NewPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/aeud_tv_oldPassword"
+        android:layout_alignStart="@+id/aeud_tv_username"
+        android:layout_marginStart="-9dp"
+        android:layout_marginTop="34dp"
+        android:text="@string/newPassword" />
 
     <EditText
         android:id="@+id/aeud_et_newPassword"
@@ -50,16 +70,16 @@
         android:ems="10"
         android:inputType="textPassword" />
 
+
     <TextView
-        android:id="@+id/aeud_tv_confirmNewPassword"
+        android:id="@+id/aeud_tv_confirmPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/aeud_tv_newPassword"
-        android:layout_alignStart="@+id/aeud_tv_username"
-        android:layout_marginStart="-9dp"
-        android:layout_marginTop="34dp"
-        android:text="@string/newPassword" />
-
+        android:layout_below="@+id/aeud_tv_NewPassword"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="52dp"
+        android:text="@string/confirmPassword" />
 
     <EditText
         android:id="@+id/aeud_et_confirmNewPassword"
@@ -90,25 +110,5 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="74dp"
         android:text="@string/change" />
-
-    <TextView
-        android:id="@+id/aeud_tv_confirmPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/aeud_tv_confirmNewPassword"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="52dp"
-        android:text="@string/confirmPassword" />
-
-    <EditText
-        android:id="@+id/aeud_et_oldPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/aeud_et_username"
-        android:layout_marginTop="16dp"
-        android:layout_toEndOf="@+id/aeud_btn_cancel"
-        android:ems="10"
-        android:inputType="textPassword" />
 
 </RelativeLayout>

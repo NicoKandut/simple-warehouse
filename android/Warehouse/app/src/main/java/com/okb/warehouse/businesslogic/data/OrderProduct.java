@@ -31,5 +31,4 @@ public class OrderProduct {
         this.id = p.getId();
         this.amount = p.getAmount();
     }
-
 }
